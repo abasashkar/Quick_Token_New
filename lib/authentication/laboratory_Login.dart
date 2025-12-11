@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quick_token_new/authentication/create_laboratory_account.dart';
+import 'package:quick_token_new/authentication/create_patient_account.dart';
+import 'package:quick_token_new/controllers/auth_controller.dart';
+import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
@@ -6,11 +11,13 @@ class LaboratoryLogin extends StatefulWidget {
   const LaboratoryLogin({super.key});
 
   @override
-  State<LaboratoryLogin> createState() => _PatientLoginState();
+  State<LaboratoryLogin> createState() => _LaboratoryLoginState();
 }
 
-class _PatientLoginState extends State<LaboratoryLogin> {
-  TextEditingController searchController = TextEditingController();
+class _LaboratoryLoginState extends State<LaboratoryLogin> {
+  final TextEditingController emailController = TextEditingController();
+  final AuthController authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,90 +30,136 @@ class _PatientLoginState extends State<LaboratoryLogin> {
           color: Colors.white,
         ),
       ),
-      body: Column(
-        children: [
-          Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 50, 10, 0),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            Center(
               child: ExtraSmallText(
                 text: 'Please Enter Your Email Address',
                 size: 20,
                 color: Colors.black,
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(30, 30, 0, 0),
-            child: ExtraSmallText(
-              text:
-                  'We need to verify your Email Address,We will send a OTP(One Time Password)to the email account you enter below',
-              size: 16,
-              color: Colors.black,
-              maxLines: 3,
-              overFlow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+              child: ExtraSmallText(
+                text:
+                    'We need to verify your Email Address.\nWe will send an OTP (One Time Password) to the email account you enter below.',
+                size: 16,
+                color: Colors.black,
+                maxLines: 3,
+                overFlow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-          SizedBox(height: 50),
-          Column(
-            children: [
-              Container(
-                width: 335,
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.grey,
-                    ),
-                    prefixIcon: const Icon(Icons.email, size: 30),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
+            const SizedBox(height: 50),
+
+            // Email TextField
+            Container(
+              width: 335,
+              child: TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  hintStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.grey,
+                  ),
+                  prefixIcon: const Icon(Icons.email, size: 30),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14.0,
+                    horizontal: 16,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
+            ),
 
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
-                    child: ExtraSmallText(
-                      text: "If you don't have an account?",
-                      color: Colors.black,
-                      size: 15,
-                    ),
-                  ),
-                  TextButton(onPressed: () {}, child: Text('Create Account')),
-                ],
-              ),
-              SizedBox(height: 20),
-
-              Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF4F8BFF),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Icon(Icons.navigate_next, size: 60, color: Colors.white),
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: ExtraSmallText(
-                  text: 'Next',
-                  size: 22,
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ExtraSmallText(
+                  text: "If you don't have an account?",
                   color: Colors.black,
+                  size: 15,
                 ),
+                TextButton(
+                  onPressed: () {
+                    navigator!.push(
+                      MaterialPageRoute(
+                        builder: (context) => CreateLaboratoryAccount(),
+                      ),
+                    );
+                  },
+                  child: const Text('Create Account'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+
+            // ✅ Next Button
+            Obx(() {
+              return GestureDetector(
+                onTap: authController.isLoading.value
+                    ? null
+                    : () {
+                        final email = emailController.text.trim();
+                        const role = "lab"; // ✅ Added role here
+
+                        if (email.isEmpty || !email.contains('@')) {
+                          Get.snackbar(
+                            'Error',
+                            'Please enter a valid email address',
+                            backgroundColor: Colors.redAccent,
+                            colorText: Colors.white,
+                          );
+                          return;
+                        }
+
+                        // ✅ Send OTP with role
+                        authController.sendOtp(email, "laboratory").then((_) {
+                          Get.toNamed(
+                            RoutesHelper.getVerifyOtp(),
+                            arguments: {'email': email, 'role': 'laboratory'},
+                          );
+                        });
+                      },
+                child: Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF4F8BFF),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: authController.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        )
+                      : const Icon(
+                          Icons.navigate_next,
+                          size: 60,
+                          color: Colors.white,
+                        ),
+                ),
+              );
+            }),
+            const SizedBox(height: 10),
+            Center(
+              child: ExtraSmallText(
+                text: 'Next',
+                size: 22,
+                color: Colors.black,
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

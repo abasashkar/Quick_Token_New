@@ -9,25 +9,18 @@ class AppointmentController extends GetxController {
 
   final AppointmentServices _service = AppointmentServices();
 
-  /// Store doctorId after login (IMPORTANT)
   void setDoctorId(String id) {
     doctorId = id;
-    print("✅ Doctor ID set: $doctorId");
     fetchAppointments();
   }
 
-  /// Fetch appointments for doctor
   Future<void> fetchAppointments() async {
-    if (doctorId == null || doctorId!.isEmpty) {
-      print("⚠ doctorId is NULL. Cannot fetch.");
-      return;
-    }
+    if (doctorId == null || doctorId!.isEmpty) return;
 
     try {
       isLoading.value = true;
       final result = await _service.getAppointmentsByDoctor(doctorId!);
       appointments.assignAll(result);
-      print("✅ Appointments loaded: ${appointments.length}");
     } catch (e) {
       print("❌ Error fetching appointments: $e");
     } finally {
@@ -35,19 +28,14 @@ class AppointmentController extends GetxController {
     }
   }
 
-  /// Add appointment (Patient booking)
   Future<void> addAppointment(AppointmentModel appointment) async {
-    final success = await _service.createAppointment(appointment);
+    final result = await _service.createAppointment(appointment);
 
-    if (success) {
-      appointments.add(appointment);
-      Get.snackbar("✅ Success", "Appointment Created");
-    } else {
-      Get.snackbar("❌ Error", "Failed to Create Appointment");
+    if (result != null) {
+      appointments.add(result); // ✅ now stored with real ID
     }
   }
 
-  /// Update Status
   Future<void> updateAppointmentStatus(String apptId, String newStatus) async {
     final success = await _service.updateStatus(apptId, newStatus);
 
@@ -62,6 +50,16 @@ class AppointmentController extends GetxController {
       Get.snackbar("❌ Failed", "Could not update status");
     }
   }
+
+  // ✅ FILTER LISTS FOR UI
+  List<AppointmentModel> get pendingAppointments =>
+      appointments.where((a) => a.status.toLowerCase() == "pending").toList();
+
+  List<AppointmentModel> get confirmedAppointments =>
+      appointments.where((a) => a.status.toLowerCase() == "confirmed").toList();
+
+  List<AppointmentModel> get completedAppointments =>
+      appointments.where((a) => a.status.toLowerCase() == "completed").toList();
 }
 
 // import 'package:get/get.dart';

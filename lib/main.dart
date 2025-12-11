@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:quick_token_new/appointment/upcomming_appointent.dart';
-import 'package:quick_token_new/controllers/appointment_controller.dart';
-import 'package:quick_token_new/home/doctors_dashboard.dart';
 import 'package:quick_token_new/controllers/appointment_controller.dart';
 import 'package:quick_token_new/controllers/auth_controller.dart';
 import 'package:quick_token_new/controllers/doctor_controller.dart';
 import 'package:quick_token_new/controllers/patient_controller.dart';
 import 'package:quick_token_new/controllers/theme_controller.dart';
-import 'package:quick_token_new/home/doctor_home_screen.dart';
 import 'package:quick_token_new/home/patient_home_screen.dart';
-
 import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/splash/splash_screen.dart';
 
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  Get.lazyPut<AuthController>(() => AuthController());
+  Get.put(AuthController(), permanent: true);
+  Get.put(AppointmentController(), permanent: true);
   Get.lazyPut<DoctorController>(() => DoctorController());
-  Get.lazyPut<AppointmentController>(() => AppointmentController());
+
   Get.lazyPut<PatientController>(() => PatientController());
 
   runApp(MyApp());

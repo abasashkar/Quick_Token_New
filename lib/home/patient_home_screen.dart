@@ -3,7 +3,6 @@ import 'package:quick_token_new/appointment/upcomming_appointent.dart';
 import 'package:quick_token_new/home/patient_dashboard.dart';
 import 'package:quick_token_new/profile/patient_profile.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
-import 'package:quick_token_new/settings/user_profile.dart';
 
 class PatientHomeScreen extends StatefulWidget {
   // final String patientId;
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<PatientHomeScreen> {
       UpcommingAppointent(),
       const ViewReports(),
       const ProfileScreen(),
-      const UserProfile(),
+      // const UserProfile(),
     ];
   }
 

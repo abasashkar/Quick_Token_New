@@ -42,7 +42,7 @@
 // }
 
 class AppointmentModel {
-  final String id;
+  final String? id;
   final String doctorId;
   final String patientName;
   final String date;
@@ -51,7 +51,7 @@ class AppointmentModel {
   final String status;
 
   AppointmentModel({
-    required this.id,
+    this.id,
     required this.doctorId,
     required this.patientName,
     required this.date,

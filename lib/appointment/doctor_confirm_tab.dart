@@ -17,7 +17,7 @@ class DoctorConfirmTab extends StatelessWidget {
 
       // Filter confirmed appointments
       final confirmedAppointments = appointmentController.appointments
-          .where((appt) => appt.status == "confirmed")
+          .where((appt) => appt.status.toLowerCase() == "confirmed")
           .toList();
 
       if (confirmedAppointments.isEmpty) {

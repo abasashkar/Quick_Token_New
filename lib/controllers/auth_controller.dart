@@ -1,91 +1,99 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:quick_token_new/models/user_model.dart';
-import 'package:quick_token_new/services/auth_services.dart';
 import 'package:quick_token_new/routes/routes_helper.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
-  final box = GetStorage();
-  UserModel? user;
+  static const baseUrl = 'http://10.0.2.2:4000'; // CHANGE
 
-  Future<void> register(String email, String password) async {
+  // 🚀 Send OTP with role check
+  Future<void> sendOtp(String email, String role) async {
     try {
-      print(email + password);
       isLoading.value = true;
-      user = await AuthServices.register(email, password);
-      if (user != null) {
-        box.write('token', user!.token);
-        Get.snackbar('Success', 'Registration Successful');
-        Get.offAllNamed(RoutesHelper.homescreen);
+
+      final response = await http.post(
+        Uri.parse("$baseUrl/api/auth/send-otp"),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "email": email,
+          "role": role, // patient / doctor / lab
+        }),
+      );
+
+      final data = json.decode(response.body);
+
+      if (response.statusCode == 200 && data["success"] == true) {
+        Get.snackbar("Success", "OTP sent to $email");
       } else {
-        Get.snackbar('Error', 'Registration failed. Try again.');
+        Get.snackbar(
+          "Error",
+          data["message"] ?? "Unable to send OTP",
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError,
+        );
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar("Error", "Something went wrong: $e");
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> login(String email, String password) async {
+  // 🚀 Verify OTP + Role Validation (VERY IMPORTANT)
+  Future<void> verifyOtp(String email, String otp, String selectedRole) async {
     try {
       isLoading.value = true;
-      user = await AuthServices.login(email, password);
-      if (user != null) {
-        box.write('token', user!.token);
-        Get.snackbar('Success', 'Login Successful');
-        Get.offAllNamed(RoutesHelper.homescreen);
+
+      final response = await http.post(
+        Uri.parse("$baseUrl/api/auth/verify-otp"),
+
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({"email": email, "otp": otp, "role": selectedRole}),
+      );
+
+      final data = json.decode(response.body);
+
+      if (response.statusCode == 200 && data["success"] == true) {
+        final String returnedRole = data["role"];
+
+        // ❗ Prevent role misuse
+        if (returnedRole != selectedRole) {
+          Get.snackbar(
+            "Access Denied",
+            "This email is not registered as a $selectedRole",
+            backgroundColor: Get.theme.colorScheme.error,
+            colorText: Get.theme.colorScheme.onError,
+          );
+          return;
+        }
+
+        // UserModel updated with role
+        UserModel user = UserModel.fromJson(data);
+
+        // Navigate based on actual role
+        if (returnedRole == "doctor") {
+          Get.offAllNamed(RoutesHelper.doctorsHomeScreen);
+        } else if (returnedRole == "patient") {
+          Get.offAllNamed(RoutesHelper.patientsHomeScreen);
+        } else if (returnedRole == "lab") {
+          Get.offAllNamed(RoutesHelper.patientsHomeScreen);
+        }
+
+        Get.snackbar("Success", "OTP Verified");
       } else {
-        Get.snackbar('Error', 'Invalid email or password');
+        Get.snackbar(
+          "Error",
+          data["message"] ?? "Invalid OTP",
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError,
+        );
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar("Error", "Something went wrong: $e");
     } finally {
       isLoading.value = false;
     }
-  }
-
-  Future<void> sendOtp(String email) async {
-    try {
-      isLoading.value = true;
-      bool otpsent = await AuthServices.sendOtp(email);
-      if (otpsent) {
-        Get.snackbar('succuess', 'OTP sent to $email');
-        Get.toNamed(RoutesHelper.verifyOtp, arguments: {'email': email});
-      } else {
-        Get.snackbar('Error', 'Failed to send OTP. Try again.');
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> verifyOtp(String email, String otp) async {
-    try {
-      isLoading.value = true;
-      user = await AuthServices.verifyOtp(email, otp);
-
-      if (user != null) {
-        box.write('token', user!.token);
-        Get.snackbar('Success', 'OTP Verified Successfully');
-        Get.toNamed(RoutesHelper.homescreen);
-      } else {
-        Get.snackbar('Error', 'Invalid OTP. Try again.');
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  bool get isLoggedIn => box.hasData('token');
-
-  void logout() {
-    box.erase();
-    Get.offAllNamed('/login');
   }
 }

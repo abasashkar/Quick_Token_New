@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
-import 'package:quick_token_new/appointment/upcomming_appointent.dart';
+import 'package:quick_token_new/appointment/doctor_timeslot_screen.dart';
 import 'package:quick_token_new/home/doctors_dashboard.dart';
 import 'package:quick_token_new/home/patient_dashboard.dart';
 import 'package:quick_token_new/profile/patient_profile.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
-import 'package:quick_token_new/settings/user_profile.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
   // <-- add this
@@ -26,10 +24,10 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
     super.initState();
     _pages = [
       DoctorsDashboard(),
-      const FindDoctors(),
+      const TimeSlotScreen(),
       const ViewReports(),
       const ProfileScreen(),
-      const UserProfile(),
+      // const UserProfile(),
     ];
   }
 

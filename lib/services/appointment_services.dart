@@ -5,31 +5,43 @@ import 'package:quick_token_new/models/appointment_model.dart';
 class AppointmentServices {
   static const baseUrl = 'http://10.0.2.2:4000/api/appointments';
 
-  Future<bool> createAppointment(AppointmentModel appointment) async {
+  Future<AppointmentModel?> createAppointment(
+    AppointmentModel appointment,
+  ) async {
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(appointment.toJson()),
     );
 
-    return response.statusCode == 201;
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      return AppointmentModel.fromJson(
+        data['appointment'],
+      ); // ✅ backend returned object
+    }
+
+    return null;
   }
 
   Future<List<AppointmentModel>> getAppointmentsByDoctor(
     String doctorId,
   ) async {
-    final response = await http.get(Uri.parse("$baseUrl/$doctorId")); // ✅ FIXED
+    final response = await http.get(
+      Uri.parse("$baseUrl/doctor/$doctorId"), // ✅ Correct REST route
+    );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final List list = data['appointments'];
       return list.map((json) => AppointmentModel.fromJson(json)).toList();
     }
+
     return [];
   }
 
   Future<bool> updateStatus(String apptId, String newStatus) async {
-    final url = Uri.parse("$baseUrl/$apptId/status"); // matches backend
+    final url = Uri.parse("$baseUrl/$apptId/status");
 
     final response = await http.put(
       url,

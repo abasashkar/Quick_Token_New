@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_token_new/controllers/appointment_controller.dart';
-import 'package:quick_token_new/controllers/appointment_controller.dart';
 import 'package:quick_token_new/home/doctor_home_screen.dart';
 
 class PendingTab extends StatelessWidget {
@@ -11,23 +10,27 @@ class PendingTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AppointmentController>();
+
     return Obx(() {
-      if (controller.appointments.isEmpty) {
-        return const Center(child: Text("No Pending Appointments"));
-      }
-      if (controller.appointments.isEmpty) {
+      if (controller.pendingAppointments.isEmpty) {
         return const Center(child: Text("No Pending Appointments"));
       }
 
       return ListView.builder(
-        itemCount: controller.appointments.length,
+        itemCount: controller.pendingAppointments.length,
         itemBuilder: (context, index) {
-          final item = controller.appointments[index];
+          final appt = controller.pendingAppointments[index];
           return AppointmentCard(
-            date: item.date,
-            time: item.time,
-            doctorName: item.doctorId, // or display doctor name if you have it
-            aptNo: item.apptNo,
+            date: appt.date,
+            time: appt.time,
+            doctorName: appt.patientName, // currently storing patient name
+            aptNo: appt.apptNo,
+            onAccept: () {
+              controller.updateAppointmentStatus(appt.id!, "confirmed");
+            },
+            onCancel: () {
+              controller.updateAppointmentStatus(appt.id!, "canceled");
+            },
           );
         },
       );
@@ -40,6 +43,8 @@ class AppointmentCard extends StatelessWidget {
   final String time;
   final String doctorName;
   final String aptNo;
+  final VoidCallback onAccept;
+  final VoidCallback onCancel;
 
   const AppointmentCard({
     super.key,
@@ -47,12 +52,14 @@ class AppointmentCard extends StatelessWidget {
     required this.time,
     required this.doctorName,
     required this.aptNo,
+    required this.onAccept,
+    required this.onCancel,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // Align text to left
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -127,7 +134,7 @@ class AppointmentCard extends StatelessWidget {
                               vertical: 6,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: onCancel,
                           child: const Text('Cancel'),
                         ),
                         const SizedBox(width: 8),
@@ -141,7 +148,7 @@ class AppointmentCard extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {},
-                          child: const Text('Reschedule'),
+                          child: const Text('Acept'),
                         ),
                       ],
                     ),
@@ -152,21 +159,17 @@ class AppointmentCard extends StatelessWidget {
           ),
         ),
 
-        /// Adds spacing between cards
         const SizedBox(height: 16),
-        Column(
-          children: [
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DoctorHomeScreen()),
-                );
-              },
-              child: Text('GOTO'),
-            ),
-          ],
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const DoctorHomeScreen()),
+            );
+          },
+          child: const Text("GOTO"),
         ),
+        const SizedBox(height: 12),
       ],
     );
   }

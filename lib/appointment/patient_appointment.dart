@@ -159,9 +159,10 @@ class SideBarButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onTap: () {
+                    print("Taped");
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (contex) => PatientLogin()),
+                      MaterialPageRoute(builder: (context) => PatientLogin()),
                     );
                   },
                 ),
@@ -176,9 +177,10 @@ class SideBarButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onTap: () {
+                    print("Taped");
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (contex) => DoctorLogin()),
+                      MaterialPageRoute(builder: (context) => DoctorLogin()),
                     );
                   },
                 ),
@@ -191,10 +193,7 @@ class SideBarButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (contex) => LaboratoryLogin()),
-                    );
+                    MaterialPageRoute(builder: (contex) => LaboratoryLogin());
                   },
                 ),
                 const Divider(color: Colors.white54, height: 1),

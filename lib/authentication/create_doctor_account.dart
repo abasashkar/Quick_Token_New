@@ -7,24 +7,34 @@ import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/custom_textform.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
-class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key});
+class CreateDoctorAccount extends StatefulWidget {
+  const CreateDoctorAccount({super.key});
 
   @override
-  State<CreateAccount> createState() => _CreateAccountState();
+  State<CreateDoctorAccount> createState() => _CreatePatientAccountState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
+class _CreatePatientAccountState extends State<CreateDoctorAccount> {
   final TextEditingController idController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController hospitalController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
+  final TextEditingController biographyController = TextEditingController();
+  final TextEditingController qualificationController = TextEditingController();
+  final TextEditingController specialityController = TextEditingController();
+  final TextEditingController consultationFeeController =
+      TextEditingController();
+  final TextEditingController experienceController = TextEditingController();
+  final TextEditingController serviceController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController address1Controller = TextEditingController();
   final TextEditingController address2Controller = TextEditingController();
   final TextEditingController pincodeController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   final PatientController patientController = Get.put(PatientController());
   String? selectedGender;
@@ -35,7 +45,7 @@ class _CreateAccountState extends State<CreateAccount> {
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: CustomAppBar(
         title: ExtraSmallText(
-          text: 'Create Patient Account',
+          text: 'Create Doctor Account',
           size: 20,
           color: Colors.white,
         ),
@@ -46,17 +56,44 @@ class _CreateAccountState extends State<CreateAccount> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage('assets/circle_avatar.png'),
+                ),
+              ),
+              SizedBox(height: 10),
               CustomTextFormField(
                 controller: nameController,
-                hintText: 'Enter your name',
+                hintText: 'Doctor name',
+                keyboardType: TextInputType.name,
+              ),
+              const SizedBox(height: 18),
+              CustomTextFormField(
+                controller: titleController,
+                hintText: 'Title',
+                keyboardType: TextInputType.name,
+              ),
+              const SizedBox(height: 18),
+              CustomTextFormField(
+                controller: emailController,
+                hintText: 'Email Address',
                 keyboardType: TextInputType.name,
               ),
               const SizedBox(height: 18),
 
               CustomTextFormField(
                 controller: phoneController,
-                hintText: 'Enter phone number',
+                hintText: 'phone Number',
                 keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 18),
+
+              CustomTextFormField(
+                controller: hospitalController,
+                hintText: 'HospitalName',
+                keyboardType: TextInputType.datetime,
               ),
               const SizedBox(height: 18),
 
@@ -68,14 +105,41 @@ class _CreateAccountState extends State<CreateAccount> {
               const SizedBox(height: 18),
 
               CustomTextFormField(
-                controller: countryController,
-                hintText: 'Enter your country',
+                controller: biographyController,
+                hintText: 'Biography',
+              ),
+              const SizedBox(height: 18),
+              CustomTextFormField(
+                controller: qualificationController,
+                hintText: 'Qualification',
               ),
               const SizedBox(height: 18),
 
               CustomTextFormField(
+                controller: specialityController,
+                hintText: 'Speciality',
+              ),
+              const SizedBox(height: 18),
+
+              CustomTextFormField(
+                controller: consultationFeeController,
+                hintText: 'Consultation Fee',
+              ),
+              const SizedBox(height: 18),
+
+              CustomTextFormField(
+                controller: experienceController,
+                hintText: 'Experience',
+              ),
+              const SizedBox(height: 18),
+              CustomTextFormField(
+                controller: serviceController,
+                hintText: 'Service',
+              ),
+              const SizedBox(height: 18),
+              CustomTextFormField(
                 controller: stateController,
-                hintText: 'Enter your state',
+                hintText: 'State',
               ),
               const SizedBox(height: 18),
 

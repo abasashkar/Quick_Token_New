@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quick_token_new/authentication/create_account.dart';
+import 'package:quick_token_new/authentication/create_patient_account.dart';
 import 'package:quick_token_new/controllers/auth_controller.dart';
 import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
@@ -15,9 +15,16 @@ class PatientLogin extends StatefulWidget {
 
 class _PatientLoginState extends State<PatientLogin> {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
+
   final AuthController authController = Get.find<AuthController>();
 
   @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 230, 230, 230),
@@ -92,7 +99,9 @@ class _PatientLoginState extends State<PatientLogin> {
                 TextButton(
                   onPressed: () {
                     navigator!.push(
-                      MaterialPageRoute(builder: (context) => CreateAccount()),
+                      MaterialPageRoute(
+                        builder: (context) => CreatePatientAccount(),
+                      ),
                     );
                   },
                   child: const Text('Create Account'),
@@ -118,10 +127,10 @@ class _PatientLoginState extends State<PatientLogin> {
                           return;
                         }
                         // Send OTP and navigate to verify screen
-                        authController.sendOtp(email).then((_) {
+                        authController.sendOtp(email, "patient").then((_) {
                           Get.toNamed(
                             RoutesHelper.getVerifyOtp(),
-                            arguments: {'email': email},
+                            arguments: {'email': email, 'role': 'patient'},
                           );
                         });
                       },
