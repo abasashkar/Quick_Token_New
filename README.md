@@ -1,16 +1,59 @@
-# quick_token_new
+# Quick Token App (Flutter)
 
-A new Flutter project.
+Quick Token is a **Flutter-based mobile application** designed for managing patient accounts, appointments, and tokens efficiently.  
+It allows users to **create accounts**, **book appointments**, and **track their tokens** in a smooth and user-friendly interface.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **User Authentication**
+  - Sign up / Sign in functionality
+  - Secure user login
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Patient Account Management**
+  - Create and manage patient profiles
+  - Edit personal information
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Appointments**
+  - Book appointments with doctors
+  - View upcoming and past appointments
+
+- **Token Management**
+  - Track tokens issued for appointments
+  - Receive notifications and updates
+
+- **State Management**
+  - Uses **GetX** for reactive and efficient state management
+
+- **Responsive UI**
+  - Designed for both Android and iOS devices
+
+---
+
+## Screenshots
+
+*(Add screenshots of your app screens here to make README visually appealing)*
+
+---
+
+## Installation
+
+### Prerequisites
+
+- Flutter SDK (>=3.0)  
+- Dart SDK  
+- Android Studio / Xcode  
+
+### Steps
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/quick-token-app.git
+cd quick-token-app
+
+# 2. Install dependencies
+flutter pub get
+
+# 3. Run the app
+flutter run
