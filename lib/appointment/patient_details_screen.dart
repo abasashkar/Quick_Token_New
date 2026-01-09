@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_token_new/controllers/appointment_controller.dart';
-import 'package:quick_token_new/models/appointment_model.dart';
+import 'package:quick_token_new/model/appointment_model.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 import 'package:quick_token_new/appointment/upcomming_appointent.dart';
@@ -25,6 +25,14 @@ class PatientDetailsScreen extends StatefulWidget {
 }
 
 class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
+  late final AppointmentController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<AppointmentController>();
+  }
+
   final nameController = TextEditingController();
   final ageController = TextEditingController();
 
@@ -35,11 +43,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: CustomAppBar(
-        title: ExtraSmallText(
-          text: 'Patient Details',
-          size: 20,
-          color: Colors.white,
-        ),
+        title: ExtraSmallText(text: 'Patient Details', size: 20, color: Colors.white),
       ),
 
       body: Padding(
@@ -50,25 +54,15 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xFF4F8BFF),
-                borderRadius: BorderRadius.circular(18),
-              ),
+              decoration: BoxDecoration(color: Color(0xFF4F8BFF), borderRadius: BorderRadius.circular(18)),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundImage: NetworkImage(widget.doctorImage),
-                  ),
+                  CircleAvatar(radius: 28, backgroundImage: NetworkImage(widget.doctorImage)),
                   const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ExtraSmallText(
-                        text: widget.doctorName,
-                        size: 18,
-                        color: Colors.white,
-                      ),
+                      ExtraSmallText(text: widget.doctorName, size: 18, color: Colors.white),
                       const SizedBox(height: 3),
                       Text(
                         "${widget.selectedDate} | ${widget.selectedTime}",
@@ -89,9 +83,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                 labelText: "Patient Name",
                 filled: true,
                 fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
               ),
             ),
 
@@ -105,9 +97,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
                 labelText: "Age",
                 filled: true,
                 fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
               ),
             ),
 
@@ -116,11 +106,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
             // Gender selection
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _genderBtn("Male"),
-                _genderBtn("Female"),
-                _genderBtn("Other"),
-              ],
+              children: [_genderBtn("Male"), _genderBtn("Female"), _genderBtn("Other")],
             ),
 
             const Spacer(),
@@ -130,16 +116,12 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  if (nameController.text.isEmpty ||
-                      ageController.text.isEmpty) {
+                  if (nameController.text.isEmpty || ageController.text.isEmpty) {
                     Get.snackbar("Error", "Please fill all fields");
                     return;
                   }
 
-                  final controller = Get.find<AppointmentController>();
-
-                  String aptNo =
-                      "APT${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}";
+                  String aptNo = "APT${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}";
 
                   final appointment = AppointmentModel(
                     doctorId: "1234",
@@ -154,18 +136,13 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
 
                   Get.to(() => const UpcommingAppointent());
                 },
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4F8BFF),
                   padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 ),
-                child: const ExtraSmallText(
-                  text: 'Confirm Booking',
-                  size: 20,
-                  color: Colors.white,
-                ),
+                child: const ExtraSmallText(text: 'Confirm Booking', size: 20, color: Colors.white),
               ),
             ),
           ],
@@ -191,10 +168,7 @@ class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
           child: Center(
             child: Text(
               value,
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontWeight: FontWeight.w600),
             ),
           ),
         ),

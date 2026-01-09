@@ -1,10 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../models/patient_model.dart';
+import '../model/patient_model.dart';
 
 class PatientService {
-  final String baseUrl =
-      "http://10.0.2.2:4000/api/patients"; // For Android emulator
+  final String baseUrl = "http://10.0.2.2:4000/api/patients"; // For Android emulator
 
   Future<Map<String, dynamic>> createPatient(PatientModel patient) async {
     final url = Uri.parse("$baseUrl/create");

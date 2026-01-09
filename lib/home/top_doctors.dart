@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_token_new/appointment/book_appointments.dart';
+
 import 'package:quick_token_new/controllers/doctor_controller.dart';
 
 class TopDoctors extends StatelessWidget {
@@ -34,11 +35,7 @@ class TopDoctors extends StatelessWidget {
                 color: const Color(0xFF4F8BFF),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.15),
-                    blurRadius: 10,
-                    offset: const Offset(3, 6),
-                  ),
+                  BoxShadow(color: Colors.grey.withOpacity(0.15), blurRadius: 10, offset: const Offset(3, 6)),
                 ],
               ),
               child: Row(
@@ -48,10 +45,8 @@ class TopDoctors extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BookAppointmentsScreen(
-                            doctorName: doctor.name,
-                            doctorImage: doctor.imageUrl,
-                          ),
+                          builder: (context) =>
+                              BookAppointmentsScreen(doctorName: doctor.name, doctorImage: doctor.imageUrl),
                         ),
                       );
                     },
@@ -61,10 +56,7 @@ class TopDoctors extends StatelessWidget {
                       width: 70,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.blue.shade100,
-                          width: 2,
-                        ),
+                        border: Border.all(color: Colors.blue.shade100, width: 2),
                       ),
                       child: ClipOval(
                         child: doctor.imageUrl.isNotEmpty
@@ -72,18 +64,10 @@ class TopDoctors extends StatelessWidget {
                                 doctor.imageUrl,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(
-                                    Icons.person,
-                                    color: Colors.blue,
-                                    size: 40,
-                                  );
+                                  return const Icon(Icons.person, color: Colors.blue, size: 40);
                                 },
                               )
-                            : const Icon(
-                                Icons.person,
-                                color: Colors.blue,
-                                size: 40,
-                              ),
+                            : const Icon(Icons.person, color: Colors.blue, size: 40),
                       ),
                     ),
                   ),
@@ -94,39 +78,24 @@ class TopDoctors extends StatelessWidget {
                       children: [
                         Text(
                           doctor.name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 6),
                         Text(
                           doctor.specialization,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            const Icon(
-                              Icons.location_on,
-                              size: 16,
-                              color: Colors.white,
-                            ),
+                            const Icon(Icons.location_on, size: 16, color: Colors.white),
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
                                 doctor.location ?? "Location not specified",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                ),
+                                style: const TextStyle(color: Colors.white, fontSize: 13),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -136,18 +105,11 @@ class TopDoctors extends StatelessWidget {
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.amber[700],
-                              size: 18,
-                            ),
+                            Icon(Icons.star, color: Colors.amber[700], size: 18),
                             const SizedBox(width: 6),
                             Text(
                               doctor.ratings.toStringAsFixed(1),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
+                              style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
                             ),
                             const SizedBox(width: 10),
                             Expanded(

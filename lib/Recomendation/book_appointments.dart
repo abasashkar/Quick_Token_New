@@ -24,16 +24,8 @@ class _BookAppointmentsState extends State<BookAppointments> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BigText(
-                  overflow: TextOverflow.ellipsis,
-                  text: 'Recomended',
-                  size: 20,
-                ),
-                BigText(
-                  overflow: TextOverflow.ellipsis,
-                  text: 'Doctors for you',
-                  size: 20,
-                ),
+                BigText(overflow: TextOverflow.ellipsis, text: 'Recomended', size: 20),
+                BigText(overflow: TextOverflow.ellipsis, text: 'Doctors for you', size: 20),
                 const SizedBox(height: 10),
                 Container(
                   height: 190,
@@ -42,13 +34,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
+                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 2))],
                   ),
                   child: Column(
                     children: [
@@ -58,12 +44,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                           // Image section
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              'assets/dentist.png',
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.asset('assets/dentist.png', width: 80, height: 80, fit: BoxFit.cover),
                           ),
                           const SizedBox(width: 12),
                           // Text section
@@ -71,15 +52,9 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(
-                                  text: 'Dr. Stephen Wing',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                BigText(text: 'Dr. Stephen Wing', overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 5),
-                                SmallText(
-                                  text: 'General - Medical center',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                SmallText(text: 'General - Medical center', overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 8),
                                 const Wrap(
                                   spacing: 8,
@@ -100,52 +75,28 @@ class _BookAppointmentsState extends State<BookAppointments> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      const Divider(
-                        color: Color.fromARGB(255, 227, 224, 224),
-                        thickness: 2,
-                      ),
+                      const Divider(color: Color.fromARGB(255, 227, 224, 224), thickness: 2),
                       const SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.start, // Aligns items to the left
-                        crossAxisAlignment: CrossAxisAlignment
-                            .start, // Ensures the text is top-aligned
+                        mainAxisAlignment: MainAxisAlignment.start, // Aligns items to the left
+                        crossAxisAlignment: CrossAxisAlignment.start, // Ensures the text is top-aligned
                         children: [
                           // Left-aligned Text
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment
-                                .start, // Align texts to the left
+                            crossAxisAlignment: CrossAxisAlignment.start, // Align texts to the left
                             children: [
-                              const ExtraSmallText(
-                                text: 'Available appointment',
-                              ),
+                              const ExtraSmallText(text: 'Available appointment'),
                               const SizedBox(height: 4),
-                              BigText(
-                                text: 'Tomorrow 10:00 AM',
-                                size: 13,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              BigText(text: 'Tomorrow 10:00 AM', size: 13, overflow: TextOverflow.ellipsis),
                             ],
                           ),
-                          const SizedBox(
-                            width: 40,
-                          ), // Space between text and button
+                          const SizedBox(width: 40), // Space between text and button
                           // Right-aligned Container (black square)
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(
-                                255,
-                                22,
-                                105,
-                                174,
-                              ), // Black color background
-                              borderRadius: BorderRadius.circular(
-                                16,
-                              ), // Curved corners
+                              color: const Color.fromARGB(255, 22, 105, 174), // Black color background
+                              borderRadius: BorderRadius.circular(16), // Curved corners
                             ),
                             child: BigText(
                               size: 15,
@@ -168,13 +119,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
+                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 2))],
                   ),
                   child: Column(
                     children: [
@@ -184,12 +129,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                           // Image section
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              'assets/dentist.png',
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.asset('assets/dentist.png', width: 80, height: 80, fit: BoxFit.cover),
                           ),
                           const SizedBox(width: 12),
                           // Text section
@@ -197,15 +137,9 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(
-                                  text: 'Dr. Stephen Wing',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                BigText(text: 'Dr. Stephen Wing', overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 5),
-                                SmallText(
-                                  text: 'General - Medical center',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                SmallText(text: 'General - Medical center', overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 8),
                                 const Wrap(
                                   spacing: 8,
@@ -226,52 +160,28 @@ class _BookAppointmentsState extends State<BookAppointments> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      const Divider(
-                        color: Color.fromARGB(255, 227, 224, 224),
-                        thickness: 2,
-                      ),
+                      const Divider(color: Color.fromARGB(255, 227, 224, 224), thickness: 2),
                       const SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.start, // Aligns items to the left
-                        crossAxisAlignment: CrossAxisAlignment
-                            .start, // Ensures the text is top-aligned
+                        mainAxisAlignment: MainAxisAlignment.start, // Aligns items to the left
+                        crossAxisAlignment: CrossAxisAlignment.start, // Ensures the text is top-aligned
                         children: [
                           // Left-aligned Text
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment
-                                .start, // Align texts to the left
+                            crossAxisAlignment: CrossAxisAlignment.start, // Align texts to the left
                             children: [
-                              const ExtraSmallText(
-                                text: 'Available appointment',
-                              ),
+                              const ExtraSmallText(text: 'Available appointment'),
                               const SizedBox(height: 4),
-                              BigText(
-                                text: 'Tomorrow 10:00 AM',
-                                size: 13,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              BigText(text: 'Tomorrow 10:00 AM', size: 13, overflow: TextOverflow.ellipsis),
                             ],
                           ),
-                          const SizedBox(
-                            width: 40,
-                          ), // Space between text and button
+                          const SizedBox(width: 40), // Space between text and button
                           // Right-aligned Container (black square)
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(
-                                255,
-                                22,
-                                105,
-                                174,
-                              ), // Black color background
-                              borderRadius: BorderRadius.circular(
-                                16,
-                              ), // Curved corners
+                              color: const Color.fromARGB(255, 22, 105, 174), // Black color background
+                              borderRadius: BorderRadius.circular(16), // Curved corners
                             ),
                             child: BigText(
                               size: 15,
@@ -293,13 +203,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 6,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
+                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(2, 2))],
                   ),
                   child: Column(
                     children: [
@@ -309,12 +213,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                           // Image section
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              'assets/dentist.png',
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.asset('assets/dentist.png', width: 80, height: 80, fit: BoxFit.cover),
                           ),
                           const SizedBox(width: 12),
                           // Text section
@@ -322,15 +221,9 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(
-                                  text: 'Dr. Stephen Wing',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                BigText(text: 'Dr. Stephen Wing', overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 5),
-                                SmallText(
-                                  text: 'General - Medical center',
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                SmallText(text: 'General - Medical center', overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 8),
                                 const Wrap(
                                   spacing: 8,
@@ -351,52 +244,28 @@ class _BookAppointmentsState extends State<BookAppointments> {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      const Divider(
-                        color: Color.fromARGB(255, 227, 224, 224),
-                        thickness: 2,
-                      ),
+                      const Divider(color: Color.fromARGB(255, 227, 224, 224), thickness: 2),
                       const SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.start, // Aligns items to the left
-                        crossAxisAlignment: CrossAxisAlignment
-                            .start, // Ensures the text is top-aligned
+                        mainAxisAlignment: MainAxisAlignment.start, // Aligns items to the left
+                        crossAxisAlignment: CrossAxisAlignment.start, // Ensures the text is top-aligned
                         children: [
                           // Left-aligned Text
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment
-                                .start, // Align texts to the left
+                            crossAxisAlignment: CrossAxisAlignment.start, // Align texts to the left
                             children: [
-                              const ExtraSmallText(
-                                text: 'Available appointment',
-                              ),
+                              const ExtraSmallText(text: 'Available appointment'),
                               const SizedBox(height: 4),
-                              BigText(
-                                text: 'Tomorrow 10:00 AM',
-                                size: 13,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              BigText(text: 'Tomorrow 10:00 AM', size: 13, overflow: TextOverflow.ellipsis),
                             ],
                           ),
-                          const SizedBox(
-                            width: 40,
-                          ), // Space between text and button
+                          const SizedBox(width: 40), // Space between text and button
                           // Right-aligned Container (black square)
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 10,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(
-                                255,
-                                22,
-                                105,
-                                174,
-                              ), // Black color background
-                              borderRadius: BorderRadius.circular(
-                                16,
-                              ), // Curved corners
+                              color: const Color.fromARGB(255, 22, 105, 174), // Black color background
+                              borderRadius: BorderRadius.circular(16), // Curved corners
                             ),
                             child: BigText(
                               size: 15,

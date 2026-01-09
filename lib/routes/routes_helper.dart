@@ -1,110 +1,60 @@
-import 'package:get/get.dart';
-import 'package:quick_token_new/appointment/patient_appointment.dart';
-import 'package:quick_token_new/authentication/create_patient_account.dart';
-import 'package:quick_token_new/authentication/doctor_Login.dart';
-import 'package:quick_token_new/authentication/laboratory_Login.dart';
-import 'package:quick_token_new/authentication/patient_Login.dart';
-import 'package:quick_token_new/authentication/sign_in.dart';
-import 'package:quick_token_new/authentication/verify_otp.dart';
-import 'package:quick_token_new/doctors/doctors_bio.dart';
+import 'package:flutter/material.dart';
+import 'package:quick_token_new/feature/auth/ui/create_patient_account.dart';
+import 'package:quick_token_new/feature/auth/ui/role_selection.dart';
+import 'package:quick_token_new/feature/auth/ui/email_login.dart';
+import 'package:quick_token_new/feature/auth/ui/verify_otp.dart';
 import 'package:quick_token_new/home/doctor_home_screen.dart';
-import 'package:quick_token_new/home/patient_dashboard.dart';
 import 'package:quick_token_new/home/patient_home_screen.dart';
 import 'package:quick_token_new/splash/splash_screen.dart';
+import 'package:quick_token_new/core/enums/user_role.dart';
 
 class RoutesHelper {
-  // Route names
   static const String initial = "/";
   static const String splash = "/splash";
-  static const String patientAppointment = "/patientAppointment";
-  static const String topDoctors = "/topDoctors";
-  static const String doctorsBio = "/doctorsBio";
-  static const String homescreen = "/homescreen";
-  static const String doctorsHomeScreen = "/doctorshomeScreen";
-  static const String patientsHomeScreen = "/doctorshomeScreen";
-  static const String createPatientScreen = "/createPatientScreen";
-  //  Auth Routes
-  static const String patientLogin = "/patientLogin";
-  static const String doctorLogin = "/doctorLogin";
-  static const String labLogin = "/labLogin";
+  static const String emailLogin = "/emailLogin";
   static const String verifyOtp = "/verifyOtp";
+  static const String patientHomeScreen = "/patientsHomeScreen";
+  static const String roleselection = "/roleSelection";
+  static const String doctorHomeScreen = "/doctorLogin";
+  static const String createPatientScreen = "/createPatientScreen";
 
-  // Route getters
-  static String getInitial() => '$initial';
-  static String getSplash() => '$splash';
-  static String getPatientAppointment() => '$patientAppointment';
-  static String getPatientLogin() => '$patientLogin';
-  static String getVerifyOtp() => '$verifyOtp';
-  static String getTopDoctors() => '$topDoctors';
-  static String getdoctorsBio() => '$doctorsBio';
-  static String homeScreen() => '$homescreen';
-  static String getLabLogin() => '$labLogin';
-  static String getDoctorLogin() => '$doctorLogin';
-  static String getDoctorsHomeScreen() => '$doctorsHomeScreen';
-  static String getPatientHomeScreen() => '$patientsHomeScreen';
-  static String getCreatePatientScreen() => '$createPatientScreen';
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case initial:
+      case splash:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
 
-  // Route list
-  static List<GetPage> routes = [
-    GetPage(
-      name: initial,
-      page: () => const SplashScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: patientLogin,
-      page: () => const PatientLogin(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: doctorLogin,
-      page: () => const DoctorLogin(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: labLogin,
-      page: () => const LaboratoryLogin(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: patientAppointment,
-      page: () => const PatientAppointment(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: verifyOtp,
-      page: () => const VerifyOtpScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: homescreen,
-      page: () => const PatientHomeScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: topDoctors,
-      page: () => const FindDoctors(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: doctorsBio,
-      page: () => const DoctorsBio(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: doctorsHomeScreen,
-      page: () => const DoctorHomeScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: patientsHomeScreen,
-      page: () => const PatientHomeScreen(),
-      transition: Transition.fadeIn,
-    ),
-    GetPage(
-      name: createPatientScreen,
-      page: () => const CreatePatientAccount(),
-      transition: Transition.fadeIn,
-    ),
-  ];
+      case emailLogin:
+        final args = settings.arguments as LoginIntent? ?? LoginIntent.patient;
+        return MaterialPageRoute(builder: (_) => EmailLoginScreen(intent: args));
+
+      case verifyOtp:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => VerifyOtpScreen(
+            email: args['email'] as String,
+            intent: args['intent'] as LoginIntent,
+          ),
+        );
+
+      case patientHomeScreen:
+        return MaterialPageRoute(builder: (_) => const PatientHomeScreen());
+
+      case doctorHomeScreen:
+        return MaterialPageRoute(builder: (_) => const DoctorHomeScreen());
+
+      case roleselection:
+        return MaterialPageRoute(builder: (_) => const RoleSelection());
+
+      case createPatientScreen:
+        return MaterialPageRoute(builder: (_) => const CreatePatientAccount());
+
+      default:
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: Center(child: Text('No route defined for ${settings.name}')),
+          ),
+        );
+    }
+  }
 }

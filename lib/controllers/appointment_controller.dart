@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:quick_token_new/models/appointment_model.dart';
+import 'package:quick_token_new/model/appointment_model.dart';
 import 'package:quick_token_new/services/appointment_services.dart';
 
 class AppointmentController extends GetxController {

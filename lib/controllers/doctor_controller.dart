@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:quick_token_new/models/doctor_model.dart';
+import 'package:quick_token_new/model/doctor_model.dart';
 import 'package:quick_token_new/services/doctor_services.dart';
 
 class DoctorController extends GetxController {
@@ -34,12 +34,7 @@ class DoctorController extends GetxController {
       filteredDoctors.assignAll(doctors);
     } else {
       filteredDoctors.assignAll(
-        doctors
-            .where(
-              (doc) =>
-                  doc.specialization.toLowerCase() == category.toLowerCase(),
-            )
-            .toList(),
+        doctors.where((doc) => doc.specialization.toLowerCase() == category.toLowerCase()).toList(),
       );
     }
   }
@@ -51,9 +46,7 @@ class DoctorController extends GetxController {
 
     var filtered = doctors.where((doc) {
       final matchesName = doc.name.toLowerCase().contains(q);
-      final matchesCategory = category == 'All'
-          ? true
-          : doc.specialization.toLowerCase() == category.toLowerCase();
+      final matchesCategory = category == 'All' ? true : doc.specialization.toLowerCase() == category.toLowerCase();
       return matchesName && matchesCategory;
     }).toList();
 

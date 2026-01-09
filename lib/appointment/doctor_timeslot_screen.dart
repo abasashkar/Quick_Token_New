@@ -58,11 +58,7 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
             child: Text(
               "Select your available time slots",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[700],
-                fontWeight: FontWeight.w500,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[700], fontWeight: FontWeight.w500),
             ),
           ),
           const SizedBox(height: 10),
@@ -84,23 +80,11 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                     width: 45,
                     height: 45,
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? const Color(0xFF4F8DF7)
-                          : Colors.white,
+                      color: isSelected ? const Color(0xFF4F8DF7) : Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: isSelected
-                            ? const Color(0xFF4F8DF7)
-                            : Colors.grey.shade300,
-                      ),
+                      border: Border.all(color: isSelected ? const Color(0xFF4F8DF7) : Colors.grey.shade300),
                       boxShadow: isSelected
-                          ? [
-                              BoxShadow(
-                                color: Colors.blue.withOpacity(0.25),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ]
+                          ? [BoxShadow(color: Colors.blue.withOpacity(0.25), blurRadius: 8, offset: const Offset(0, 4))]
                           : [],
                     ),
                     child: Center(
@@ -150,15 +134,9 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color(0xFF4F8DF7)
-                            : Colors.white,
+                        color: isSelected ? const Color(0xFF4F8DF7) : Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: isSelected
-                              ? const Color(0xFF4F8DF7)
-                              : Colors.grey.shade300,
-                        ),
+                        border: Border.all(color: isSelected ? const Color(0xFF4F8DF7) : Colors.grey.shade300),
                         boxShadow: isSelected
                             ? [
                                 BoxShadow(
@@ -173,9 +151,7 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
                         child: Text(
                           slot,
                           style: TextStyle(
-                            color: isSelected
-                                ? Colors.white
-                                : Colors.grey.shade800,
+                            color: isSelected ? Colors.white : Colors.grey.shade800,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -196,26 +172,17 @@ class _TimeSlotScreenState extends State<TimeSlotScreen> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF4F8DF7),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   elevation: 2,
                 ),
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Time slots updated successfully!'),
-                      backgroundColor: Colors.green,
-                    ),
+                    const SnackBar(content: Text('Time slots updated successfully!'), backgroundColor: Colors.green),
                   );
                 },
                 child: const Text(
                   'Save Availability',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
                 ),
               ),
             ),

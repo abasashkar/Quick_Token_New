@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:quick_token_new/home/patient_home_screen.dart';
 import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/big_text.dart';
 
@@ -11,8 +10,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
@@ -21,10 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
@@ -35,11 +30,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
+    // ✅ Navigate after 3 seconds (after animation completes)
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(
-        context,
-        RoutesHelper.getPatientAppointment(),
-      );
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, RoutesHelper.roleselection);
+      }
     });
   }
 
@@ -62,13 +57,8 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset('assets/app_logo.png', width: 160),
-                Center(
-                  child: BigText(
-                    text: 'QuickToken',
-                    size: 26,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                const SizedBox(height: 12),
+                BigText(text: 'MedicXpert', size: 26, overflow: TextOverflow.ellipsis),
               ],
             ),
           ),

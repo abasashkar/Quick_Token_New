@@ -62,10 +62,7 @@ class AppointmentCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFF4F8BFF),
-            borderRadius: BorderRadius.circular(16),
-          ),
+          decoration: BoxDecoration(color: const Color(0xFF4F8BFF), borderRadius: BorderRadius.circular(16)),
           padding: const EdgeInsets.all(12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,10 +70,7 @@ class AppointmentCard extends StatelessWidget {
               Container(
                 width: 80,
                 height: 80,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
+                decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -84,20 +78,10 @@ class AppointmentCard extends StatelessWidget {
                     Text(
                       date,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black87),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      time,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
+                    Text(time, style: const TextStyle(fontSize: 12, color: Colors.black54)),
                   ],
                 ),
               ),
@@ -108,19 +92,9 @@ class AppointmentCard extends StatelessWidget {
                   children: [
                     Text(
                       doctorName,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'Apt No: $aptNo',
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 13,
-                      ),
-                    ),
+                    Text('Apt No: $aptNo', style: const TextStyle(color: Colors.white70, fontSize: 13)),
                     const SizedBox(height: 10),
                     Row(
                       children: [
@@ -129,10 +103,7 @@ class AppointmentCard extends StatelessWidget {
                             foregroundColor: Colors.black,
                             backgroundColor: Colors.white,
                             side: BorderSide.none,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 6,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                           ),
                           onPressed: onCancel,
                           child: const Text('Cancel'),
@@ -142,10 +113,7 @@ class AppointmentCard extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white.withOpacity(0.2),
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 6,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                           ),
                           onPressed: () {},
                           child: const Text('Acept'),
@@ -162,10 +130,7 @@ class AppointmentCard extends StatelessWidget {
         const SizedBox(height: 16),
         TextButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const DoctorHomeScreen()),
-            );
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const DoctorHomeScreen()));
           },
           child: const Text("GOTO"),
         ),

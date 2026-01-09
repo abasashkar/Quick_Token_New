@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:quick_token_new/models/patient_model.dart';
+import 'package:quick_token_new/model/patient_model.dart';
 import 'package:quick_token_new/services/patient_services.dart';
 
 class PatientController extends GetxController {
@@ -21,15 +21,14 @@ class PatientController extends GetxController {
 
       final result = await _service.createPatient(patient);
 
-      succuessMessage.value =
-          result['message'] ?? "Patient created successfully";
+      succuessMessage.value = result['message'] ?? "Patient created successfully";
       final patientId = result['data']['_id'];
       await storage.write('patientId', patientId);
       print("✅ Saved patient ID: $patientId");
       return true; // success
     } catch (e) {
       errorMessage.value = e.toString();
-      return false; // failure
+      return false; // failuFCre
     } finally {
       isLoading.value = false;
     }

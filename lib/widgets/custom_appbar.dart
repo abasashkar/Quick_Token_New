@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // for Obx
-
-import 'package:quick_token_new/controllers/theme_controller.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;
   final Widget? icon;
   final bool showThemeToggle;
-  final ThemeController themeController = Get.find(); // get your controller
 
-  CustomAppBar({
-    Key? key,
-    required this.title,
-    this.icon,
-    this.showThemeToggle = false,
-  }) : super(key: key);
+  CustomAppBar({Key? key, required this.title, this.icon, this.showThemeToggle = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
             )
           : null,
-      actions: [
-        if (showThemeToggle) // 👈 only show if true
-          Obx(
-            () => IconButton(
-              icon: Icon(
-                themeController.isDarkMode.value
-                    ? Icons.dark_mode
-                    : Icons.light_mode,
-                color: Colors.white,
-              ),
-              onPressed: () => themeController.toggleTheme(),
-            ),
-          ),
-      ],
+      actions: [],
     );
   }
 

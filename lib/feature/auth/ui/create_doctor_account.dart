@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_token_new/controllers/patient_controller.dart';
-import 'package:quick_token_new/models/patient_model.dart';
+import 'package:quick_token_new/model/patient_model.dart';
 import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/custom_textform.dart';
@@ -24,8 +24,7 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
   final TextEditingController biographyController = TextEditingController();
   final TextEditingController qualificationController = TextEditingController();
   final TextEditingController specialityController = TextEditingController();
-  final TextEditingController consultationFeeController =
-      TextEditingController();
+  final TextEditingController consultationFeeController = TextEditingController();
   final TextEditingController experienceController = TextEditingController();
   final TextEditingController serviceController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
@@ -44,11 +43,7 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: CustomAppBar(
-        title: ExtraSmallText(
-          text: 'Create Doctor Account',
-          size: 20,
-          color: Colors.white,
-        ),
+        title: ExtraSmallText(text: 'Create Doctor Account', size: 20, color: Colors.white),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -70,11 +65,7 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
                 keyboardType: TextInputType.name,
               ),
               const SizedBox(height: 18),
-              CustomTextFormField(
-                controller: titleController,
-                hintText: 'Title',
-                keyboardType: TextInputType.name,
-              ),
+              CustomTextFormField(controller: titleController, hintText: 'Title', keyboardType: TextInputType.name),
               const SizedBox(height: 18),
               CustomTextFormField(
                 controller: emailController,
@@ -104,61 +95,31 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
               ),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: biographyController,
-                hintText: 'Biography',
-              ),
+              CustomTextFormField(controller: biographyController, hintText: 'Biography'),
               const SizedBox(height: 18),
-              CustomTextFormField(
-                controller: qualificationController,
-                hintText: 'Qualification',
-              ),
+              CustomTextFormField(controller: qualificationController, hintText: 'Qualification'),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: specialityController,
-                hintText: 'Speciality',
-              ),
+              CustomTextFormField(controller: specialityController, hintText: 'Speciality'),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: consultationFeeController,
-                hintText: 'Consultation Fee',
-              ),
+              CustomTextFormField(controller: consultationFeeController, hintText: 'Consultation Fee'),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: experienceController,
-                hintText: 'Experience',
-              ),
+              CustomTextFormField(controller: experienceController, hintText: 'Experience'),
               const SizedBox(height: 18),
-              CustomTextFormField(
-                controller: serviceController,
-                hintText: 'Service',
-              ),
+              CustomTextFormField(controller: serviceController, hintText: 'Service'),
               const SizedBox(height: 18),
-              CustomTextFormField(
-                controller: stateController,
-                hintText: 'State',
-              ),
+              CustomTextFormField(controller: stateController, hintText: 'State'),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: cityController,
-                hintText: 'Enter your city',
-              ),
+              CustomTextFormField(controller: cityController, hintText: 'Enter your city'),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: address1Controller,
-                hintText: 'Enter your address line 1',
-              ),
+              CustomTextFormField(controller: address1Controller, hintText: 'Enter your address line 1'),
               const SizedBox(height: 18),
 
-              CustomTextFormField(
-                controller: address2Controller,
-                hintText: 'Enter your address line 2 (optional)',
-              ),
+              CustomTextFormField(controller: address2Controller, hintText: 'Enter your address line 2 (optional)'),
               const SizedBox(height: 18),
 
               CustomTextFormField(
@@ -170,10 +131,7 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
 
               // 👇 Gender selection container
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
@@ -188,31 +146,17 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
                       children: const [
                         Text(
                           "Gender ",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500),
                         ),
                         Text(
                           "(Optional)",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w400),
                         ),
                       ],
                     ),
 
                     // Gender radio buttons
-                    Row(
-                      children: [
-                        _buildGenderRadio("Male"),
-                        const SizedBox(width: 12),
-                        _buildGenderRadio("Female"),
-                      ],
-                    ),
+                    Row(children: [_buildGenderRadio("Male"), const SizedBox(width: 12), _buildGenderRadio("Female")]),
                   ],
                 ),
               ),
@@ -251,26 +195,20 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
                               gender: selectedGender ?? '',
                             );
 
-                            bool success = await patientController
-                                .createPatient(patient);
+                            bool success = await patientController.createPatient(patient);
 
                             if (success) {
-                              Get.offNamed(RoutesHelper.homescreen);
+                              Get.offNamed(RoutesHelper.doctorHomeScreen);
                             }
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4F8BFF),
                       minimumSize: const Size(200, 48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: patientController.isLoading.value
                         ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            "Add",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          ),
+                        : const Text("Add", style: TextStyle(fontSize: 18, color: Colors.white)),
                   );
                 }),
               ),
@@ -280,17 +218,11 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
               Obx(() {
                 if (patientController.succuessMessage.isNotEmpty) {
                   return Center(
-                    child: Text(
-                      patientController.succuessMessage.value,
-                      style: const TextStyle(color: Colors.green),
-                    ),
+                    child: Text(patientController.succuessMessage.value, style: const TextStyle(color: Colors.green)),
                   );
                 } else if (patientController.errorMessage.isNotEmpty) {
                   return Center(
-                    child: Text(
-                      patientController.errorMessage.value,
-                      style: const TextStyle(color: Colors.red),
-                    ),
+                    child: Text(patientController.errorMessage.value, style: const TextStyle(color: Colors.red)),
                   );
                 }
                 return const SizedBox.shrink();
@@ -311,17 +243,12 @@ class _CreatePatientAccountState extends State<CreateDoctorAccount> {
       child: Row(
         children: [
           Icon(
-            isSelected
-                ? Icons.radio_button_checked
-                : Icons.radio_button_unchecked,
+            isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
             color: isSelected ? const Color(0xFF4F8BFF) : Colors.grey,
             size: 22,
           ),
           const SizedBox(width: 4),
-          Text(
-            gender,
-            style: const TextStyle(fontSize: 16, color: Colors.black87),
-          ),
+          Text(gender, style: const TextStyle(fontSize: 16, color: Colors.black87)),
         ],
       ),
     );

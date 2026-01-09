@@ -21,21 +21,14 @@ class _HomeScreenState extends State<PatientHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _pages = [
-      const FindDoctors(),
-      UpcommingAppointent(),
-      const ViewReports(),
-      const ProfileScreen(),
-      // const UserProfile(),
-    ];
+    _pages = [const FindDoctors(), UpcommingAppointent(), const ViewReports(), const ProfileScreen()];
   }
 
   void _onItemTapped(int index) {
     setState(() => _selectedIndex = index);
   }
 
-  Color _iconColor(int index) =>
-      _selectedIndex == index ? Colors.blue : Colors.grey;
+  Color _iconColor(int index) => _selectedIndex == index ? Colors.blue : Colors.grey;
 
   @override
   Widget build(BuildContext context) {

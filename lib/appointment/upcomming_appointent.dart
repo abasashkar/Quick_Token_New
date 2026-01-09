@@ -23,11 +23,7 @@ class _UpcommingAppointentState extends State<UpcommingAppointent> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 230, 230, 230),
       appBar: CustomAppBar(
-        title: ExtraSmallText(
-          text: 'UpComing Appointment',
-          color: Colors.white,
-          size: 20,
-        ),
+        title: ExtraSmallText(text: 'UpComing Appointment', color: Colors.white, size: 20),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

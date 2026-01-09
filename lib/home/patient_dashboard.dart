@@ -45,21 +45,14 @@ class _FindDoctorsState extends State<FindDoctors> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: ExtraSmallText(
-          text: 'Patient Dashboard',
-          color: Colors.white,
-          size: 20,
-        ),
+        title: ExtraSmallText(text: 'Patient Dashboard', color: Colors.white, size: 20),
       ),
       backgroundColor: const Color.fromARGB(255, 230, 230, 230),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: PatientDashboardTabs(),
-            ),
+            const Padding(padding: EdgeInsets.all(8.0), child: PatientDashboardTabs()),
 
             // 🔍 Search Box
             Padding(
@@ -68,32 +61,19 @@ class _FindDoctorsState extends State<FindDoctors> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(18),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
+                  boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
                 ),
                 child: TextField(
                   onChanged: onSearch,
                   controller: searchController,
                   decoration: InputDecoration(
                     hintText: 'Search For Doctors',
-                    hintStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.grey,
-                    ),
+                    hintStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: Colors.grey),
                     prefixIcon: const Icon(Icons.search, size: 30),
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(18),
-                      borderSide: BorderSide.none,
-                    ),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
                   ),
                 ),
               ),
@@ -104,41 +84,25 @@ class _FindDoctorsState extends State<FindDoctors> {
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: Container(
                 width: screenWidth,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ExtraSmallText(
-                          text: 'I’m looking for',
-                          color: Colors.black,
-                          size: 15,
-                        ),
+                        ExtraSmallText(text: 'I’m looking for', color: Colors.black, size: 15),
                         Row(
                           children: [
                             Text(
                               "Clear",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 28, 125, 205),
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: TextStyle(color: Color.fromARGB(255, 28, 125, 205), fontWeight: FontWeight.w500),
                             ),
                             SizedBox(width: 10),
                             Text(
                               "See All",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 28, 125, 205),
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: TextStyle(color: Color.fromARGB(255, 28, 125, 205), fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
@@ -148,37 +112,24 @@ class _FindDoctorsState extends State<FindDoctors> {
 
                     // 🧩 Filter Chips (Reactive)
                     Obx(() {
-                      final categories = [
-                        "All",
-                        "Clinical",
-                        "Surgeon",
-                        "Cardiologist",
-                        "Gynecologist",
-                      ];
+                      final categories = ["All", "Clinical", "Surgeon", "Cardiologist", "Gynecologist"];
 
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: categories.map((category) {
-                            final isSelected =
-                                doctorController.selectedCategory.value ==
-                                category;
+                            final isSelected = doctorController.selectedCategory.value == category;
                             return Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: ChoiceChip(
                                 label: Text(
                                   category,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? Colors.white
-                                        : const Color(0xFF333333),
-                                  ),
+                                  style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF333333)),
                                 ),
                                 selected: isSelected,
                                 selectedColor: const Color(0xFF4F8BFF),
                                 backgroundColor: const Color(0xFFD9E8F6),
-                                onSelected: (_) =>
-                                    doctorController.filterByCategory(category),
+                                onSelected: (_) => doctorController.filterByCategory(category),
                               ),
                             );
                           }).toList(),
@@ -191,10 +142,7 @@ class _FindDoctorsState extends State<FindDoctors> {
             ),
 
             // 🧑‍⚕️ Doctors List
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-              child: TopDoctors(),
-            ),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 100), child: TopDoctors()),
           ],
         ),
       ),

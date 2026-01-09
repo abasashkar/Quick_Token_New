@@ -1,111 +1,50 @@
-import 'dart:convert';
-import 'package:quick_token_new/models/user_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:quick_token_new/repository/auth_repo.dart';
+import 'package:quick_token_new/services/local_storage_service.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthServices {
-  static const baseUrl = 'http://10.0.2.2:4000';
+  final AuthRepo _authRepo;
+  final LocalStorageServices _localStorage;
 
-  static Future<bool> sendOtp(String email, String role) async {
-    final url = Uri.parse('$baseUrl/api/auth/send-otp');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'role': role}),
-    );
+  AuthServices({required AuthRepo authRepo, required LocalStorageServices localStorage})
+    : _authRepo = authRepo,
+      _localStorage = localStorage;
 
-    final data = jsonDecode(response.body);
-    return data['success'] == true;
-  }
+  String? _authToken;
+  String? _role;
 
-  static Future<UserModel?> verifyOtp(
-    String email,
-    String otp,
-    String role,
-  ) async {
-    final url = Uri.parse('$baseUrl/api/auth/verify-otp');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'otp': otp, 'role': role}),
-    );
+  String? get authToken => _authToken;
+  String? get role => _role;
 
-    final data = jsonDecode(response.body);
-
-    if (data['success'] == true) {
-      return UserModel(email: email, token: data['token'], role: '');
-    } else {
-      throw Exception(data['message'] ?? 'OTP verification failed');
+  bool get isLoggedIn {
+    if (_authToken == null) return false;
+    try {
+      return !Jwt.isExpired(_authToken!);
+    } catch (_) {
+      return false;
     }
   }
+
+  /// ✅ Call on app start
+  Future<void> initialize() async {
+    _authToken = await _localStorage.read(key: LocalStorageKeys.authToken);
+    _role = await _localStorage.read(key: LocalStorageKeys.userRole);
+  }
+
+  /// ✅ Save token + role after OTP verification
+  Future<void> saveSession({required String token, required String role}) async {
+    await _localStorage.write(key: LocalStorageKeys.authToken, value: token);
+
+    await _localStorage.write(key: LocalStorageKeys.userRole, value: role);
+
+    _authToken = token;
+    _role = role;
+  }
+
+  /// ✅ Logout
+  Future<void> logout() async {
+    await _localStorage.deleteAll();
+    _authToken = null;
+    _role = null;
+  }
 }
-
-// working one
-
-// class AuthServices {
-//   static const baseUrl = 'http://10.0.2.2:4000';
-
-//   static Future<UserModel?> register(String email, String password) async {
-//     final url = Uri.parse('$baseUrl/api/auth/register');
-//     final response = await http.post(
-//       url,
-//       body: jsonEncode({'email': email, 'password': password}),
-//       headers: {'Content-Type': 'application/json'},
-//     );
-
-//     if (response.statusCode == 200 || response.statusCode == 201) {
-//       return UserModel.fromJson(jsonDecode(response.body));
-//     } else {
-//       throw Exception('Failed to register: ${response.body}');
-//     }
-//   }
-
-//   static Future<UserModel?> login(String email, String password) async {
-//     final url = Uri.parse('$baseUrl/api/auth/login');
-//     final response = await http.post(
-//       url,
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode({'email': email, 'password': password}),
-//     );
-
-//     if (response.statusCode == 200 || response.statusCode == 201) {
-//       return UserModel.fromJson(jsonDecode(response.body));
-//     } else {
-//       throw Exception('Failed to login: ${response.body}');
-//     }
-//   }
-
-//   static Future<bool> sendOtp(String email) async {
-//     final url = Uri.parse('$baseUrl/api/auth/send-otp'); // ✅ fixed
-//     final response = await http.post(
-//       url,
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode({'email': email}),
-//     );
-
-//     final data = jsonDecode(response.body);
-//     if (response.statusCode == 200 && data['success'] == true) {
-//       print("✅ OTP sent successfully to $email");
-//       return true;
-//     } else {
-//       print("❌ Failed to send OTP: ${data['message']}");
-//       return false;
-//     }
-//   }
-
-//   static Future<UserModel?> verifyOtp(String email, String otp) async {
-//     final url = Uri.parse('$baseUrl/api/auth/verify-otp'); // ✅ fixed
-//     final response = await http.post(
-//       url,
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode({'email': email, 'otp': otp}),
-//     );
-
-//     final data = jsonDecode(response.body);
-//     if (response.statusCode == 200 && data['success'] == true) {
-//       print("✅ OTP verified successfully");
-//       return UserModel(email: email, token: data['token']);
-//     } else {
-//       throw Exception(data['message'] ?? 'OTP verification failed');
-//     }
-//   }
-// }

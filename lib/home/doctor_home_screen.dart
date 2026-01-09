@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_token_new/appointment/doctor_timeslot_screen.dart';
 import 'package:quick_token_new/home/doctors_dashboard.dart';
-import 'package:quick_token_new/home/patient_dashboard.dart';
 import 'package:quick_token_new/profile/patient_profile.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
 
@@ -23,11 +22,14 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
   void initState() {
     super.initState();
     _pages = [
+      // DoctorsDashboard(),
+      // DoctorsDashboard(),
+      // DoctorsDashboard(),
       DoctorsDashboard(),
-      const TimeSlotScreen(),
+      const   TimeSlotScreen(),
       const ViewReports(),
       const ProfileScreen(),
-      // const UserProfile(),
+      // const UserProfile(),s
     ];
   }
 
@@ -37,8 +39,7 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
     });
   }
 
-  Color _iconColor(int index) =>
-      _selectedIndex == index ? Colors.blue : Colors.grey;
+  Color _iconColor(int index) => _selectedIndex == index ? Colors.blue : Colors.grey;
 
   @override
   Widget build(BuildContext context) {
