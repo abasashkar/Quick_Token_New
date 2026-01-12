@@ -24,8 +24,8 @@ class _BookAppointmentsState extends State<BookAppointments> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BigText(overflow: TextOverflow.ellipsis, text: 'Recomended', size: 20),
-                BigText(overflow: TextOverflow.ellipsis, text: 'Doctors for you', size: 20),
+                BigText(text: 'Recomended', size: 20),
+                BigText(text: 'Doctors for you', size: 20),
                 const SizedBox(height: 10),
                 Container(
                   height: 190,
@@ -52,9 +52,9 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(text: 'Dr. Stephen Wing', overflow: TextOverflow.ellipsis),
+                                BigText(text: 'Dr. Stephen Wing',),
                                 const SizedBox(height: 5),
-                                SmallText(text: 'General - Medical center', overflow: TextOverflow.ellipsis),
+                                SmallText(text: 'General - Medical center', overflow:   TextOverflow.ellipsis),
                                 const SizedBox(height: 8),
                                 const Wrap(
                                   spacing: 8,
@@ -87,7 +87,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             children: [
                               const ExtraSmallText(text: 'Available appointment'),
                               const SizedBox(height: 4),
-                              BigText(text: 'Tomorrow 10:00 AM', size: 13, overflow: TextOverflow.ellipsis),
+                              BigText(text: 'Tomorrow 10:00 AM', size: 13),
                             ],
                           ),
                           const SizedBox(width: 40), // Space between text and button
@@ -98,12 +98,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                               color: const Color.fromARGB(255, 22, 105, 174), // Black color background
                               borderRadius: BorderRadius.circular(16), // Curved corners
                             ),
-                            child: BigText(
-                              size: 15,
-                              text: 'Book Appointment',
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.white,
-                            ),
+                            child: BigText(size: 15, text: 'Book Appointment', color: Colors.white),
                           ),
                         ],
                       ),
@@ -137,9 +132,9 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(text: 'Dr. Stephen Wing', overflow: TextOverflow.ellipsis),
+                                BigText(text: 'Dr. Stephen Wing',),
                                 const SizedBox(height: 5),
-                                SmallText(text: 'General - Medical center', overflow: TextOverflow.ellipsis),
+                                SmallText(text: 'General - Medical center',overflow:   TextOverflow.ellipsis),
                                 const SizedBox(height: 8),
                                 const Wrap(
                                   spacing: 8,
@@ -172,7 +167,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             children: [
                               const ExtraSmallText(text: 'Available appointment'),
                               const SizedBox(height: 4),
-                              BigText(text: 'Tomorrow 10:00 AM', size: 13, overflow: TextOverflow.ellipsis),
+                              BigText(text: 'Tomorrow 10:00 AM', size: 13,),
                             ],
                           ),
                           const SizedBox(width: 40), // Space between text and button
@@ -186,7 +181,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: BigText(
                               size: 15,
                               text: 'Book Appointment',
-                              overflow: TextOverflow.ellipsis,
+                            
                               color: Colors.white,
                             ),
                           ),
@@ -221,9 +216,9 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(text: 'Dr. Stephen Wing', overflow: TextOverflow.ellipsis),
+                                BigText(text: 'Dr. Stephen Wing',),
                                 const SizedBox(height: 5),
-                                SmallText(text: 'General - Medical center', overflow: TextOverflow.ellipsis),
+                                SmallText(text: 'General - Medical center',overflow:   TextOverflow.ellipsis),
                                 const SizedBox(height: 8),
                                 const Wrap(
                                   spacing: 8,
@@ -256,7 +251,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             children: [
                               const ExtraSmallText(text: 'Available appointment'),
                               const SizedBox(height: 4),
-                              BigText(text: 'Tomorrow 10:00 AM', size: 13, overflow: TextOverflow.ellipsis),
+                              BigText(text: 'Tomorrow 10:00 AM', size: 13,),
                             ],
                           ),
                           const SizedBox(width: 40), // Space between text and button
@@ -270,7 +265,7 @@ class _BookAppointmentsState extends State<BookAppointments> {
                             child: BigText(
                               size: 15,
                               text: 'Book Appointment',
-                              overflow: TextOverflow.ellipsis,
+                            
                               color: Colors.white,
                             ),
                           ),

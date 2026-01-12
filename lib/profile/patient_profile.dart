@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         showThemeToggle: true,
         title: const Center(
           child: ExtraSmallText(
-            text: "User Profile",
+            text: "User Profiles",
             size: 20,
             color: Colors.white,
           ),

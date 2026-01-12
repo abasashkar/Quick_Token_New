@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     // ✅ Navigate after 3 seconds (after animation completes)
     Timer(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, RoutesHelper.roleselection);
+        Navigator.pushReplacementNamed(context, RoutesHelper.register);
       }
     });
   }
@@ -56,9 +56,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/app_logo.png', width: 160),
+                //  Image.asset('assets/app_logo.png', width: 160),
                 const SizedBox(height: 12),
-                BigText(text: 'MedicXpert', size: 26, overflow: TextOverflow.ellipsis),
+                Text('MedicXpert'),
+                // BigText(text: 'MedicXpert', size: 26),
               ],
             ),
           ),

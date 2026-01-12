@@ -91,7 +91,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.copyWith(
           status: AppStatus.loaded,
           isAuthenticated: true,
-          role: state.role, // ✅ Save backend role
+          role: state.role, 
         ),
       );
 
@@ -102,9 +102,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  /// -------------------------
-  /// RESET AUTH
-  /// -------------------------
   void _onResetAuth(ResetAuthEvent event, Emitter<AuthState> emit) {
     print('[AuthBloc] RESET AUTH');
     emit(AuthState.initial());

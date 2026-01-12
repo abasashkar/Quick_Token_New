@@ -19,7 +19,7 @@ class SideBarButton extends StatelessWidget {
           DrawerHeader(
             decoration: const BoxDecoration(color: primaryBlue),
             padding: const EdgeInsets.only(top: 40, left: 20),
-            child: BigText(text: 'MedicXpert', size: 28, overflow: TextOverflow.ellipsis),
+            child: BigText(text: 'MedicXpert', size: 28),
           ),
 
           _drawerItem(

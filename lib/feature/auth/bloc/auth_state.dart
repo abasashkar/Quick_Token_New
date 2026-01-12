@@ -7,7 +7,7 @@ class AuthState {
   final AppStatus status;
   final String statusMessage;
   final String? email;
-  final String? role; // dynamically returned from backend
+  final String? role; 
   final bool isAuthenticated;
   final bool sendOTP;
   final AuthType authtype;

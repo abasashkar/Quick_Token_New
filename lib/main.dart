@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:quick_token_new/binding/app_binding.dart';
-import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/design/shared/theme.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/repository/auth_repo.dart';
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,
       themeMode: ThemeMode.light, // or ThemeMode.system
-      initialRoute: RoutesHelper.initial,
+      initialRoute: RoutesHelper.splash,
       onGenerateRoute: RoutesHelper.generateRoute,
     );
   }
