@@ -12,7 +12,7 @@ import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class EmailLoginScreen extends StatefulWidget {
-  final LoginIntent intent;
+  final UserRole intent;
   const EmailLoginScreen({super.key, required this.intent});
 
   @override
@@ -24,11 +24,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
 
   String get titleText {
     switch (widget.intent) {
-      case LoginIntent.patient:
+      case UserRole.patient:
         return 'Patient Login';
-      case LoginIntent.doctor:
+      case UserRole.doctor:
         return 'Doctor Login';
-      case LoginIntent.lab:
+      case UserRole.lab:
         return 'Laboratory Login';
     }
   }
@@ -93,12 +93,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
               ),
-              child:QTextField(
-  controller: emailController,
-  hintText: 'Email',
-  keyboardType: TextInputType.emailAddress,
-),
-
+              child: QTextField(
+                controller: emailController,
+                hintText: 'Email',
+                keyboardType: TextInputType.emailAddress,
+              ),
             ),
 
             const SizedBox(height: 40),

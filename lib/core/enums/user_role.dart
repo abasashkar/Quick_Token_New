@@ -1,5 +1,5 @@
-enum LoginIntent { patient, doctor, lab }
+enum UserRole { patient, doctor, lab }
 
-extension LoginIntentX on LoginIntent {
+extension LoginIntentX on UserRole {
   String get value => name;
 }

@@ -94,7 +94,7 @@ class TopDoctors extends StatelessWidget {
                             const SizedBox(width: 4),
                             Expanded(
                               child: Text(
-                                doctor.location ?? "Location not specified",
+                                doctor.location,
                                 style: const TextStyle(color: Colors.white, fontSize: 13),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

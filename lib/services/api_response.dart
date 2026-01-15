@@ -11,4 +11,8 @@ class ApiError {
   final String message;
 
   ApiError({required this.message});
+
+  factory ApiError.fromJson(dynamic json) {
+    return ApiError(message: json.toString());
+  }
 }

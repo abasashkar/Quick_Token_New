@@ -28,7 +28,7 @@ class RoleSelection extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     RoutesHelper.emailLogin,
-                    arguments: LoginIntent.patient, // ✅ correct intent
+                    arguments: UserRole.patient, // ✅ correct intent
                   );
                 },
               ),
@@ -40,7 +40,7 @@ class RoleSelection extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     RoutesHelper.emailLogin,
-                    arguments: LoginIntent.lab, // ✅ correct intent
+                    arguments: UserRole.lab, // ✅ correct intent
                   );
                 },
               ),

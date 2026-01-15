@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_state.dart';
@@ -19,22 +17,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ResetAuthEvent>(_onResetAuth);
   }
 
-  /// -------------------------
-  /// REQUEST OTP
-  /// -------------------------
   Future<void> _onRequestOtp(RequestOtpEvent event, Emitter<AuthState> emit) async {
-    print('[AuthBloc] REQUEST OTP → email=${event.email}, intent=${event.intent.value}');
     emit(state.copyWith(status: AppStatus.loading, statusMessage: ''));
 
     try {
       final result = await authRepo.requestOTP(email: event.email, role: event.intent.value);
 
       final bool emailExists = result['emailExists'] == true;
-      final String? backendRole = result['role'];
+      final String backendRole = result['role'] ?? event.intent.value;
+
       print('[AuthBloc] OTP RESPONSE → emailExists=$emailExists, role=$backendRole');
 
       // Role mismatch handling
-      if (emailExists && backendRole != null && backendRole != event.intent.value) {
+      if (emailExists && backendRole != event.intent.value) {
         emit(
           state.copyWith(
             status: AppStatus.error,
@@ -44,58 +39,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      // ✅ OTP sent successfully
-      emit(
-        state.copyWith(
-          status: AppStatus.loaded,
-          email: event.email,
-          role: backendRole ?? event.intent.value,
-          sendOTP: true,
-        ),
-      );
+      emit(state.copyWith(status: AppStatus.loaded, email: event.email, role: backendRole, sendOTP: true));
 
-      print('[AuthBloc] OTP SENT → email=${event.email}, role=${backendRole ?? event.intent.value}');
+      print('[AuthBloc] OTP SENT → email=${event.email}, role=$backendRole');
     } catch (e, st) {
       print('[AuthBloc] REQUEST OTP ERROR → $e\n$st');
       emit(state.copyWith(status: AppStatus.error, statusMessage: e.toString()));
     }
   }
 
-  /// -------------------------
-  /// VERIFY OTP
-  /// -------------------------
   Future<void> _onVerifyOtp(VerifyOtpEvent event, Emitter<AuthState> emit) async {
-    print('[AuthBloc] VERIFY OTP → email=${event.email}, otp=${event.otp}, role=${event.role}');
     emit(state.copyWith(status: AppStatus.loading, statusMessage: ''));
 
     try {
-      // Ensure role from backend exists
-      if (state.role == null) {
-        emit(state.copyWith(status: AppStatus.error, statusMessage: 'Role missing. Please request OTP again.'));
+      final role = state.role;
+      if (role == null || role.isEmpty) {
+        emit(state.copyWith(status: AppStatus.error, statusMessage: 'Please select a role'));
         return;
       }
 
-      final token = await authRepo.verifyOTP(
-        otp: event.otp,
-        email: event.email,
-        role: state.role!, // ✅ Use backend-confirmed role
-      );
-      await authServices.saveSession(role: state.role!, token: token);
-      final savedToken = await authServices.authToken;
-      final savedRole = await authServices.role;
+      final token = await authRepo.verifyOTP(otp: event.otp, email: event.email, role: role);
 
-      print('🧪 STORED TOKEN (IMMEDIATE): $savedToken');
-      print('🧪 STORED ROLE (IMMEDIATE): $savedRole');
+      await authServices.saveSession(role: role, token: token);
 
-      emit(
-        state.copyWith(
-          status: AppStatus.loaded,
-          isAuthenticated: true,
-          role: state.role, 
-        ),
-      );
+      print('🧪 STORED TOKEN (IMMEDIATE): ${await authServices.authToken}');
+      print('🧪 STORED ROLE (IMMEDIATE): ${await authServices.role}');
 
-      print('[AuthBloc] OTP VERIFIED → email=${event.email}, role=${state.role}, token=$token');
+      emit(state.copyWith(status: AppStatus.loaded, isAuthenticated: true, role: role));
+      print('[AuthBloc] OTP VERIFIED → email=${event.email}, role=$role, token=$token');
     } catch (e, st) {
       print('[AuthBloc] VERIFY OTP ERROR → $e\n$st');
       emit(state.copyWith(status: AppStatus.error, statusMessage: e.toString()));

@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:quick_token_new/excepion/app_exception.dart';
-import 'package:quick_token_new/excepion/general_exception.dart';
 
 class ApiException extends AppException {
   ApiException({super.message, required super.generalMessage});
@@ -41,36 +38,22 @@ class ServiceUnavailableException extends ApiException {
 }
 
 class ApiErrorHandler {
-  Exception handleError(error) {
+  Exception handleError(dynamic error) {
     if (error is DioException) {
-      final e = error.response;
-      final message = e?.data['error']['message'] as String? ?? error.message;
+      final status = error.response?.statusCode;
+      final message = error.response?.data?['message'] ?? error.message ?? 'Something went wrong';
 
-      switch (e?.statusCode) {
+      switch (status) {
         case 400:
           return BadRequestException(message: message, generalMessage: 'Bad request');
         case 401:
           return UnauthorizedException(message: message, generalMessage: 'Unauthorized');
-        case 403:
-          return ForbiddenException(message: message, generalMessage: 'Forbidden');
-        case 404:
-          return NotFoundException(message: message, generalMessage: 'Not found');
         case 409:
           return ConflictException(message: message, generalMessage: 'Conflict');
-        case 500:
-          return InternalServerErrorException(message: message, generalMessage: 'Internal server error');
-        case 502:
-          return BadGatewayException(message: message, generalMessage: 'Bad gateway');
-        case 503:
-          return ServiceUnavailableException(message: message, generalMessage: 'Service unavailable');
         default:
-          if (error.type == DioExceptionType.connectionError) {
-            return GeneralErrorHandler.handleError(SocketException(error.message ?? 'Internet connection error'));
-          }
           return ApiException(message: message, generalMessage: 'Unknown error');
       }
-    } else {
-      return ApiException(message: error.toString(), generalMessage: 'Unknown error');
     }
+    return ApiException(message: error.toString(), generalMessage: 'Unknown error');
   }
 }

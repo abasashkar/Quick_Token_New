@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quick_token_new/appointment/doctor_confirm_tab.dart';
 import 'package:quick_token_new/controllers/appointment_controller.dart';
 
 class PendingDashboard extends StatelessWidget {

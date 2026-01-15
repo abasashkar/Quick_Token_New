@@ -22,13 +22,16 @@ void main() async {
 
   // 3️⃣ Run app with BlocProvider
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthBloc>(
-          create: (_) => AuthBloc(authRepo: authRepo, authServices: authServices),
-        ),
-      ],
-      child: MyApp(),
+    MultiRepositoryProvider(
+      providers: [RepositoryProvider<AuthRepo>(create: (_) => AuthRepo())],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(authRepo: context.read<AuthRepo>(), authServices: authServices),
+          ),
+        ],
+        child: MyApp(),
+      ),
     ),
   );
 }

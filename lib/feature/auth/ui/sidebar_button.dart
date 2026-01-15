@@ -26,7 +26,7 @@ class SideBarButton extends StatelessWidget {
             text: 'Patient Login',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: LoginIntent.patient);
+              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: UserRole.patient);
             },
           ),
 
@@ -34,7 +34,7 @@ class SideBarButton extends StatelessWidget {
             text: 'Doctor Login',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: LoginIntent.doctor);
+              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: UserRole.doctor);
             },
           ),
 
@@ -42,7 +42,7 @@ class SideBarButton extends StatelessWidget {
             text: 'Laboratory Login',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: LoginIntent.lab);
+              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: UserRole.lab);
             },
           ),
         ],

@@ -5,7 +5,7 @@ abstract class AuthEvent {}
 
 class RequestOtpEvent extends AuthEvent {
   final String email;
-  final LoginIntent intent;
+  final UserRole intent;
 
   RequestOtpEvent({required this.email, required this.intent});
 }

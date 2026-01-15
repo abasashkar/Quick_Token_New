@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_token_new/feature/auth/ui/create_patient_account.dart';
-import 'package:quick_token_new/feature/auth/ui/register_screen.dart';
+import 'package:quick_token_new/feature/auth/ui/email_login.dart';
 import 'package:quick_token_new/feature/auth/ui/role_selection.dart';
+import 'package:quick_token_new/feature/auth/ui/verify_otp.dart';
+import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
+import 'package:quick_token_new/feature/register/register_screen.dart';
 import 'package:quick_token_new/home/doctor_home_screen.dart';
 import 'package:quick_token_new/home/patient_home_screen.dart';
+import 'package:quick_token_new/repository/auth_repo.dart';
 import 'package:quick_token_new/splash/splash_screen.dart';
-
+import 'package:quick_token_new/core/enums/user_role.dart';
 
 class RoutesHelper {
   static const String splash = "/";
@@ -22,18 +27,32 @@ class RoutesHelper {
       case splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
 
-      case register:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen());
+case register:
+  return MaterialPageRoute(
+    builder: (_) => BlocProvider<RegisterBloc>(
+      create: (context) => RegisterBloc(
+        authRepository: context.read<AuthRepo>(), authRepo: context.read<AuthRepo>(),
+      ),
+      child: const RegisterScreen(),
+    ),
+  );
 
-      // case emailLogin:
-      //   final args = settings.arguments as LoginIntent? ?? LoginIntent.patient;
-      //   return MaterialPageRoute(builder: (_) => EmailLoginScreen(intent: args));
 
-      // case verifyOtp:
-      //   final args = settings.arguments as Map<String, dynamic>;
-      //   return MaterialPageRoute(
-      //     builder: (_) => VerifyOtpScreen(email: args['email'] as String, intent: args['intent'] as LoginIntent),
-      //   );
+      /// ✅ FIXED
+      case emailLogin:
+        final role = settings.arguments as UserRole? ?? UserRole.patient;
+        return MaterialPageRoute(
+          builder: (_) => EmailLoginScreen(intent: role),
+        );
+
+      case verifyOtp:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => VerifyOtpScreen(
+            email: args['email'] as String,
+            intent: args['intent'] as UserRole,
+          ),
+        );
 
       case patientHomeScreen:
         return MaterialPageRoute(builder: (_) => const PatientHomeScreen());
@@ -49,7 +68,9 @@ class RoutesHelper {
 
       default:
         return MaterialPageRoute(
-          builder: (_) => Scaffold(body: Center(child: Text('No route defined for ${settings.name}'))),
+          builder: (_) => Scaffold(
+            body: Center(child: Text('No route defined for ${settings.name}')),
+          ),
         );
     }
   }

@@ -9,7 +9,7 @@ import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String email;
-  final LoginIntent intent;
+  final UserRole intent;
 
   const VerifyOtpScreen({super.key, required this.email, required this.intent});
 
@@ -41,11 +41,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
         if (state.isAuthenticated && state.status == AppStatus.loaded) {
           switch (widget.intent) {
-            case LoginIntent.patient:
+            case UserRole.patient:
               Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.patientHomeScreen, (_) => false);
               break;
-            case LoginIntent.doctor:
-            case LoginIntent.lab:
+            case UserRole.doctor:
+            case UserRole.lab:
               Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.doctorHomeScreen, (_) => false);
               break;
           }

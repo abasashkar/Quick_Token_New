@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:quick_token_new/routes/routes_helper.dart';
-import 'package:quick_token_new/widgets/big_text.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
