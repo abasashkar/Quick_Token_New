@@ -1,4 +1,6 @@
-class DoctorModel {
+import 'package:quick_token_new/core/constants/api_routes.dart';
+
+class Doctor {
   final String id;
   final String name;
   final String location;
@@ -7,7 +9,7 @@ class DoctorModel {
   final String imageUrl;
   final String specialization;
 
-  DoctorModel({
+  Doctor({
     required this.id,
     required this.name,
     required this.location,
@@ -17,8 +19,9 @@ class DoctorModel {
     required this.specialization,
   });
 
-  factory DoctorModel.fromJson(Map<String, dynamic> json) {
-    return DoctorModel(
+  factory Doctor.fromJson(Map<String, dynamic> json) {
+    final image = json['image'];
+    return Doctor(
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
       location: json['location'] ?? '',
@@ -26,7 +29,9 @@ class DoctorModel {
           ? (json['ratings'] as num).toDouble()
           : double.tryParse(json['ratings']?.toString() ?? '0') ?? 0.0,
       reviews: json['reviews']?.toString() ?? '',
-      imageUrl: json['imageUrl'] ?? '',
+      imageUrl: image != null && image.toString().isNotEmpty
+          ? "${ApiRoutes.baseUrl}/$image"
+          : "${ApiRoutes.baseUrl}/uploads/default_doctor_avatar.png",
       specialization: json['specialization'] ?? '',
     );
   }
@@ -45,10 +50,7 @@ class DoctorModel {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DoctorModel &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      identical(this, other) || other is Doctor && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

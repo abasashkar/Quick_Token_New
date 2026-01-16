@@ -46,9 +46,9 @@ dependencies:
   jwt_decode: ^0.3.1
   bloc: ^9.1.0
   flutter_bloc: ^9.1.1
-  get_x: ^5.0.0
   shared_preferences: ^2.5.4
   flutter_secure_storage: ^10.0.0
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:

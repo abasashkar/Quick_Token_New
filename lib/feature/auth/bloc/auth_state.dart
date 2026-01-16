@@ -7,8 +7,9 @@ class AuthState {
   final AppStatus status;
   final String statusMessage;
   final String? email;
-  final String? role; 
+  final String? role;
   final bool isAuthenticated;
+  final String? name;
   final bool sendOTP;
   final AuthType authtype;
 
@@ -16,6 +17,7 @@ class AuthState {
     this.status = AppStatus.loaded,
     this.statusMessage = '',
     this.email,
+    this.name,
     this.role,
     this.sendOTP = false,
     this.isAuthenticated = false,
@@ -30,6 +32,7 @@ class AuthState {
     AppStatus? status,
     String? statusMessage,
     String? email,
+    String? name,
     String? role,
     bool? sendOTP,
     bool? isAuthenticated,
@@ -39,6 +42,7 @@ class AuthState {
       status: status ?? this.status,
       statusMessage: statusMessage ?? this.statusMessage,
       email: email ?? this.email,
+      name: name ?? this.name,
       role: role ?? this.role,
       sendOTP: sendOTP ?? this.sendOTP,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,

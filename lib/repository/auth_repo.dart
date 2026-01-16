@@ -61,27 +61,45 @@ class AuthRepo extends ApiServices {
     }
   }
 
-  Future<String> verifyOTP({required String otp, required String email, required String role}) async {
-    try {
-      final response = await post(ApiRoutes.verifyOtp, {'otp': otp, 'email': email, 'role': role});
+  Future<Map<String, dynamic>> verifyOTP({required String otp, required String email, required String role}) async {
+    final response = await post(ApiRoutes.verifyOtp, {'otp': otp, 'email': email, 'role': role});
 
-      final raw = response.data as Map<String, dynamic>?;
-      if (raw == null) throw Exception('Invalid server response');
+    final raw = response.data as Map<String, dynamic>?;
+    if (raw == null) throw Exception('Invalid server response');
 
-      final data = raw['data'];
-      if (data == null || data is! Map<String, dynamic>) {
-        throw Exception(raw['message']?.toString() ?? 'OTP verification failed');
-      }
+    final data = raw['data'] as Map<String, dynamic>?;
+    if (data == null) throw Exception(raw['message']?.toString() ?? 'OTP verification failed');
 
-      final token = data['token'];
-      if (token is String && token.isNotEmpty) {
-        return token;
-      }
+    final token = data['token'] as String?;
+    final name = data['name'] as String?; // get from backend
+    final userEmail = data['email'] as String?; // get from backend
 
-      throw Exception('Token missing in server response');
-    } catch (e, st) {
-      print('❌ VERIFY OTP FAILED → $e\n$st');
-      rethrow;
-    }
+    if (token == null || token.isEmpty) throw Exception('Token missing in server response');
+
+    return {'token': token, 'name': name ?? '', 'email': userEmail ?? email};
   }
+
+  // Future<String> verifyOTP({required String otp, required String email, required String role}) async {
+  //   try {
+  //     final response = await post(ApiRoutes.verifyOtp, {'otp': otp, 'email': email, 'role': role});
+
+  //     final raw = response.data as Map<String, dynamic>?;
+  //     if (raw == null) throw Exception('Invalid server response');
+
+  //     final data = raw['data'];
+  //     if (data == null || data is! Map<String, dynamic>) {
+  //       throw Exception(raw['message']?.toString() ?? 'OTP verification failed');
+  //     }
+
+  //     final token = data['token'];
+  //     if (token is String && token.isNotEmpty) {
+  //       return token;
+  //     }
+
+  //     throw Exception('Token missing in server response');
+  //   } catch (e, st) {
+  //     print('❌ VERIFY OTP FAILED → $e\n$st');
+  //     rethrow;
+  //   }
+  // }
 }

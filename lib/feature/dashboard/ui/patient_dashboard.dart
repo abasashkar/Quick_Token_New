@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quick_token_new/controllers/doctor_controller.dart';
-import 'package:quick_token_new/home/top_doctors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quick_token_new/core/enums/app_status.dart';
+import 'package:quick_token_new/feature/dashboard/bloc/dashboard_bloc.dart';
+import 'package:quick_token_new/feature/dashboard/ui/top_doctors.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 import 'package:quick_token_new/widgets/patient_dashboar_tabs.dart';
+import 'package:quick_token_new/model/doctor_model.dart';
 
 class FindDoctors extends StatefulWidget {
   const FindDoctors({super.key});
@@ -15,20 +17,33 @@ class FindDoctors extends StatefulWidget {
 }
 
 class _FindDoctorsState extends State<FindDoctors> {
-  final DoctorController doctorController = Get.put(DoctorController());
   final TextEditingController searchController = TextEditingController();
   Timer? _debounce;
+
+  String selectedCategory = "All";
+  String searchQuery = "";
+
+  final categories = ["All", "Clinical", "Surgeon", "Cardiologist", "Gynecologist"];
 
   @override
   void initState() {
     super.initState();
-    doctorController.fetchDoctors();
+    // Fetch doctors from Bloc
+    context.read<DashboardBloc>().add(FetchDoctorsEvent());
   }
 
   void onSearch(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      doctorController.filterBySearch(query);
+      setState(() {
+        searchQuery = query;
+      });
+    });
+  }
+
+  void onCategorySelected(String category) {
+    setState(() {
+      selectedCategory = category;
     });
   }
 
@@ -109,40 +124,55 @@ class _FindDoctorsState extends State<FindDoctors> {
                       ],
                     ),
                     const SizedBox(height: 20),
-
-                    // 🧩 Filter Chips (Reactive)
-                    Obx(() {
-                      final categories = ["All", "Clinical", "Surgeon", "Cardiologist", "Gynecologist"];
-
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: categories.map((category) {
-                            final isSelected = doctorController.selectedCategory.value == category;
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: ChoiceChip(
-                                label: Text(
-                                  category,
-                                  style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF333333)),
-                                ),
-                                selected: isSelected,
-                                selectedColor: const Color(0xFF4F8BFF),
-                                backgroundColor: const Color(0xFFD9E8F6),
-                                onSelected: (_) => doctorController.filterByCategory(category),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: categories.map((category) {
+                          final isSelected = selectedCategory == category;
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: ChoiceChip(
+                              label: Text(
+                                category,
+                                style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF333333)),
                               ),
-                            );
-                          }).toList(),
-                        ),
-                      );
-                    }),
+                              selected: isSelected,
+                              selectedColor: const Color(0xFF4F8BFF),
+                              backgroundColor: const Color(0xFFD9E8F6),
+                              onSelected: (_) => onCategorySelected(category),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
 
-            // 🧑‍⚕️ Doctors List
-            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 100), child: TopDoctors()),
+            // 🧑‍⚕️ Doctors List using BLoC
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
+              child: BlocBuilder<DashboardBloc, DoctorState>(
+                builder: (context, state) {
+                  if (state.status == AppStatus.loading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state.status == AppStatus.error) {
+                    return Center(child: Text(state.statusMessage));
+                  }
+
+                  // Apply search & category filter
+                  List<Doctor> filteredDoctors = state.doctors.where((doctor) {
+                    final matchesSearch = doctor.name.toLowerCase().contains(searchQuery.toLowerCase());
+                    final matchesCategory = selectedCategory == "All" || doctor.specialization == selectedCategory;
+                    return matchesSearch && matchesCategory;
+                  }).toList();
+
+                  return TopDoctors(isLoading: false, doctors: filteredDoctors);
+                },
+              ),
+            ),
           ],
         ),
       ),

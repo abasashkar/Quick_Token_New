@@ -35,11 +35,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
+    return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        print('[AuthBloc] State Changed: status=${state.status}, sendOTP=${state.sendOTP}, role=${state.role}');
-
-        /// ❌ Error handling
+        /// ❌ Error
         if (state.status == AppStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -49,18 +47,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
           );
         }
 
-        /// ✅ OTP sent → navigate
+        /// ✅ OTP sent → Navigate
         if (state.sendOTP && state.status == AppStatus.loaded) {
-          print('[AuthBloc] OTP SENT → email=${state.email}, role=${state.role}');
-          if (state.email == null || state.role == null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Email or role missing. Please request OTP again.'),
-                backgroundColor: Colors.red,
-              ),
-            );
-            return;
-          }
+          if (state.email == null || state.role == null) return;
 
           Navigator.pushNamed(
             context,
@@ -69,57 +58,55 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
           );
         }
       },
-      builder: (context, state) {
-        return QBasePage(
-          labelWidget: Center(child: ExtraSmallText(text: titleText)), // ✅ now updates correctly
-          allowPopBack: true,
-          enableScroll: true,
-          addSafeSpace: true,
-          status: state.status == AppStatus.loading ? AppStatus.loading : AppStatus.loaded,
-          children: [
-            const SizedBox(height: 40),
-            Center(
-              child: ExtraSmallText(
-                text: 'Please enter your email address to continue!',
-                style: QStyles.bodySmall,
-                color: Colors.black,
-                maxLines: 2,
-              ),
-            ),
-            SizedBox(height: 40),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
-              ),
-              child: QTextField(
-                controller: emailController,
-                hintText: 'Email',
-                keyboardType: TextInputType.emailAddress,
-              ),
-            ),
+      child: QBasePage(
+        labelWidget: Center(child: ExtraSmallText(text: titleText)),
+        allowPopBack: true,
+        enableScroll: true,
+        addSafeSpace: true,
+        children: [
+          const SizedBox(height: 40),
 
-            const SizedBox(height: 40),
-            QPrimaryButton(
-              text: 'Next',
-              isLoading: state.status == AppStatus.loading,
-              onTap: () {
-                final email = emailController.text.trim();
-                if (email.isEmpty || !email.contains('@')) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Please enter a valid email address'), backgroundColor: Colors.red),
-                  );
-                  return;
-                }
-
-                print('[AuthBloc] REQUEST OTP → email=$email, intent=${widget.intent.name}');
-                context.read<AuthBloc>().add(RequestOtpEvent(email: email, intent: widget.intent));
-              },
+          Center(
+            child: ExtraSmallText(
+              text: 'Please enter your email address to continue!',
+              style: QStyles.bodySmall,
+              color: Colors.black,
+              maxLines: 2,
             ),
-          ],
-        );
-      },
+          ),
+
+          const SizedBox(height: 40),
+
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18),
+              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
+            ),
+            child: QTextField(controller: emailController, hintText: 'Email', keyboardType: TextInputType.emailAddress),
+          ),
+
+          const SizedBox(height: 40),
+
+          QPrimaryButton(
+            text: 'Next',
+            onTap: () {
+              final email = emailController.text.trim();
+
+              if (email.isEmpty || !email.contains('@')) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please enter a valid email address'), backgroundColor: Colors.red),
+                );
+                return;
+              }
+
+              print('[AuthBloc] REQUEST OTP → email=$email, intent=${widget.intent.name}');
+
+              context.read<AuthBloc>().add(RequestOtpEvent(email: email, intent: widget.intent));
+            },
+          ),
+        ],
+      ),
     );
   }
 }

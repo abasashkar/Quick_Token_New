@@ -40,17 +40,21 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         }
 
         if (state.isAuthenticated && state.status == AppStatus.loaded) {
-          switch (widget.intent) {
-            case UserRole.patient:
-              Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.patientHomeScreen, (_) => false);
-              break;
-            case UserRole.doctor:
-            case UserRole.lab:
-              Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.doctorHomeScreen, (_) => false);
-              break;
+          final role = state.role?.toLowerCase().trim();
+
+          if (role == UserRole.patient.name) {
+            Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.patientHomeScreen, (_) => false);
+          } else if (role == UserRole.doctor.name) {
+            Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.doctorHomeScreen, (_) => false);
+          } else {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Unknown role: $role'), backgroundColor: Colors.red));
           }
 
-          context.read<AuthBloc>().add(ResetAuthEvent());
+          // Future.microtask(() {
+          //   context.read<AuthBloc>().add(ResetAuthEvent());
+          // });
         }
       },
       builder: (context, state) {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_token_new/appointment/upcomming_appointent.dart';
-import 'package:quick_token_new/home/patient_dashboard.dart';
-import 'package:quick_token_new/profile/patient_profile.dart';
+import 'package:quick_token_new/core/enums/user_role.dart';
+import 'package:quick_token_new/feature/dashboard/ui/patient_dashboard.dart';
+import 'package:quick_token_new/profile/user_settings.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
 
 class PatientHomeScreen extends StatefulWidget {
@@ -21,7 +22,12 @@ class _HomeScreenState extends State<PatientHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _pages = [const FindDoctors(), UpcommingAppointent(), const ViewReports(), const ProfileScreen()];
+    _pages = [
+      const FindDoctors(),
+      UpcommingAppointent(),
+      const ViewReports(),
+      const UserSettings(intent: UserRole.patient),
+    ];
   }
 
   void _onItemTapped(int index) {

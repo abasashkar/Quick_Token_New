@@ -13,7 +13,7 @@ class QTextField extends StatelessWidget {
     required this.hintText,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
-    this.prefixIcon,
+    this.prefixIcon, 
   });
 
   @override

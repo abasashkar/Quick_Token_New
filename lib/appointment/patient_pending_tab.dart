@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_token_new/controllers/appointment_controller.dart';
-import 'package:quick_token_new/home/doctor_home_screen.dart';
+import 'package:quick_token_new/feature/home/ui/doctor_home_screen.dart';
 
 class PendingTab extends StatelessWidget {
   final Map<String, String>? newAppointment;

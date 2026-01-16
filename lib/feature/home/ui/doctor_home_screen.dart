@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_token_new/appointment/doctor_timeslot_screen.dart';
-import 'package:quick_token_new/home/doctors_dashboard.dart';
-import 'package:quick_token_new/profile/patient_profile.dart';
+import 'package:quick_token_new/core/enums/user_role.dart';
+import 'package:quick_token_new/feature/dashboard/ui/doctors_dashboard.dart';
+import 'package:quick_token_new/profile/user_settings.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
@@ -22,14 +23,10 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
   void initState() {
     super.initState();
     _pages = [
-      // DoctorsDashboard(),
-      // DoctorsDashboard(),
-      // DoctorsDashboard(),
       DoctorsDashboard(),
-      const   TimeSlotScreen(),
+      const TimeSlotScreen(),
       const ViewReports(),
-      const ProfileScreen(),
-      // const UserProfile(),s
+      const UserSettings(intent: UserRole.doctor),
     ];
   }
 
