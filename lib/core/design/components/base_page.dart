@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/design/shared/styles.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
+import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class QBasePage extends StatelessWidget {
   const QBasePage({
@@ -100,20 +101,39 @@ class QBasePage extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: (label != null || labelWidget != null)
             ? AppBar(
+                backgroundColor: Qcolors.primary, // ✅ MAIN FIX
+                foregroundColor: Qcolors.onPrimaryText,
                 centerTitle: true,
-                automaticallyImplyLeading: drawer != null, // ✅ SHOW MENU
-                title: labelWidget ?? Text(label!, style: QStyles.h3),
+                elevation: 0,
+                automaticallyImplyLeading: drawer != null || allowPopBack,
+
+                iconTheme: const IconThemeData(color: Qcolors.onPrimaryText),
+
+                title:
+                    labelWidget ??
+                    ExtraSmallText(
+                      text: label!,
+                      color: Qcolors.onPrimaryText,
+                      size: 18, // matches QStyles.h3
+                      height: 1.2,
+                      style: QStyles.h3,
+                      maxLines: 1,
+                      overFlow: TextOverflow.ellipsis,
+                    ),
+
                 actions: actionBuilder == null
                     ? actions
                     : [
                         PopupMenuButton(
                           itemBuilder: actionBuilder!,
                           color: Qcolors.backgroundLight,
+                          iconColor: Qcolors.onPrimaryText,
                           offset: const Offset(0, 40),
                         ),
                       ],
               )
             : null,
+
         body: content,
       ),
     );

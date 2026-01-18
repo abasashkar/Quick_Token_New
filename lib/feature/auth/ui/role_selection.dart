@@ -27,7 +27,7 @@ class RoleSelection extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(
                     context,
-                    RoutesHelper.emailLogin,
+                    RoutesHelper.register,
                     arguments: UserRole.patient, // ✅ correct intent
                   );
                 },

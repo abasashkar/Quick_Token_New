@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class ExtraSmallText extends StatelessWidget {
   final Color? color;
-  final TextStyle? style; // ✅ TextStyle
+  final TextStyle? style;
   final String text;
   final double? size;
   final double height;
   final int? maxLines;
   final TextOverflow overFlow;
+  final TextAlign? textAlign; // ✅ NEW (optional)
 
   const ExtraSmallText({
     super.key,
@@ -18,6 +19,7 @@ class ExtraSmallText extends StatelessWidget {
     this.height = 1.3,
     this.maxLines,
     this.overFlow = TextOverflow.clip,
+    this.textAlign, // ✅ optional
   });
 
   @override
@@ -28,7 +30,12 @@ class ExtraSmallText extends StatelessWidget {
       text,
       maxLines: maxLines,
       overflow: overFlow,
-      style: baseStyle.copyWith(color: color ?? baseStyle.color, fontSize: size ?? baseStyle.fontSize, height: height),
+      textAlign: textAlign, // ✅ applied
+      style: baseStyle.copyWith(
+        color: color ?? baseStyle.color,
+        fontSize: size ?? baseStyle.fontSize,
+        height: height,
+      ),
     );
   }
 }

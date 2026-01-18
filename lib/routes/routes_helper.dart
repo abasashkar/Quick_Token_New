@@ -4,6 +4,8 @@ import 'package:quick_token_new/feature/auth/ui/create_patient_account.dart';
 import 'package:quick_token_new/feature/auth/ui/email_login.dart';
 import 'package:quick_token_new/feature/auth/ui/role_selection.dart';
 import 'package:quick_token_new/feature/auth/ui/verify_otp.dart';
+import 'package:quick_token_new/feature/availablity/ui/doctor_availablity_saved.dart';
+import 'package:quick_token_new/feature/availablity/ui/doctor_timeslot_screen.dart';
 import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
 import 'package:quick_token_new/feature/register/register_screen.dart';
 import 'package:quick_token_new/feature/home/ui/doctor_home_screen.dart';
@@ -20,8 +22,9 @@ class RoutesHelper {
   static const String patientHomeScreen = "/patientsHomeScreen";
   static const String roleselection = "/roleSelection";
   static const String doctorHomeScreen = "/doctorLogin";
-
   static const String createPatientScreen = "/createPatientScreen";
+  static const String doctorAvailablityScreen = "/doctorAvailablity";
+  static const String doctorAvailablitySuccuessScreen = "/patientAvailablity";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -37,7 +40,6 @@ class RoutesHelper {
           ),
         );
 
-      /// ✅ FIXED
       case emailLogin:
         final role = settings.arguments as UserRole? ?? UserRole.patient;
         return MaterialPageRoute(builder: (_) => EmailLoginScreen(intent: role));
@@ -59,6 +61,10 @@ class RoutesHelper {
 
       case createPatientScreen:
         return MaterialPageRoute(builder: (_) => const CreatePatientAccount());
+      case doctorAvailablityScreen:
+        return MaterialPageRoute(builder: (_) => const DoctorAvailabilityPage());
+      case doctorAvailablitySuccuessScreen:
+        return MaterialPageRoute(builder: (_) => const DoctorAvailabilitySuccessPage());
 
       default:
         return MaterialPageRoute(

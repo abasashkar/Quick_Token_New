@@ -4,4 +4,6 @@ class ApiRoutes {
   static const String sendOtp = '$baseUrl/api/auth/send-otp';
   static const String verifyOtp = '$baseUrl/api/auth/verify-otp';
   static const String getDoctors = '$baseUrl/api/doctors';
+  static const String doctorAvailability = '$baseUrl/api/doctors/availability';
+  static const String getAvailableSlots = '$baseUrl/api/doctors/slots';
 }

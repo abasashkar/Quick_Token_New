@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_token_new/appointment/doctor_timeslot_screen.dart';
+import 'package:quick_token_new/feature/availablity/ui/doctor_timeslot_screen.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/dashboard/ui/doctors_dashboard.dart';
 import 'package:quick_token_new/profile/user_settings.dart';
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
     super.initState();
     _pages = [
       DoctorsDashboard(),
-      const TimeSlotScreen(),
+      const DoctorAvailabilityPage(),
       const ViewReports(),
       const UserSettings(intent: UserRole.doctor),
     ];

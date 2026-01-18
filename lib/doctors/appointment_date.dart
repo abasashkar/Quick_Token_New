@@ -3,7 +3,6 @@
 // import 'package:get/get_navigation/get_navigation.dart';
 // import 'package:intl/intl.dart';
 // import 'package:quick_token_new/doctors/payment_type.dart';
-// import 'package:quick_token_new/home/patient_home_screen.dart';
 // import 'package:quick_token_new/routes/routes_helper.dart';
 // import 'package:quick_token_new/widgets/arrow_back.dart';
 // import 'package:quick_token_new/widgets/big_text.dart';
