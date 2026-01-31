@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/design/components/base_page.dart';
 import 'package:quick_token_new/core/design/components/button.dart';
 import 'package:quick_token_new/core/design/components/text_field.dart';
@@ -8,7 +9,6 @@ import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_state.dart';
-import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class EmailLoginScreen extends StatefulWidget {
@@ -51,11 +51,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         if (state.sendOTP && state.status == AppStatus.loaded) {
           if (state.email == null || state.role == null) return;
 
-          Navigator.pushNamed(
-            context,
-            RoutesHelper.verifyOtp,
-            arguments: {'email': state.email, 'intent': widget.intent},
-          );
+          context.push('/verifyOtp', extra: {'email': state.email, 'intent': widget.intent});
         }
       },
       child: QBasePage(
@@ -99,8 +95,6 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 );
                 return;
               }
-
-              print('[AuthBloc] REQUEST OTP → email=$email, intent=${widget.intent.name}');
 
               context.read<AuthBloc>().add(RequestOtpEvent(email: email, intent: widget.intent));
             },

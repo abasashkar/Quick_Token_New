@@ -35,10 +35,8 @@ class _CustomAppointmentTabState extends State<CustomAppointmentTab> {
                       tabs[index],
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight:
-                            isActive ? FontWeight.bold : FontWeight.normal,
-                        color:
-                            isActive ? const Color(0xFF4F8BFF) : Colors.black87,
+                        fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+                        color: isActive ? const Color(0xFF4F8BFF) : Colors.black87,
                       ),
                     ),
                     const SizedBox(height: 5),
@@ -46,10 +44,8 @@ class _CustomAppointmentTabState extends State<CustomAppointmentTab> {
                       duration: const Duration(milliseconds: 200),
                       height: 2,
                       width: 82,
-                      color: isActive
-                          ? const Color(0xFF4F8BFF)
-                          : Colors.transparent,
-                    )
+                      color: isActive ? const Color(0xFF4F8BFF) : Colors.transparent,
+                    ),
                   ],
                 ),
               );

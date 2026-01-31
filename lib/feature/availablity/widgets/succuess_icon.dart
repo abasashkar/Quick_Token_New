@@ -9,7 +9,7 @@ class SuccessIcon extends StatelessWidget {
     return Container(
       height: 160,
       width: 160,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: Qcolors.success.withOpacity(0.25)),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Qcolors.success),
       child: Center(
         child: Container(
           height: 70,

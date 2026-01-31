@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:quick_token_new/core/constants/api_routes.dart';
+import 'package:quick_token_new/excepion/api_exception.dart';
+import 'package:quick_token_new/model/time_slot_model.dart';
 import 'package:quick_token_new/services/api_response.dart';
 import 'package:quick_token_new/services/api_service.dart';
 import 'package:quick_token_new/services/local_storage_service.dart';
@@ -25,9 +27,6 @@ class DoctorAvailabilityRepo extends ApiServices {
       "breakEnd": breakEnd,
     });
   }
-}
-
-  
 
   /// GET AVAILABLE SLOTS
   /// Patient
@@ -37,28 +36,36 @@ class DoctorAvailabilityRepo extends ApiServices {
   //  → Choose Slot
   //  → POST /appointments/book
 
-  ///
-//   ///
-//   Future<ApiResponse<Map<String, dynamic>>> getAvailableSlots({
-//     required String doctorId,
-//     required String date, // yyyy-mm-dd
-//   }) async {
-//     try {
-//       final response = await dio.get(
-//         ApiRoutes.getAvailableSlots,
-//         queryParameters: {'doctorId': doctorId, 'date': date},
-//       );
+  Future<ApiResponse<List<TimeSlot>>> getAvailableSlots({required String doctorId, required String date}) async {
+    try {
+      final response = await dio.get(
+        ApiRoutes.getAvailableSlots,
+        queryParameters: {'doctorId': doctorId, 'date': date},
+      );
 
-//       return ApiResponse(
-//         data: response.data,
-//         error: null,
-//         success: response.statusCode == 200,
-//         statusCode: response.statusCode ?? 0,
-//       );
-//     } catch (e) {
-//       final exception = ApiErrorHandler().handleError(e);
+      final data = response.data;
 
-//       return ApiResponse(data: null, error: ApiError(message: exception.toString()), success: false, statusCode: 0);
-//     }
-//   }
-// }
+      // Support multiple backend formats safely
+      List rawSlots = [];
+
+      if (data is Map<String, dynamic>) {
+        rawSlots = data['availableSlots'] ?? data['data'] ?? [];
+      }
+
+      final slots = rawSlots.map((e) => TimeSlot(time: e.toString())).toList();
+
+      return ApiResponse(data: slots, success: true, error: null, statusCode: response.statusCode ?? 200);
+    } catch (e) {
+      final exception = ApiErrorHandler().handleError(e);
+
+      return ApiResponse(
+        data: null,
+        success: false,
+        error: ApiError(
+          message: exception is ApiException ? exception.message ?? exception.generalMessage : exception.toString(),
+        ),
+        statusCode: 0,
+      );
+    }
+  }
+}

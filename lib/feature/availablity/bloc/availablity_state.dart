@@ -5,7 +5,6 @@ class AvailablityState {
   final String statusMessage;
   final bool success;
 
-
   final List<String> workingDays;
   final String startTime;
   final String endTime;
@@ -38,7 +37,7 @@ class AvailablityState {
     String? endTime,
     String? breakStart,
     String? breakEnd,
-    int? slotDuration,
+    int? slotDuration, required List slots, required String selectedTime,
   }) {
     return AvailablityState(
       status: status ?? this.status,

@@ -31,11 +31,7 @@ class ExtraSmallText extends StatelessWidget {
       maxLines: maxLines,
       overflow: overFlow,
       textAlign: textAlign, // ✅ applied
-      style: baseStyle.copyWith(
-        color: color ?? baseStyle.color,
-        fontSize: size ?? baseStyle.fontSize,
-        height: height,
-      ),
+      style: baseStyle.copyWith(color: color ?? baseStyle.color, fontSize: size ?? baseStyle.fontSize, height: height),
     );
   }
 }

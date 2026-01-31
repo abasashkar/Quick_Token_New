@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quick_token_new/appointment/doctor_confirm_tab.dart';
-import 'package:quick_token_new/appointment/doctors_pending_tab.dart';
-import 'package:quick_token_new/controllers/appointment_controller.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/custom_appointment_tab.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
@@ -19,13 +15,12 @@ class DoctorsDashboard extends StatefulWidget {
 
 class _DoctorsDashboardState extends State<DoctorsDashboard> {
   final TextEditingController searchController = TextEditingController();
-  final AppointmentController controller = Get.put(AppointmentController());
   int selectedIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-    controller.fetchAppointments();
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,11 +34,17 @@ class _DoctorsDashboardState extends State<DoctorsDashboard> {
         children: [
           const SizedBox(height: 15),
 
-          CustomAppointmentTab(onTabChanged: (index) => setState(() => selectedIndex = index)),
+          CustomAppointmentTab(
+            onTabChanged: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+          ),
 
           const SizedBox(height: 15),
 
-          // Search Bar (optional keep)
+          // Search Bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
@@ -62,8 +63,8 @@ class _DoctorsDashboardState extends State<DoctorsDashboard> {
 
           Expanded(
             child: selectedIndex == 0
-                ? const PendingDashboard() // ✅ Showing Pending Dashboard
-                : const DoctorConfirmTab(),
+                ? const SizedBox() // 🔴 REPLACE with PendingAppointments widget
+                : const SizedBox(), // 🔴 REPLACE with CompletedAppointments widget
           ),
         ],
       ),

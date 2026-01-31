@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Qcolors {
-  static const Color primary = const Color(0xFF3A6FF8);
+  static const Color primary = Color(0xFF3A6FF8);
   static const Color secondary = Color(0xFFf7f9ff);
   static const Color primaryText = Color(0xFF0A364D);
   static const Color secondaryText = Color(0xFF848484);

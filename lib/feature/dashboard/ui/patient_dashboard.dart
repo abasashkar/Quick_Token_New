@@ -1,3 +1,4 @@
+// patient_dashboard.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:quick_token_new/feature/dashboard/ui/top_doctors.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 import 'package:quick_token_new/widgets/patient_dashboar_tabs.dart';
-import 'package:quick_token_new/model/doctor_model.dart';
 
 class FindDoctors extends StatefulWidget {
   const FindDoctors({super.key});
@@ -20,30 +20,18 @@ class _FindDoctorsState extends State<FindDoctors> {
   final TextEditingController searchController = TextEditingController();
   Timer? _debounce;
 
-  String selectedCategory = "All";
-  String searchQuery = "";
-
   final categories = ["All", "Clinical", "Surgeon", "Cardiologist", "Gynecologist"];
 
   @override
   void initState() {
     super.initState();
-    // Fetch doctors from Bloc
-    context.read<DashboardBloc>().add(FetchDoctorsEvent());
+    context.read<DashboardBloc>().add(const FetchDoctorsEvent());
   }
 
-  void onSearch(String query) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
+  void onSearch(String value) {
+    _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      setState(() {
-        searchQuery = query;
-      });
-    });
-  }
-
-  void onCategorySelected(String category) {
-    setState(() {
-      selectedCategory = category;
+      context.read<DashboardBloc>().add(SearchDoctorsEvent(value));
     });
   }
 
@@ -56,125 +44,84 @@ class _FindDoctorsState extends State<FindDoctors> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: CustomAppBar(
         title: ExtraSmallText(text: 'Patient Dashboard', color: Colors.white, size: 20),
       ),
-      backgroundColor: const Color.fromARGB(255, 230, 230, 230),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Padding(padding: EdgeInsets.all(8.0), child: PatientDashboardTabs()),
+      backgroundColor: const Color(0xFFE6E6E6),
+      body: Column(
+        children: [
+          const PatientDashboardTabs(),
 
-            // 🔍 Search Box
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(18),
-                  boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
-                ),
-                child: TextField(
-                  onChanged: onSearch,
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search For Doctors',
-                    hintStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: Colors.grey),
-                    prefixIcon: const Icon(Icons.search, size: 30),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
-                  ),
-                ),
+          // 🔍 Search
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              controller: searchController,
+              onChanged: onSearch,
+              decoration: InputDecoration(
+                hintText: 'Search For Doctors',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
               ),
             ),
+          ),
 
-            // 🩺 Category Chips
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-              child: Container(
-                width: screenWidth,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ExtraSmallText(text: 'I’m looking for', color: Colors.black, size: 15),
-                        Row(
-                          children: [
-                            Text(
-                              "Clear",
-                              style: TextStyle(color: Color.fromARGB(255, 28, 125, 205), fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "See All",
-                              style: TextStyle(color: Color.fromARGB(255, 28, 125, 205), fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: categories.map((category) {
-                          final isSelected = selectedCategory == category;
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: ChoiceChip(
-                              label: Text(
-                                category,
-                                style: TextStyle(color: isSelected ? Colors.white : const Color(0xFF333333)),
-                              ),
-                              selected: isSelected,
-                              selectedColor: const Color(0xFF4F8BFF),
-                              backgroundColor: const Color(0xFFD9E8F6),
-                              onSelected: (_) => onCategorySelected(category),
-                            ),
-                          );
-                        }).toList(),
+          // 🩺 Categories
+          BlocBuilder<DashboardBloc, DoctorState>(
+            buildWhen: (p, c) => p.selectedCategory != c.selectedCategory,
+            builder: (context, state) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: categories.map((category) {
+                    final isSelected = state.selectedCategory == category;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: ChoiceChip(
+                        label: Text(category),
+                        selected: isSelected,
+                        selectedColor: const Color(0xFF4F8BFF),
+                        onSelected: (_) {
+                          context.read<DashboardBloc>().add(SelectCategoryEvent(category));
+                        },
                       ),
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
-              ),
+              );
+            },
+          ),
+
+          const SizedBox(height: 10),
+
+          // 👨‍⚕️ Doctors List
+          Expanded(
+            child: BlocBuilder<DashboardBloc, DoctorState>(
+              builder: (context, state) {
+                if (state.status == AppStatus.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (state.status == AppStatus.error) {
+                  return Center(child: Text(state.statusMessage));
+                }
+
+                final filteredDoctors = state.doctors.where((doctor) {
+                  final matchesSearch = doctor.name.toLowerCase().contains(state.searchQuery.toLowerCase());
+                  final matchesCategory =
+                      state.selectedCategory == "All" || doctor.specialization == state.selectedCategory;
+                  return matchesSearch && matchesCategory;
+                }).toList();
+
+                return TopDoctors(doctors: filteredDoctors);
+              },
             ),
-
-            // 🧑‍⚕️ Doctors List using BLoC
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
-              child: BlocBuilder<DashboardBloc, DoctorState>(
-                builder: (context, state) {
-                  if (state.status == AppStatus.loading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state.status == AppStatus.error) {
-                    return Center(child: Text(state.statusMessage));
-                  }
-
-                  // Apply search & category filter
-                  List<Doctor> filteredDoctors = state.doctors.where((doctor) {
-                    final matchesSearch = doctor.name.toLowerCase().contains(searchQuery.toLowerCase());
-                    final matchesCategory = selectedCategory == "All" || doctor.specialization == selectedCategory;
-                    return matchesSearch && matchesCategory;
-                  }).toList();
-
-                  return TopDoctors(isLoading: false, doctors: filteredDoctors);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

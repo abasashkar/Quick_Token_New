@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
 
-
 class DaySelector extends StatelessWidget {
   final List<String> days;
   final List<String> selectedDays;

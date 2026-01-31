@@ -1,75 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quick_token_new/feature/auth/ui/create_patient_account.dart';
+import 'package:go_router/go_router.dart';
+import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/auth/ui/email_login.dart';
 import 'package:quick_token_new/feature/auth/ui/role_selection.dart';
 import 'package:quick_token_new/feature/auth/ui/verify_otp.dart';
-import 'package:quick_token_new/feature/availablity/ui/doctor_availablity_saved.dart';
-import 'package:quick_token_new/feature/availablity/ui/doctor_timeslot_screen.dart';
-import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
-import 'package:quick_token_new/feature/register/register_screen.dart';
+import 'package:quick_token_new/feature/doctor/ui/complete_profile_page.dart';
 import 'package:quick_token_new/feature/home/ui/doctor_home_screen.dart';
 import 'package:quick_token_new/feature/home/ui/patient_home_screen.dart';
+import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
+import 'package:quick_token_new/feature/register/register_screen.dart';
 import 'package:quick_token_new/repository/auth_repo.dart';
 import 'package:quick_token_new/splash/splash_screen.dart';
-import 'package:quick_token_new/core/enums/user_role.dart';
 
-class RoutesHelper {
-  static const String splash = "/";
-  static const String register = "/register";
-  static const String emailLogin = "/emailLogin";
-  static const String verifyOtp = "/verifyOtp";
-  static const String patientHomeScreen = "/patientsHomeScreen";
-  static const String roleselection = "/roleSelection";
-  static const String doctorHomeScreen = "/doctorLogin";
-  static const String createPatientScreen = "/createPatientScreen";
-  static const String doctorAvailablityScreen = "/doctorAvailablity";
-  static const String doctorAvailablitySuccuessScreen = "/patientAvailablity";
+class AppRouter {
+  static final GoRouter router = GoRouter(
+    initialLocation: '/',
+    routes: [
+      /// Splash
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case splash:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
-
-      case register:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider<RegisterBloc>(
+      /// Register (Bloc)
+      GoRoute(
+        path: '/register',
+        builder: (context, state) {
+          return BlocProvider(
             create: (context) =>
                 RegisterBloc(authRepository: context.read<AuthRepo>(), authRepo: context.read<AuthRepo>()),
             child: const RegisterScreen(),
-          ),
-        );
+          );
+        },
+      ),
 
-      case emailLogin:
-        final role = settings.arguments as UserRole? ?? UserRole.patient;
-        return MaterialPageRoute(builder: (_) => EmailLoginScreen(intent: role));
+      /// Email Login
+      GoRoute(
+        path: '/emailLogin',
+        builder: (context, state) {
+          final role = state.extra as UserRole? ?? UserRole.patient;
+          return EmailLoginScreen(intent: role);
+        },
+      ),
 
-      case verifyOtp:
-        final args = settings.arguments as Map<String, dynamic>;
-        return MaterialPageRoute(
-          builder: (_) => VerifyOtpScreen(email: args['email'] as String, intent: args['intent'] as UserRole),
-        );
+      /// Verify OTP
+      GoRoute(
+        path: '/verifyOtp',
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+          return VerifyOtpScreen(email: args['email'] as String, intent: args['intent'] as UserRole);
+        },
+      ),
 
-      case patientHomeScreen:
-        return MaterialPageRoute(builder: (_) => const PatientHomeScreen());
+      /// Role Selection
+      GoRoute(path: '/roleSelection', builder: (context, state) => const RoleSelection()),
 
-      case doctorHomeScreen:
-        return MaterialPageRoute(builder: (_) => const DoctorHomeScreen());
+      /// Patient Home
+      GoRoute(path: '/patientsHomeScreen', builder: (context, state) => const PatientHomeScreen()),
 
-      case roleselection:
-        return MaterialPageRoute(builder: (_) => const RoleSelection());
+      /// Doctor Home
+      GoRoute(path: '/doctorHomeScreen', builder: (context, state) => const DoctorHomeScreen()),
 
-      case createPatientScreen:
-        return MaterialPageRoute(builder: (_) => const CreatePatientAccount());
-      case doctorAvailablityScreen:
-        return MaterialPageRoute(builder: (_) => const DoctorAvailabilityPage());
-      case doctorAvailablitySuccuessScreen:
-        return MaterialPageRoute(builder: (_) => const DoctorAvailabilitySuccessPage());
+      // /// Create Patient
+      // GoRoute(
+      //   path: '/createPatientScreen',
+      //   builder: (context, state) => const CreatePatientAccount(),
+      // ),
 
-      default:
-        return MaterialPageRoute(
-          builder: (_) => Scaffold(body: Center(child: Text('No route defined for ${settings.name}'))),
-        );
-    }
-  }
+      // /// Doctor Availability
+      // GoRoute(
+      //   path: '/doctorAvailablity',
+      //   builder: (context, state) => const DoctorAvailabilityPage(),
+      // ),
+
+      // /// Availability Success
+      // GoRoute(
+      //   path: '/patientAvailablity',
+      //   builder: (context, state) => const DoctorAvailabilitySuccessPage(),
+      // ),
+    ],
+
+    errorBuilder: (context, state) => Scaffold(body: Center(child: Text('No route defined for ${state.uri.path}'))),
+  );
 }

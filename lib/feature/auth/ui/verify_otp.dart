@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_state.dart';
-import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
@@ -43,18 +43,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           final role = state.role?.toLowerCase().trim();
 
           if (role == UserRole.patient.name) {
-            Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.patientHomeScreen, (_) => false);
+            context.go('/patientsHomeScreen');
           } else if (role == UserRole.doctor.name) {
-            Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.doctorHomeScreen, (_) => false);
+            context.go('/doctorHomeScreen');
           } else {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text('Unknown role: $role'), backgroundColor: Colors.red));
           }
-
-          // Future.microtask(() {
-          //   context.read<AuthBloc>().add(ResetAuthEvent());
-          // });
         }
       },
       builder: (context, state) {

@@ -7,13 +7,11 @@ class AuthRepo extends ApiServices {
     try {
       final response = await post(ApiRoutes.register, {'email': email, 'role': role, 'name': name});
 
-      final data = response.data as Map<String, dynamic>?;
+      final data = response.data;
 
       if (data == null) {
         return {'success': false, 'emailExists': false, 'message': 'Empty response from server'};
       }
-
-      print('REGISTER RESPONSE: $data');
 
       if (response.statusCode == 201) {
         return {
@@ -25,8 +23,7 @@ class AuthRepo extends ApiServices {
       }
 
       return {'success': false, 'emailExists': false, 'message': 'Registration failed'};
-    } catch (e, stackTrace) {
-      print('❌ REGISTER API FAILED → $e\n$stackTrace');
+    } catch (e) {
       rethrow;
     }
   }
@@ -36,10 +33,8 @@ class AuthRepo extends ApiServices {
     try {
       final response = await post(ApiRoutes.sendOtp, {'email': email, 'role': role});
 
-      final data = response.data as Map<String, dynamic>?;
+      final data = response.data;
       if (data == null) throw Exception('Empty response from server');
-
-      print('REQUEST OTP RESPONSE: $data');
 
       final responseData = data['data'];
       if (responseData == null || responseData is! Map<String, dynamic>) {
@@ -55,8 +50,7 @@ class AuthRepo extends ApiServices {
         'emailExists': data['emailExists'] == true, // safe even if missing
         'role': backendRole as String,
       };
-    } catch (e, st) {
-      print('❌ REQUEST OTP FAILED → $e\n$st');
+    } catch (e) {
       rethrow;
     }
   }
@@ -64,7 +58,7 @@ class AuthRepo extends ApiServices {
   Future<Map<String, dynamic>> verifyOTP({required String otp, required String email, required String role}) async {
     final response = await post(ApiRoutes.verifyOtp, {'otp': otp, 'email': email, 'role': role});
 
-    final raw = response.data as Map<String, dynamic>?;
+    final raw = response.data;
     if (raw == null) throw Exception('Invalid server response');
 
     final data = raw['data'] as Map<String, dynamic>?;

@@ -3,12 +3,9 @@ import 'package:quick_token_new/services/local_storage_service.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthServices {
-  final AuthRepo _authRepo;
   final LocalStorageServices _localStorage;
 
-  AuthServices({required AuthRepo authRepo, required LocalStorageServices localStorage})
-    : _authRepo = authRepo,
-      _localStorage = localStorage;
+  AuthServices({required AuthRepo authRepo, required LocalStorageServices localStorage}) : _localStorage = localStorage;
 
   String? _authToken;
   String? _role;
@@ -34,6 +31,7 @@ class AuthServices {
   /// ✅ Save token + role after OTP verification
   Future<void> saveSession({required String token, required String role}) async {
     await _localStorage.write(key: LocalStorageKeys.authToken, value: token);
+    // print("Saved token: $token");
 
     await _localStorage.write(key: LocalStorageKeys.userRole, value: role);
 

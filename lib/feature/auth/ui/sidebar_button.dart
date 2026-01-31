@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
-import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/big_text.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
@@ -26,7 +26,7 @@ class SideBarButton extends StatelessWidget {
             text: 'Patient Login',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: UserRole.patient);
+              context.push('/email-login', extra: {'intent': UserRole.patient});
             },
           ),
 
@@ -34,7 +34,7 @@ class SideBarButton extends StatelessWidget {
             text: 'Doctor Login',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: UserRole.doctor);
+              context.push('/email-login', extra: {'intent': UserRole.doctor});
             },
           ),
 
@@ -42,7 +42,7 @@ class SideBarButton extends StatelessWidget {
             text: 'Laboratory Login',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, RoutesHelper.emailLogin, arguments: UserRole.lab);
+              context.push('/email-login', extra: {'intent': UserRole.lab});
             },
           ),
         ],

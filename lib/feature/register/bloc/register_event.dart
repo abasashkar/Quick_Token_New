@@ -12,10 +12,5 @@ class OnRegister extends RegisterEvent {
   final String name;
   final String role;
 
-  OnRegister({
-    required this.email,
-    required this.name,
-    required this.role,
-  });
+  OnRegister({required this.email, required this.name, required this.role});
 }
-

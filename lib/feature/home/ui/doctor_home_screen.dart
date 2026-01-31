@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:quick_token_new/feature/appointment/upcoming/ui/doctor_upcoming_appointment.dart';
 import 'package:quick_token_new/feature/availablity/ui/doctor_timeslot_screen.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/dashboard/ui/doctors_dashboard.dart';
 import 'package:quick_token_new/profile/user_settings.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
+import 'package:quick_token_new/services/local_storage_service.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
-  // <-- add this
-
-  const DoctorHomeScreen({Key? key}) : super(key: key);
+  const DoctorHomeScreen({super.key});
 
   @override
-  State<DoctorHomeScreen> createState() => _HomeScreenState();
+  State<DoctorHomeScreen> createState() => _DoctorHomeScreenState();
 }
 
-class _HomeScreenState extends State<DoctorHomeScreen> {
+class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   int _selectedIndex = 0;
 
   late final List<Widget> _pages;
@@ -23,11 +23,18 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
   void initState() {
     super.initState();
     _pages = [
-      DoctorsDashboard(),
+      DoctorUpcomingScreen(),
       const DoctorAvailabilityPage(),
       const ViewReports(),
       const UserSettings(intent: UserRole.doctor),
     ];
+    _debugExistingDoctorToken();
+  }
+
+  Future<void> _debugExistingDoctorToken() async {
+    final token = await LocalStorageServices().read(key: LocalStorageKeys.authToken);
+
+    debugPrint('🪪 DOCTOR JWT TOKEN (existing): $token');
   }
 
   void _onItemTapped(int index) {
@@ -41,7 +48,8 @@ class _HomeScreenState extends State<DoctorHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(index: _selectedIndex, children: _pages),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class PatientDashboardTabs extends StatefulWidget {
@@ -26,7 +27,7 @@ class _PatientDashboardTabsState extends State<PatientDashboardTabs> with Single
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4)],
+        boxShadow: [BoxShadow(color: Qcolors.backgroundDark, blurRadius: 4)],
       ),
       child: TabBar(
         controller: _tabController,

@@ -23,7 +23,7 @@ class QRoleTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: isSelected ? Qcolors.primary : Qcolors.divider, width: 1.2),
             boxShadow: isSelected
-                ? [BoxShadow(color: Qcolors.primary.withOpacity(0.25), blurRadius: 10, offset: const Offset(0, 4))]
+                ? [BoxShadow(color: Qcolors.primary, blurRadius: 10, offset: const Offset(0, 4))]
                 : [],
           ),
           child: Row(

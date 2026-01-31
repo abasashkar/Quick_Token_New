@@ -1,7 +1,5 @@
 part of 'register_bloc.dart';
 
-
-
 class RegisterState {
   final AppStatus status;
   final String statusMessage;
@@ -11,7 +9,6 @@ class RegisterState {
   final bool success;
   final bool emailExists;
 
-
   RegisterState({
     this.status = AppStatus.loaded,
     this.statusMessage = '',
@@ -20,7 +17,6 @@ class RegisterState {
     this.name,
     this.success = false,
     this.emailExists = false,
-
   });
 
   factory RegisterState.initial() {
@@ -35,7 +31,6 @@ class RegisterState {
     String? name,
     bool? success,
     bool? emailExists,
-
   }) {
     return RegisterState(
       status: status ?? this.status,
@@ -45,7 +40,6 @@ class RegisterState {
       name: name ?? this.name,
       success: success ?? this.success,
       emailExists: emailExists ?? this.emailExists,
-
     );
   }
 }

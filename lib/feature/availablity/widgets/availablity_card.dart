@@ -38,36 +38,24 @@ class AvailabilitySummaryCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Working days
-          Text(
-            workingDaysString,
-            style: QStyles.title.copyWith(color: Qcolors.primaryText),
-          ),
+          Text(workingDaysString, style: QStyles.title.copyWith(color: Qcolors.primaryText)),
 
           const SizedBox(height: 6),
 
           // Working hours
-          Text(
-            '$startTime - $endTime',
-            style: QStyles.bodyLarge.copyWith(color: Qcolors.primaryText),
-          ),
+          Text('$startTime - $endTime', style: QStyles.bodyLarge.copyWith(color: Qcolors.primaryText)),
 
           const SizedBox(height: 12),
           Divider(color: Qcolors.divider),
           const SizedBox(height: 12),
 
           // Break time
-          Text(
-            'Break: $breakStart - $breakEnd',
-            style: QStyles.bodySmall.copyWith(color: Qcolors.secondaryText),
-          ),
+          Text('Break: $breakStart - $breakEnd', style: QStyles.bodySmall.copyWith(color: Qcolors.secondaryText)),
 
           const SizedBox(height: 6),
 
           // Slot duration
-          Text(
-            'Slot Duration: $slotDurationString',
-            style: QStyles.bodySmall.copyWith(color: Qcolors.secondaryText),
-          ),
+          Text('Slot Duration: $slotDurationString', style: QStyles.bodySmall.copyWith(color: Qcolors.secondaryText)),
         ],
       ),
     );

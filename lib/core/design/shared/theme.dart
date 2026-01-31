@@ -26,10 +26,10 @@ class Qtheme {
         centerTitle: true,
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(color: Qcolors.primary),
-      checkboxTheme: const CheckboxThemeData(checkColor: MaterialStatePropertyAll(Qcolors.secondary)),
+      checkboxTheme: const CheckboxThemeData(checkColor: WidgetStatePropertyAll(Qcolors.secondary)),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return Qcolors.primary;
           }
           return Qcolors.divider;

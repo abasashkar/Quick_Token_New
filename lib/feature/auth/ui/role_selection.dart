@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/design/components/base_page.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
-import 'package:quick_token_new/feature/auth/ui/sidebar_button.dart';
-import 'package:quick_token_new/routes/routes_helper.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
 class RoleSelection extends StatelessWidget {
@@ -13,7 +12,7 @@ class RoleSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QBasePage(
-      drawer: const SideBarButton(),
+      // drawer: const SideBarButton(),
       labelWidget: const ExtraSmallText(text: 'Role Selection', size: 20, color: Colors.white),
       customChild: Center(
         child: Padding(
@@ -25,11 +24,7 @@ class RoleSelection extends StatelessWidget {
                 icon: const FaIcon(FontAwesomeIcons.stethoscope, color: Colors.white, size: 40),
                 title: "Book Doctor Appointment",
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    RoutesHelper.register,
-                    arguments: UserRole.patient, // ✅ correct intent
-                  );
+                  context.push('/register', extra: {'intent': UserRole.patient});
                 },
               ),
               const SizedBox(height: 20),
@@ -37,11 +32,7 @@ class RoleSelection extends StatelessWidget {
                 icon: const Icon(Icons.science, color: Colors.white, size: 40),
                 title: "Book Laboratory Appointment",
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    RoutesHelper.emailLogin,
-                    arguments: UserRole.lab, // ✅ correct intent
-                  );
+                  context.push('/emailLogin', extra: {'intent': UserRole.lab});
                 },
               ),
               const SizedBox(height: 20),
@@ -61,7 +52,7 @@ class RoleSelection extends StatelessWidget {
         decoration: BoxDecoration(
           color: Qcolors.primary,
           borderRadius: BorderRadius.circular(28),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4))],
+          boxShadow: [BoxShadow(color: Qcolors.backgroundDark, blurRadius: 8, offset: const Offset(0, 4))],
         ),
         child: Row(
           children: [

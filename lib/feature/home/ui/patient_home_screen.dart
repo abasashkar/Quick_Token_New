@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quick_token_new/appointment/upcomming_appointent.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
+import 'package:quick_token_new/feature/appointment/upcoming/ui/patient_upcoming_appointment.dart';
 import 'package:quick_token_new/feature/dashboard/ui/patient_dashboard.dart';
 import 'package:quick_token_new/profile/user_settings.dart';
 import 'package:quick_token_new/reports/view_reports.dart';
@@ -8,7 +8,7 @@ import 'package:quick_token_new/reports/view_reports.dart';
 class PatientHomeScreen extends StatefulWidget {
   // final String patientId;
 
-  const PatientHomeScreen({Key? key}) : super(key: key);
+  const PatientHomeScreen({super.key});
 
   @override
   State<PatientHomeScreen> createState() => _HomeScreenState();
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<PatientHomeScreen> {
     super.initState();
     _pages = [
       const FindDoctors(),
-      UpcommingAppointent(),
+      PatientUpcomingScreen(),
       const ViewReports(),
       const UserSettings(intent: UserRole.patient),
     ];

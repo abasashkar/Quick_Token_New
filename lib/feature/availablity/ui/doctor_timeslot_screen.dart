@@ -10,7 +10,6 @@ import 'package:quick_token_new/feature/availablity/widgets/slot_selection.dart'
 import 'package:quick_token_new/feature/availablity/widgets/time_picker.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
-
 class DoctorAvailabilityPage extends StatefulWidget {
   const DoctorAvailabilityPage({super.key});
 
@@ -19,7 +18,8 @@ class DoctorAvailabilityPage extends StatefulWidget {
 }
 
 class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
-  String _formatTime(TimeOfDay time) => '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  String _formatTime(TimeOfDay time) =>
+      '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   int _slotDurationToMinutes(String value) => int.parse(value.split(' ').first);
 
   final List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -42,21 +42,13 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
       listener: (context, state) {
         if (state.status == AppStatus.loaded && state.success) {
           // Navigate to success page
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => DoctorAvailabilitySuccessPage(),
-            ),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorAvailabilitySuccessPage()));
         }
 
         if (state.status == AppStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.statusMessage),
-              backgroundColor: Colors.red,
-            ),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.statusMessage), backgroundColor: Colors.red));
         }
       },
       child: QBasePage(
@@ -70,24 +62,48 @@ class _DoctorAvailabilityPageState extends State<DoctorAvailabilityPage> {
           DaySelector(
             days: days,
             selectedDays: selectedDays.toList(),
-            onDayToggle: (day) => setState(() => selectedDays.contains(day) ? selectedDays.remove(day) : selectedDays.add(day)),
+            onDayToggle: (day) =>
+                setState(() => selectedDays.contains(day) ? selectedDays.remove(day) : selectedDays.add(day)),
           ),
           const SizedBox(height: sectionGap),
           _sectionTitle('Working hours'),
           const SizedBox(height: fieldGap),
-          TimePickerField(label: 'Start Time', selectedTime: startTime, onTimeChanged: (time) => setState(() => startTime = time)),
+          TimePickerField(
+            label: 'Start Time',
+            selectedTime: startTime,
+            onTimeChanged: (time) => setState(() => startTime = time),
+          ),
           const SizedBox(height: fieldGap),
-          TimePickerField(label: 'End Time', selectedTime: endTime, onTimeChanged: (time) => setState(() => endTime = time)),
+          TimePickerField(
+            label: 'End Time',
+            selectedTime: endTime,
+            onTimeChanged: (time) => setState(() => endTime = time),
+          ),
           const SizedBox(height: sectionGap),
           _sectionTitle('Slot duration'),
           const SizedBox(height: fieldGap),
-          DropdownField(label: 'Slot Duration', options: slotOptions, selectedOption: slotDuration, onChanged: (value) { if (value != null) setState(() => slotDuration = value); }),
+          DropdownField(
+            label: 'Slot Duration',
+            options: slotOptions,
+            selectedOption: slotDuration,
+            onChanged: (value) {
+              if (value != null) setState(() => slotDuration = value);
+            },
+          ),
           const SizedBox(height: sectionGap),
           _sectionTitle('Break time'),
           const SizedBox(height: fieldGap),
-          TimePickerField(label: 'Break Start', selectedTime: breakStart, onTimeChanged: (time) => setState(() => breakStart = time)),
+          TimePickerField(
+            label: 'Break Start',
+            selectedTime: breakStart,
+            onTimeChanged: (time) => setState(() => breakStart = time),
+          ),
           const SizedBox(height: fieldGap),
-          TimePickerField(label: 'Break End', selectedTime: breakEnd, onTimeChanged: (time) => setState(() => breakEnd = time)),
+          TimePickerField(
+            label: 'Break End',
+            selectedTime: breakEnd,
+            onTimeChanged: (time) => setState(() => breakEnd = time),
+          ),
           const SizedBox(height: sectionGap + 8),
           BlocBuilder<AvailablityBloc, AvailablityState>(
             builder: (context, state) {

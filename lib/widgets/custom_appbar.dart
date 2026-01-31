@@ -5,7 +5,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? icon;
   final bool showThemeToggle;
 
-  CustomAppBar({Key? key, required this.title, this.icon, this.showThemeToggle = false}) : super(key: key);
+  const CustomAppBar({super.key, required this.title, this.icon, this.showThemeToggle = false});
 
   @override
   Widget build(BuildContext context) {

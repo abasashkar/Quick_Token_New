@@ -1,3 +1,4 @@
+// dashboard_state.dart
 part of 'dashboard_bloc.dart';
 
 class DoctorState {
@@ -7,16 +8,22 @@ class DoctorState {
   final String searchQuery;
   final String selectedCategory;
 
-  DoctorState({
-    this.status = AppStatus.loaded,
-    this.statusMessage = '',
-    this.doctors = const [],
-    this.searchQuery = '',
-    this.selectedCategory = 'All',
+  const DoctorState({
+    required this.status,
+    required this.statusMessage,
+    required this.doctors,
+    required this.searchQuery,
+    required this.selectedCategory,
   });
 
   factory DoctorState.initial() {
-    return DoctorState(status: AppStatus.initial);
+    return const DoctorState(
+      status: AppStatus.initial,
+      statusMessage: '',
+      doctors: [],
+      searchQuery: '',
+      selectedCategory: 'All',
+    );
   }
 
   DoctorState copyWith({

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
 
 class ReportCard extends StatelessWidget {
   final String name;
@@ -6,13 +7,7 @@ class ReportCard extends StatelessWidget {
   final String fileType; // 'pdf' or 'image'
   final VoidCallback onView;
 
-  const ReportCard({
-    super.key,
-    required this.name,
-    required this.aptNo,
-    required this.fileType,
-    required this.onView,
-  });
+  const ReportCard({super.key, required this.name, required this.aptNo, required this.fileType, required this.onView});
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +31,9 @@ class ReportCard extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  decoration: BoxDecoration(color: Qcolors.secondary, borderRadius: BorderRadius.circular(12)),
                   child: Icon(
-                    fileType == 'pdf'
-                        ? Icons.picture_as_pdf
-                        : Icons.image_outlined,
+                    fileType == 'pdf' ? Icons.picture_as_pdf : Icons.image_outlined,
                     color: Colors.white,
                     size: 32,
                   ),
@@ -54,19 +44,9 @@ class ReportCard extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'Apt No.: $aptNo',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
-                        fontSize: 13,
-                      ),
-                    ),
+                    Text('Apt No.: $aptNo', style: TextStyle(color: Qcolors.backgroundLight, fontSize: 13)),
                   ],
                 ),
               ],
@@ -76,17 +56,12 @@ class ReportCard extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               onPressed: onView,
               child: const Text(
                 'View',
-                style: TextStyle(
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold),
               ),
             ),
           ],

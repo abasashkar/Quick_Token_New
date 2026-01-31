@@ -41,7 +41,18 @@ class ApiErrorHandler {
   Exception handleError(dynamic error) {
     if (error is DioException) {
       final status = error.response?.statusCode;
-      final message = error.response?.data?['message'] ?? error.message ?? 'Something went wrong';
+
+      String message = 'Something went wrong';
+
+      final data = error.response?.data;
+
+      if (data is Map<String, dynamic>) {
+        message = data['message']?.toString() ?? message;
+      } else if (data is String) {
+        message = data;
+      } else if (error.message != null) {
+        message = error.message!;
+      }
 
       switch (status) {
         case 400:
@@ -50,10 +61,15 @@ class ApiErrorHandler {
           return UnauthorizedException(message: message, generalMessage: 'Unauthorized');
         case 409:
           return ConflictException(message: message, generalMessage: 'Conflict');
+        case 404:
+          return NotFoundException(message: message, generalMessage: 'Not found');
+        case 500:
+          return InternalServerErrorException(message: message, generalMessage: 'Server error');
         default:
           return ApiException(message: message, generalMessage: 'Unknown error');
       }
     }
+
     return ApiException(message: error.toString(), generalMessage: 'Unknown error');
   }
 }

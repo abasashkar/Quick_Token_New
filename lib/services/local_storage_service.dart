@@ -29,4 +29,8 @@ class LocalStorageServices {
   Future<void> deleteAll() async {
     await _secureStorage.deleteAll();
   }
+
+  Future<void> init() async {
+    // prepare storage if needed later
+  }
 }

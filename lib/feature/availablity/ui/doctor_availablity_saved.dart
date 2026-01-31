@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/design/components/base_page.dart';
 import 'package:quick_token_new/feature/availablity/bloc/availablity_bloc.dart';
 import 'package:quick_token_new/feature/availablity/widgets/availablity_card.dart';
 import 'package:quick_token_new/feature/availablity/widgets/primary_button.dart';
 import 'package:quick_token_new/feature/availablity/widgets/succuess_icon.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
-import 'package:quick_token_new/routes/routes_helper.dart';
 
 class DoctorAvailabilitySuccessPage extends StatelessWidget {
   const DoctorAvailabilitySuccessPage({super.key});
@@ -66,7 +66,8 @@ class DoctorAvailabilitySuccessPage extends StatelessWidget {
               PrimaryButton(
                 title: 'Back to Home',
                 onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.doctorHomeScreen, (route) => false);
+                  context.push('/doctorHomeScreen');
+                  // Navigator.pushNamedAndRemoveUntil(context, RoutesHelper.doctorHomeScreen, (route) => false);
                 },
               ),
             ],

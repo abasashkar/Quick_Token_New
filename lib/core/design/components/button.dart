@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/design/shared/styles.dart';
 import 'package:quick_token_new/widgets/extra_small_text.dart';
 
@@ -28,7 +29,8 @@ class QPrimaryButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(40),
-            boxShadow: [BoxShadow(color: backgroundColor.withOpacity(0.25), blurRadius: 8, offset: const Offset(0, 4))],
+
+            boxShadow: [BoxShadow(color: Qcolors.backgroundLight, blurRadius: 8, offset: const Offset(0, 4))],
           ),
           child: isLoading
               ? const SizedBox(

@@ -14,7 +14,7 @@ class AvailablityBloc extends Bloc<AvailablityEvent, AvailablityState> {
   }
 
   Future<void> _onSaveAvailability(OnSaveAvailablityEvent event, Emitter<AvailablityState> emit) async {
-    emit(state.copyWith(status: AppStatus.loading));
+    emit(state.copyWith(status: AppStatus.loading, slots: [], selectedTime: ''));
 
     try {
       final response = await availabilityRepo.saveAvailability(
@@ -40,10 +40,12 @@ class AvailablityBloc extends Bloc<AvailablityEvent, AvailablityState> {
           breakStart: event.breakStart,
           breakEnd: event.breakEnd,
           slotDuration: event.slotDuration,
+          slots: [],
+          selectedTime: '',
         ),
       );
     } catch (e) {
-      emit(state.copyWith(status: AppStatus.error, statusMessage: e.toString()));
+      emit(state.copyWith(status: AppStatus.error, statusMessage: e.toString(), slots: [], selectedTime: ''));
     }
   }
 }
