@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/appointment/upcoming/ui/patient_upcoming_appointment.dart';
 import 'package:quick_token_new/feature/dashboard/ui/patient_dashboard.dart';
-import 'package:quick_token_new/profile/user_settings.dart';
-import 'package:quick_token_new/reports/view_reports.dart';
+import 'package:quick_token_new/feature/profile/user_settings.dart';
+import 'package:quick_token_new/feature/reports/view_reports.dart';
 
 class PatientHomeScreen extends StatefulWidget {
   // final String patientId;

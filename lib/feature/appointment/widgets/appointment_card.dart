@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 enum AppointmentStatus { pending, confirmed, completed, canceled }
 
 class UpcomingAppointmentCard extends StatelessWidget {
-  final String name;
+  final String doctorName;
+  final String patientName;
   final String dateTime;
   final AppointmentStatus status;
   final bool isDoctorView;
@@ -13,7 +14,8 @@ class UpcomingAppointmentCard extends StatelessWidget {
 
   const UpcomingAppointmentCard({
     super.key,
-    required this.name,
+    required this.doctorName,
+    required this.patientName,
     required this.dateTime,
     required this.status,
     this.isDoctorView = false,
@@ -51,7 +53,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Name
-            Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            Text(doctorName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
 
             const SizedBox(height: 6),
 
