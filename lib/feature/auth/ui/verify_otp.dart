@@ -45,7 +45,12 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           if (role == UserRole.patient.name) {
             context.go('/patientsHomeScreen');
           } else if (role == UserRole.doctor.name) {
-            context.go('/doctorHomeScreen');
+            final isProfileCompleted = state.isProfileCompleted; // from backend/state
+            if (isProfileCompleted) {
+              context.go('/doctorHomeScreen');
+            } else {
+              context.go('/doctorCompleteProfile');
+            }
           } else {
             ScaffoldMessenger.of(
               context,

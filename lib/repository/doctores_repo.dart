@@ -8,11 +8,12 @@ import 'package:quick_token_new/services/local_storage_service.dart';
 
 class DoctorsRepo extends ApiServices {
   DoctorsRepo({required this.localStorage});
+
   final LocalStorageServices localStorage;
 
   Options _authOptions(String token) => Options(headers: {"Authorization": "Bearer $token"});
 
-  /// 🔹 GET ALL DOCTORS (Public – for patients)
+  /// GET ALL DOCTORS
   Future<ApiResponse<List<Doctor>>> getDoctors() async {
     try {
       final response = await dio.get(ApiRoutes.getDoctors);
@@ -31,7 +32,7 @@ class DoctorsRepo extends ApiServices {
     }
   }
 
-  /// 🔹 UPDATE DOCTOR PROFILE (Doctor only)
+  /// UPDATE DOCTOR PROFILE
   Future<ApiResponse<Doctor>> updateDoctorProfile({required String specialization, required String location}) async {
     try {
       final token = await localStorage.read(key: LocalStorageKeys.authToken);

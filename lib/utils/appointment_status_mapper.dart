@@ -2,17 +2,23 @@ import 'package:quick_token_new/feature/appointment/widgets/appointment_card.dar
 
 extension AppointmentStatusMapper on String? {
   AppointmentStatus toAppointmentStatus() {
-    switch (this) {
-      case 'pending':
+    final value = this?.toUpperCase();
+
+    switch (value) {
+      case 'PENDING':
         return AppointmentStatus.pending;
-      case 'confirmed':
-      case 'accepted':
+
+      case 'CONFIRMED':
+      case 'ACCEPTED':
         return AppointmentStatus.confirmed;
-      case 'completed':
+
+      case 'COMPLETED':
         return AppointmentStatus.completed;
-      case 'canceled':
-      case 'rejected':
+
+      case 'CANCELED':
+      case 'REJECTED':
         return AppointmentStatus.canceled;
+
       default:
         return AppointmentStatus.pending;
     }

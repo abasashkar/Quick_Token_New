@@ -6,6 +6,7 @@ import 'package:quick_token_new/feature/appointment/upcoming/bloc/patient_upcomi
 import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/feature/availablity/bloc/availablity_bloc.dart';
 import 'package:quick_token_new/feature/dashboard/bloc/dashboard_bloc.dart';
+import 'package:quick_token_new/feature/doctor/bloc/doctor_profile_bloc.dart';
 import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
 import 'package:quick_token_new/repository/auth_repo.dart';
 import 'package:quick_token_new/repository/book_appointment_repo.dart';
@@ -56,6 +57,7 @@ class AppProviders extends StatelessWidget {
             create: (_) => RegisterBloc(authRepository: authRepo, authRepo: authRepo),
           ),
           BlocProvider(create: (context) => DashboardBloc(doctorsRepo: context.read<DoctorsRepo>())),
+          BlocProvider(create: (context) => DoctorProfileBloc(doctorsRepo: context.read<DoctorsRepo>())),
           BlocProvider(create: (context) => AvailablityBloc(availabilityRepo: context.read<DoctorAvailabilityRepo>())),
 
           BlocProvider(create: (context) => BookAppointmentBloc(repo: context.read<BookAppointmentRepo>())),

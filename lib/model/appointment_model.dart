@@ -7,6 +7,7 @@ class AppointmentModel {
   final String slot;
   final int? tokenNumber;
   final String status;
+  final String? doctorName;
 
   AppointmentModel({
     required this.id,
@@ -17,6 +18,7 @@ class AppointmentModel {
     this.patientId,
     this.patientName,
     this.tokenNumber,
+    this.doctorName,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class AppointmentModel {
       slot: json['slot'] ?? '',
       tokenNumber: json['tokenNumber'],
       status: (json['status'] as String).toUpperCase(),
+      doctorName: json['doctorId'] is Map ? json['doctorId']['name'] : null,
     );
   }
 
@@ -41,9 +44,10 @@ class AppointmentModel {
     String? patientId,
     String? patientName,
     int? tokenNumber,
+    String? doctorName,
   }) {
     return AppointmentModel(
-      id: this.id,
+      id: id,
       date: date ?? this.date,
       slot: slot ?? this.slot,
       status: status ?? this.status,
@@ -51,6 +55,7 @@ class AppointmentModel {
       patientId: patientId ?? this.patientId,
       patientName: patientName ?? this.patientName,
       tokenNumber: tokenNumber ?? this.tokenNumber,
+      doctorName: doctorName ?? this.doctorName,
     );
   }
 }

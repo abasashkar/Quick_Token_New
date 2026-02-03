@@ -39,29 +39,32 @@ class _PatientUpcomingScreenState extends State<PatientUpcomingScreen> {
             });
           },
         ),
-
         Expanded(
           child: BlocBuilder<PatientUpcominggAppointmentBloc, PatientUpcominggAppointmentState>(
             builder: (context, state) {
               if (state.status == AppStatus.loading) {
                 return const Center(child: CircularProgressIndicator());
               }
+
               final appointment = selectedTab == 0 ? state.pendingAppointments : state.confirmedAppointments;
 
               if (appointment.isEmpty) {
-                return const Center(child: Text("No appointments"));
+                return const Center(child: Text("No appointmentS"));
               }
 
               return ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: state.pendingAppointments.length,
+                itemCount: appointment.length, // ✅ FIXED
                 itemBuilder: (context, index) {
-                  final appt = state.pendingAppointments[index];
+                  final appt = appointment[index]; // ✅ FIXED
 
                   return UpcomingAppointmentCard(
-                    name: appt.doctorId ?? '',
+                    doctorName: 'Doctor Name: ${appt.doctorName}',
+                    patientName: 'Patient Name: ${appt.patientName}',
                     dateTime: appt.date,
                     status: appt.status.toAppointmentStatus(),
+                    tokenNo: appt.tokenNumber,
+                    isDoctorView: true,
                   );
                 },
               );

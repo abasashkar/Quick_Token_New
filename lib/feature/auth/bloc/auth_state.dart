@@ -12,6 +12,7 @@ class AuthState {
   final String? name;
   final bool sendOTP;
   final AuthType authtype;
+  final bool isProfileCompleted;
 
   AuthState({
     this.status = AppStatus.loaded,
@@ -22,6 +23,7 @@ class AuthState {
     this.sendOTP = false,
     this.isAuthenticated = false,
     this.authtype = AuthType.login,
+    this.isProfileCompleted = false,
   });
 
   factory AuthState.initial() {
@@ -37,6 +39,7 @@ class AuthState {
     bool? sendOTP,
     bool? isAuthenticated,
     AuthType? authtype,
+    bool? isProfileCompleted,
   }) {
     return AuthState(
       status: status ?? this.status,
@@ -47,6 +50,7 @@ class AuthState {
       sendOTP: sendOTP ?? this.sendOTP,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       authtype: authtype ?? this.authtype,
+      isProfileCompleted: isProfileCompleted ?? this.isProfileCompleted,
     );
   }
 }

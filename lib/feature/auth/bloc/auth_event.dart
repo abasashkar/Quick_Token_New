@@ -22,4 +22,9 @@ class VerifyOtpEvent extends AuthEvent {
   });
 }
 
+class UpdateProfileCompletedEvent extends AuthEvent {
+  final bool isCompleted;
+  UpdateProfileCompletedEvent({required this.isCompleted});
+}
+
 class ResetAuthEvent extends AuthEvent {}

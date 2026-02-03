@@ -15,6 +15,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RequestOtpEvent>(_onRequestOtp);
     on<VerifyOtpEvent>(_onVerifyOtp);
     on<ResetAuthEvent>(_onResetAuth);
+    on<UpdateProfileCompletedEvent>((event, emit) {
+      emit(state.copyWith(isProfileCompleted: event.isCompleted));
+    });
   }
 
   Future<void> _onRequestOtp(RequestOtpEvent event, Emitter<AuthState> emit) async {
@@ -62,14 +65,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final email = result['email']; // <-- Add this
 
       await authServices.saveSession(role: role, token: token);
-
+      final bool profileCompleted = role != UserRole.doctor.name;
       emit(
         state.copyWith(
+          isProfileCompleted: profileCompleted,
           status: AppStatus.loaded,
           isAuthenticated: true,
           role: role,
-          name: name, // <-- Store name
-          email: email, // <-- Store email
+          name: name,
+          email: email,
         ),
       );
     } catch (e) {

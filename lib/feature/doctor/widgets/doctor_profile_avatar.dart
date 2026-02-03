@@ -10,14 +10,14 @@ class DoctorProfileAvatar extends StatelessWidget {
       alignment: Alignment.bottomRight,
       children: [
         CircleAvatar(
-          radius: 70,
-          backgroundColor: Qcolors.primary.withOpacity(0.1),
-          child: const Icon(Icons.person, size: 80, color: Qcolors.primary),
+          radius: 64,
+          backgroundColor: Qcolors.primary.withOpacity(0.08),
+          child: const Icon(Icons.person_outline, size: 72, color: Qcolors.primary),
         ),
-        Container(
-          decoration: const BoxDecoration(color: Qcolors.primary, shape: BoxShape.circle),
-          padding: const EdgeInsets.all(10),
-          child: const Icon(Icons.camera_alt, color: Colors.white, size: 20),
+        CircleAvatar(
+          radius: 18,
+          backgroundColor: Qcolors.primary,
+          child: const Icon(Icons.camera_alt, size: 16, color: Colors.white),
         ),
       ],
     );

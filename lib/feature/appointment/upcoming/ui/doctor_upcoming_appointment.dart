@@ -79,7 +79,8 @@ class _DoctorUpcomingScreenState extends State<DoctorUpcomingScreen> {
                   final appointment = appointments[index];
 
                   return UpcomingAppointmentCard(
-                    name: appointment.patientName ?? '',
+                    patientName: appointment.patientName ?? '',
+                    doctorName: appointment.patientName ?? '',
                     dateTime: appointment.date,
                     tokenNo: appointment.tokenNumber,
                     status: appointment.status.toAppointmentStatus(),

@@ -62,6 +62,7 @@ class TopDoctors extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(doctor.specialization, style: const TextStyle(color: Colors.white70)),
+                    Text(doctor.location, style: const TextStyle(color: Colors.white70)),
                   ],
                 ),
               ),

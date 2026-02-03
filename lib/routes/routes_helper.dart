@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
+import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/feature/auth/ui/email_login.dart';
 import 'package:quick_token_new/feature/auth/ui/role_selection.dart';
 import 'package:quick_token_new/feature/auth/ui/verify_otp.dart';
@@ -11,14 +12,16 @@ import 'package:quick_token_new/feature/home/ui/patient_home_screen.dart';
 import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
 import 'package:quick_token_new/feature/register/register_screen.dart';
 import 'package:quick_token_new/repository/auth_repo.dart';
-import 'package:quick_token_new/splash/splash_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/',
     routes: [
       /// Splash
-      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const EmailLoginScreen(intent: UserRole.patient),
+      ),
 
       /// Register (Bloc)
       GoRoute(
@@ -56,8 +59,22 @@ class AppRouter {
       /// Patient Home
       GoRoute(path: '/patientsHomeScreen', builder: (context, state) => const PatientHomeScreen()),
 
-      /// Doctor Home
-      GoRoute(path: '/doctorHomeScreen', builder: (context, state) => const DoctorHomeScreen()),
+      /// Doctor Home (guarded)
+      GoRoute(
+        path: '/doctorHomeScreen',
+        builder: (context, state) => const DoctorHomeScreen(),
+        redirect: (context, state) {
+          final auth = context.read<AuthBloc>().state;
+
+          if (auth.role == UserRole.doctor.name && auth.isProfileCompleted == false) {
+            return '/doctorCompleteProfile';
+          }
+          return null;
+        },
+      ),
+
+      /// Doctor Complete Profile (guarded)
+      GoRoute(path: '/doctorCompleteProfile', builder: (context, state) => const DoctorCompleteProfilePage()),
 
       // /// Create Patient
       // GoRoute(
