@@ -27,9 +27,13 @@ class QTextField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        style: QStyles.body,
+        cursorColor: Qcolors.primary,
+        style: QStyles.body.copyWith(
+          color: Qcolors.primaryText, // ✅ FIX
+        ),
         decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: QStyles.body.copyWith(color: Qcolors.secondaryText),
           prefixIcon: prefixIcon,
           filled: true,
           fillColor: Qcolors.backgroundLight,

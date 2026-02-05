@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/design/components/base_page.dart';
 import 'package:quick_token_new/core/design/components/button.dart';
+import 'package:quick_token_new/core/design/components/snackbar.dart';
 import 'package:quick_token_new/core/design/components/text_field.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/core/design/components/qrole_tile.widget.dart';
@@ -21,22 +23,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
-  UserRole selectedRole = UserRole.doctor; // ✅ FIXED
+  UserRole selectedRole = UserRole.doctor;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
-      listenWhen: (prev, curr) => prev.status != curr.status || prev.success != curr.success,
       listener: (context, state) {
-        if (state.status == AppStatus.loaded && state.success) {
-          context.go(
-            '/emailLogin',
-            extra: selectedRole, // pass role safely
-          );
+        if (state.status != AppStatus.loaded && state.status != AppStatus.error) {
+          return;
+        }
+
+        // 🔴 ERROR (network / crash)
+        if (state.status == AppStatus.error) {
+          QSnackBar.show(context, state.statusMessage.isNotEmpty ? state.statusMessage : 'Something went wrong');
+          return;
+        }
+
+        // 🟡 EMAIL ALREADY EXISTS (409)
+        if (state.emailExists) {
+          QSnackBar.show(context, state.statusMessage);
+          return;
+        }
+
+        // 🟢 SUCCESS
+        if (state.success) {
+          QSnackBar.show(context, 'Registration successful!');
+          context.go('/emailLogin', extra: selectedRole);
+          return;
         }
       },
       child: QBasePage(
-        labelWidget: const ExtraSmallText(text: 'Register', size: 20, color: Colors.white),
+        labelWidget: const ExtraSmallText(text: 'Register', size: 20, color: Qcolors.onPrimaryText),
         allowPopBack: true,
         enableScroll: true,
         addSafeSpace: true,
@@ -48,7 +72,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             prefixIcon: Icon(Icons.person),
           ),
           const SizedBox(height: 18),
-          QTextField(controller: emailController, hintText: 'Email', keyboardType: TextInputType.emailAddress),
+          QTextField(
+            controller: emailController,
+            hintText: 'Email',
+            keyboardType: TextInputType.emailAddress,
+            prefixIcon: Icon(Icons.email),
+          ),
           const SizedBox(height: 18),
           const ExtraSmallText(text: 'Select Role', size: 16, color: Colors.black),
           const SizedBox(height: 10),
@@ -84,21 +113,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           const SizedBox(height: 28),
 
-          Row(
-            children: [
-              Center(
-                child: const ExtraSmallText(text: 'Already have an account?', size: 16, color: Colors.black),
-              ),
-              const SizedBox(width: 4),
-              Center(
-                child: GestureDetector(
+          SizedBox(
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const ExtraSmallText(text: 'Already have an account?', size: 16, color: Colors.black),
+                const SizedBox(width: 4),
+                GestureDetector(
                   onTap: () => context.go('/emailLogin', extra: selectedRole),
-                  child: Center(
-                    child: const ExtraSmallText(text: 'Login', size: 16, color: Colors.blue),
-                  ),
+                  child: const ExtraSmallText(text: 'Login', size: 16, color: Colors.blue),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

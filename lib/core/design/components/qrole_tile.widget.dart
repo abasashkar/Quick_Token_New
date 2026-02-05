@@ -20,7 +20,8 @@ class QRoleTile extends StatelessWidget {
         child: Container(
           height: QSizes.roleTileHeight,
           decoration: BoxDecoration(
-            color: isSelected ? Qcolors.primary.withOpacity(0.08) : Colors.transparent,
+            color: isSelected ? Qcolors.roleSelectedBg : Qcolors.roleUnselectedBg,
+
             borderRadius: BorderRadius.circular(QSizes.radiusMd),
             border: Border.all(color: isSelected ? Qcolors.primary : Qcolors.divider),
           ),

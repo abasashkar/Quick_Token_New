@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/repository/auth_repo.dart';
+
 part 'register_event.dart';
 part 'register_state.dart';
 
@@ -18,7 +19,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   Future<void> _onRegister(OnRegister event, Emitter<RegisterState> emit) async {
-    emit(state.copyWith(status: AppStatus.loading));
+    emit(state.copyWith(status: AppStatus.loading, success: false, emailExists: false, statusMessage: ''));
 
     try {
       final res = await authRepository.register(email: event.email, role: event.role, name: event.name);
@@ -26,9 +27,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(
         state.copyWith(
           status: AppStatus.loaded,
-          success: res['success'],
-          emailExists: res['emailExists'],
-          statusMessage: res['message'],
+          success: res['success'] == true,
+          emailExists: res['emailExists'] == true,
+          statusMessage: res['message'] ?? '',
         ),
       );
     } catch (e) {

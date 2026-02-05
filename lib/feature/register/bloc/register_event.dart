@@ -4,7 +4,7 @@ abstract class RegisterEvent {}
 
 class OnSelectedRole extends RegisterEvent {
   final UserRole type;
-  OnSelectedRole({required this.type});
+  OnSelectedRole(this.type);
 }
 
 class OnRegister extends RegisterEvent {
