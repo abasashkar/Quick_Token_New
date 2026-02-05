@@ -62,31 +62,13 @@ class DoctorAppointmentRepo extends ApiServices {
     try {
       final token = await localStorage.read(key: LocalStorageKeys.authToken);
 
-      print("📤 [ACCEPT] Appointment ID: $appointmentId");
-      print("📤 [ACCEPT] Token exists: ${token != null}");
-
       final response = await dio.patch(ApiRoutes.acceptAppointment(appointmentId), options: _authOptions(token!));
-
-      // 🔥 MOST IMPORTANT LOG
-      print("📥 [ACCEPT] Status Code: ${response.statusCode}");
-      print("📥 [ACCEPT] Response Data: ${response.data}");
 
       final appointment = AppointmentModel.fromJson(response.data['appointment']);
 
-      print("✅ [ACCEPT] Parsed Appointment:");
-      print("   ➤ id: ${appointment.id}");
-      print("   ➤ status: ${appointment.status}");
-      print("   ➤ token: ${appointment.tokenNumber}");
-
       return ApiResponse(data: appointment, success: true, error: null, statusCode: response.statusCode ?? 200);
-    } catch (e, stack) {
-      // 🔥 ERROR SIDE LOGS
-      print("❌ [ACCEPT] ERROR OCCURRED");
-      print("❌ [ACCEPT] Exception: $e");
-      print("❌ [ACCEPT] StackTrace: $stack");
-
+    } catch (e) {
       final exception = ApiErrorHandler().handleError(e);
-      print("❌ [ACCEPT] Handled Error: $exception");
 
       return ApiResponse(data: null, success: false, error: ApiError(message: exception.toString()), statusCode: 0);
     }

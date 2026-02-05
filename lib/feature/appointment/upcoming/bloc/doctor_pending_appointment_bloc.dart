@@ -18,16 +18,13 @@ class DoctorPendingAppointmentBloc extends Bloc<DoctorPendingAppointmentEvent, D
 
   // ========================= FETCH PENDING =========================
   Future<void> _fetchPending(FetchPendingAppointmentsEvent event, Emitter<DoctorPendingAppointmentState> emit) async {
-    print("📌 [_fetchPending] Fetching pending appointments...");
     emit(state.copyWith(status: AppStatus.loading));
 
     final res = await repo.getPendingAppointments();
 
     if (res.success) {
-      print("✅ [_fetchPending] Loaded ${res.data?.length ?? 0} pending appointments");
       emit(state.copyWith(status: AppStatus.succuess, pendingAppointments: res.data ?? []));
     } else {
-      print("❌ [_fetchPending] Error: ${res.error?.message}");
       emit(state.copyWith(status: AppStatus.error, statusMessage: res.error?.message ?? 'Error'));
     }
   }
@@ -37,16 +34,13 @@ class DoctorPendingAppointmentBloc extends Bloc<DoctorPendingAppointmentEvent, D
     FetchConfirmedAppointmentsEvent event,
     Emitter<DoctorPendingAppointmentState> emit,
   ) async {
-    print("📌 [_fetchConfirmed] Fetching confirmed appointments...");
     emit(state.copyWith(status: AppStatus.loading));
 
     final res = await repo.getConfirmedAppointments();
 
     if (res.success) {
-      print("✅ [_fetchConfirmed] Loaded ${res.data?.length ?? 0} confirmed appointments");
       emit(state.copyWith(status: AppStatus.succuess, confirmedAppointments: res.data ?? []));
     } else {
-      print("❌ [_fetchConfirmed] Error: ${res.error?.message}");
       emit(state.copyWith(status: AppStatus.error, statusMessage: res.error?.message ?? 'Error'));
     }
   }
@@ -76,32 +70,23 @@ class DoctorPendingAppointmentBloc extends Bloc<DoctorPendingAppointmentEvent, D
 
   // ========================= REJECT APPOINTMENT =========================
   Future<void> _reject(RejectAppointmentEvent event, Emitter<DoctorPendingAppointmentState> emit) async {
-    print("📌 [_reject] Attempting to reject appointment: ${event.appointmentId}");
-
     final appointmentIndex = state.pendingAppointments.indexWhere((e) => e.id == event.appointmentId);
     if (appointmentIndex == -1) {
-      print("⚠️ [_reject] Appointment not found in pending list!");
       return;
     }
 
     final appointment = state.pendingAppointments[appointmentIndex];
-    print("📌 [_reject] Found pending appointment: ${appointment.patientName}");
 
     // Optimistic update: remove from pending
     final updatedPending = state.pendingAppointments.where((e) => e.id != appointment.id).toList();
     emit(state.copyWith(pendingAppointments: updatedPending));
-    print("📌 [_reject] Optimistic removal applied. Pending: ${updatedPending.length}");
 
     // Call API
     final res = await repo.rejectAppointment(event.appointmentId);
-    print("📌 [_reject] API response: success=${res.success}, data=${res.data}");
 
     if (!res.success || res.data == null) {
       // Revert if API fails or data is null
       emit(state.copyWith(pendingAppointments: [...state.pendingAppointments, appointment]));
-      print("❌ [_reject] API failed or returned null. Reverted changes.");
-    } else {
-      print("✅ [_reject] Appointment rejected successfully.");
-    }
+    } else {}
   }
 }

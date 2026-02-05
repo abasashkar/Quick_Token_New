@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:quick_token_new/excepion/api_exception.dart';
 import 'package:quick_token_new/services/api_response.dart';
 import 'package:quick_token_new/utils/dio_instance.dart';
 
@@ -12,16 +11,18 @@ abstract class ApiServices {
     try {
       final response = await _dio.post(url, data: data);
 
+      return ApiResponse(data: response.data, error: null, success: true, statusCode: response.statusCode ?? 0);
+    } on DioException catch (e) {
+      final responseData = e.response?.data;
+
       return ApiResponse(
-        data: response.data,
-        error: null,
-        success: response.statusCode == 200 || response.statusCode == 201,
-        statusCode: response.statusCode ?? 0,
+        data: responseData is Map<String, dynamic> ? responseData : null,
+        error: ApiError(message: e.message ?? 'Server error'),
+        success: false,
+        statusCode: e.response?.statusCode ?? 0,
       );
     } catch (e) {
-      final exception = ApiErrorHandler().handleError(e);
-
-      return ApiResponse(data: null, error: ApiError(message: exception.toString()), success: false, statusCode: 0);
+      return ApiResponse(data: null, error: ApiError(message: e.toString()), success: false, statusCode: 0);
     }
   }
 }

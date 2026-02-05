@@ -10,4 +10,6 @@ class Qcolors {
   static const Color backgroundLight = Color(0xFFFFFFFF);
   static const Color backgroundDark = Color(0xFF181C14);
   static const Color divider = Color(0xFFE8E8E8);
+  static const Color roleSelectedBg = Color(0x142563EB);
+  static const Color roleUnselectedBg = Colors.transparent;
 }

@@ -11,7 +11,7 @@ class DoctorProfileAvatar extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 64,
-          backgroundColor: Qcolors.primary.withOpacity(0.08),
+          backgroundColor: Qcolors.primary,
           child: const Icon(Icons.person_outline, size: 72, color: Qcolors.primary),
         ),
         CircleAvatar(
