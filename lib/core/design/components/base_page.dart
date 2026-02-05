@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
+import 'package:quick_token_new/core/design/shared/qsize.dart';
 import 'package:quick_token_new/core/design/shared/styles.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class QBasePage extends StatelessWidget {
   const QBasePage({
@@ -43,19 +44,7 @@ class QBasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    final padding = EdgeInsets.only(
-      top:
-          size.height *
-          (addTopPadding
-              ? 0.20
-              : addSafeSpace
-              ? 0.06
-              : 0),
-      left: 16,
-      right: 16,
-    );
+    final padding = EdgeInsets.only(top: addSafeSpace ? QSizes.lg : 0, left: QSizes.md, right: QSizes.md);
 
     Widget content;
 
@@ -99,14 +88,15 @@ class QBasePage extends StatelessWidget {
       child: Scaffold(
         drawer: drawer,
         resizeToAvoidBottomInset: false,
+
+        // ✅ FIXED APPBAR
         appBar: (label != null || labelWidget != null)
             ? AppBar(
-                backgroundColor: Qcolors.primary, // ✅ MAIN FIX
+                elevation: 0,
+                backgroundColor: Qcolors.primary,
                 foregroundColor: Qcolors.onPrimaryText,
                 centerTitle: true,
-                elevation: 0,
                 automaticallyImplyLeading: drawer != null || allowPopBack,
-
                 iconTheme: const IconThemeData(color: Qcolors.onPrimaryText),
 
                 title:
@@ -114,7 +104,7 @@ class QBasePage extends StatelessWidget {
                     ExtraSmallText(
                       text: label!,
                       color: Qcolors.onPrimaryText,
-                      size: 18, // matches QStyles.h3
+                      size: 18,
                       height: 1.2,
                       style: QStyles.h3,
                       maxLines: 1,

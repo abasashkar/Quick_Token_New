@@ -7,7 +7,7 @@ import 'package:quick_token_new/feature/appointment/upcoming/bloc/doctor_pending
 import 'package:quick_token_new/feature/appointment/widgets/appointment_card.dart';
 import 'package:quick_token_new/feature/appointment/widgets/appointment_status_tab.dart';
 import 'package:quick_token_new/utils/appointment_status_mapper.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class DoctorUpcomingScreen extends StatefulWidget {
   const DoctorUpcomingScreen({super.key});
@@ -63,13 +63,13 @@ class _DoctorUpcomingScreenState extends State<DoctorUpcomingScreen> {
               }
 
               if (state.status == AppStatus.error) {
-                return Center(child: Text(state.statusMessage, style: QStyles.bodyLarge));
+                return Center(child: Text(state.statusMessage, style: QStyles.body));
               }
 
               final appointments = selectedTab == 0 ? state.pendingAppointments : state.confirmedAppointments;
 
               if (appointments.isEmpty) {
-                return Center(child: Text("No appointments", style: QStyles.bodyLarge));
+                return Center(child: Text("No appointments", style: QStyles.body));
               }
 
               return ListView.builder(

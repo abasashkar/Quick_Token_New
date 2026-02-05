@@ -6,7 +6,7 @@ import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/feature/dashboard/bloc/dashboard_bloc.dart';
 import 'package:quick_token_new/feature/dashboard/ui/top_doctors.dart';
 import 'package:quick_token_new/widgets/custom_appbar.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 import 'package:quick_token_new/widgets/patient_dashboar_tabs.dart';
 
 class FindDoctors extends StatefulWidget {

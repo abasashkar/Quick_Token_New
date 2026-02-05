@@ -8,7 +8,7 @@ import 'package:quick_token_new/feature/availablity/widgets/day_selector.dart';
 import 'package:quick_token_new/feature/availablity/widgets/primary_button.dart';
 import 'package:quick_token_new/feature/availablity/widgets/slot_selection.dart';
 import 'package:quick_token_new/feature/availablity/widgets/time_picker.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class DoctorAvailabilityPage extends StatefulWidget {
   const DoctorAvailabilityPage({super.key});

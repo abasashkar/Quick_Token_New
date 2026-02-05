@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
+import 'package:quick_token_new/core/design/shared/qsize.dart';
+import 'package:quick_token_new/core/design/shared/styles.dart';
 
 class QTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -19,33 +22,19 @@ class QTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: QSizes.inputHeight,
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-
-        maxLines: 1,
-        textAlignVertical: TextAlignVertical.center,
-
-        // ✅ THIS IS THE REAL FIX
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black, // 🔥 REQUIRED
-        ),
-
-        cursorColor: Colors.blue,
-        cursorHeight: 20,
-        cursorWidth: 2,
-
+        style: QStyles.body,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.grey),
-
-          prefixIcon: prefixIcon ?? const Icon(Icons.email_outlined),
-
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          prefixIcon: prefixIcon,
+          filled: true,
+          fillColor: Qcolors.backgroundLight,
+          contentPadding: const EdgeInsets.symmetric(horizontal: QSizes.md),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(QSizes.radiusMd), borderSide: BorderSide.none),
         ),
       ),
     );

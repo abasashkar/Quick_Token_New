@@ -11,6 +11,7 @@ import 'package:quick_token_new/feature/home/ui/doctor_home_screen.dart';
 import 'package:quick_token_new/feature/home/ui/patient_home_screen.dart';
 import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
 import 'package:quick_token_new/feature/register/register_screen.dart';
+import 'package:quick_token_new/feature/splash/splash_screen.dart';
 import 'package:quick_token_new/repository/auth_repo.dart';
 
 class AppRouter {
@@ -18,10 +19,7 @@ class AppRouter {
     initialLocation: '/',
     routes: [
       /// Splash
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const EmailLoginScreen(intent: UserRole.patient),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
 
       /// Register (Bloc)
       GoRoute(

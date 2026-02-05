@@ -31,7 +31,7 @@ class DropdownField extends StatelessWidget {
           /// Label
           Text(
             label,
-            style: QStyles.bodyLarge.copyWith(fontWeight: FontWeight.w500, color: Qcolors.primaryText),
+            style: QStyles.body.copyWith(fontWeight: FontWeight.w500, color: Qcolors.primaryText),
           ),
 
           const Spacer(),
@@ -42,7 +42,7 @@ class DropdownField extends StatelessWidget {
               value: selectedOption,
               isExpanded: false,
               icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Qcolors.primaryText),
-              style: QStyles.bodyLarge.copyWith(color: Qcolors.primaryText),
+              style: QStyles.body.copyWith(color: Qcolors.primaryText),
               items: options.map((option) => DropdownMenuItem<String>(value: option, child: Text(option))).toList(),
               onChanged: onChanged,
             ),
