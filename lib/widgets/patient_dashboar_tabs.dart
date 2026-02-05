@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class PatientDashboardTabs extends StatefulWidget {
   const PatientDashboardTabs({super.key});

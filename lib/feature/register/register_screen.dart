@@ -6,9 +6,9 @@ import 'package:quick_token_new/core/design/components/button.dart';
 import 'package:quick_token_new/core/design/components/text_field.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
-import 'package:quick_token_new/feature/auth/ui/components/q_role_tile.widget.dart';
+import 'package:quick_token_new/core/design/components/qrole_tile.widget.dart';
 import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -83,6 +83,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
           ),
           const SizedBox(height: 28),
+
+          Row(
+            children: [
+              Center(
+                child: const ExtraSmallText(text: 'Already have an account?', size: 16, color: Colors.black),
+              ),
+              const SizedBox(width: 4),
+              Center(
+                child: GestureDetector(
+                  onTap: () => context.go('/emailLogin', extra: selectedRole),
+                  child: Center(
+                    child: const ExtraSmallText(text: 'Login', size: 16, color: Colors.blue),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

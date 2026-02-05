@@ -9,7 +9,7 @@ import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_state.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class EmailLoginScreen extends StatefulWidget {
   final UserRole intent;

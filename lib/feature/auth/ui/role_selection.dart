@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:quick_token_new/core/design/components/base_page.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class RoleSelection extends StatelessWidget {
   const RoleSelection({super.key});

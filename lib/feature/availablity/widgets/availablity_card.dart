@@ -43,7 +43,7 @@ class AvailabilitySummaryCard extends StatelessWidget {
           const SizedBox(height: 6),
 
           // Working hours
-          Text('$startTime - $endTime', style: QStyles.bodyLarge.copyWith(color: Qcolors.primaryText)),
+          Text('$startTime - $endTime', style: QStyles.body.copyWith(color: Qcolors.primaryText)),
 
           const SizedBox(height: 12),
           Divider(color: Qcolors.divider),

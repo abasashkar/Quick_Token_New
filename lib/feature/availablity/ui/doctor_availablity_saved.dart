@@ -6,7 +6,7 @@ import 'package:quick_token_new/feature/availablity/bloc/availablity_bloc.dart';
 import 'package:quick_token_new/feature/availablity/widgets/availablity_card.dart';
 import 'package:quick_token_new/feature/availablity/widgets/primary_button.dart';
 import 'package:quick_token_new/feature/availablity/widgets/succuess_icon.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
 class DoctorAvailabilitySuccessPage extends StatelessWidget {
   const DoctorAvailabilitySuccessPage({super.key});

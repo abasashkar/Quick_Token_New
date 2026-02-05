@@ -32,11 +32,11 @@ class TimePickerField extends StatelessWidget {
           children: [
             /// Label
             Expanded(
-              child: Text(label, style: QStyles.bodyLarge.copyWith(color: Colors.black)),
+              child: Text(label, style: QStyles.body.copyWith(color: Colors.black)),
             ),
 
             /// Time
-            Text(selectedTime.format(context), style: QStyles.bodyLarge.copyWith(color: Colors.black)),
+            Text(selectedTime.format(context), style: QStyles.body.copyWith(color: Colors.black)),
 
             const SizedBox(width: 12),
 

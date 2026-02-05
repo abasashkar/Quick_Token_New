@@ -10,7 +10,7 @@ import 'package:quick_token_new/feature/appointment/widgets/doctor_header_card.d
 import 'package:quick_token_new/feature/appointment/widgets/timeslot_grid.dart';
 import 'package:quick_token_new/feature/availablity/widgets/primary_button.dart';
 import 'package:quick_token_new/model/doctor_model.dart';
-import 'package:quick_token_new/widgets/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 import 'package:quick_token_new/widgets/vertical_space.dart';
 
 class BookAppointments extends StatefulWidget {
