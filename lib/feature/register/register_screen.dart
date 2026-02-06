@@ -8,7 +8,7 @@ import 'package:quick_token_new/core/design/components/text_field.dart';
 import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
-import 'package:quick_token_new/core/design/components/qrole_tile.widget.dart';
+import 'package:quick_token_new/core/design/components/role_tile.dart';
 import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
 import 'package:quick_token_new/core/design/components/extra_small_text.dart';
 
@@ -40,19 +40,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           return;
         }
 
-        // 🔴 ERROR (network / crash)
         if (state.status == AppStatus.error) {
           QSnackBar.show(context, state.statusMessage.isNotEmpty ? state.statusMessage : 'Something went wrong');
           return;
         }
 
-        // 🟡 EMAIL ALREADY EXISTS (409)
         if (state.emailExists) {
           QSnackBar.show(context, state.statusMessage);
           return;
         }
 
-        // 🟢 SUCCESS
         if (state.success) {
           QSnackBar.show(context, 'Registration successful!');
           context.go('/emailLogin', extra: selectedRole);
@@ -100,13 +97,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           const SizedBox(height: 20),
           QPrimaryButton(
+            borderRadius: 12,
+            height: 50,
             text: 'Register',
             onTap: () {
               context.read<RegisterBloc>().add(
                 OnRegister(
                   email: emailController.text.trim(),
                   name: nameController.text.trim(),
-                  role: selectedRole.name, // ✅ CORRECT
+                  role: selectedRole.name,
                 ),
               );
             },

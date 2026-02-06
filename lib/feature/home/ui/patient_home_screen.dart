@@ -6,8 +6,6 @@ import 'package:quick_token_new/feature/profile/user_settings.dart';
 import 'package:quick_token_new/feature/reports/view_reports.dart';
 
 class PatientHomeScreen extends StatefulWidget {
-  // final String patientId;
-
   const PatientHomeScreen({super.key});
 
   @override

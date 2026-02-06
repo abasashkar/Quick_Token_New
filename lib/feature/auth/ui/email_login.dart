@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quick_token_new/core/constants/app_spacing.dart';
 import 'package:quick_token_new/core/design/components/base_page.dart';
 import 'package:quick_token_new/core/design/components/button.dart';
+import 'package:quick_token_new/core/design/components/snackbar.dart';
 import 'package:quick_token_new/core/design/components/text_field.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
 import 'package:quick_token_new/core/design/shared/styles.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
@@ -33,23 +36,33 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
     }
   }
 
+  void _submitEmail() {
+    final email = emailController.text.trim();
+
+    if (email.isEmpty || !email.contains('@')) {
+      QSnackBar.show(context, 'Please enter a valid email address');
+      return;
+    }
+
+    context.read<AuthBloc>().add(RequestOtpEvent(email: email, intent: widget.intent));
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        /// ❌ Error
         if (state.status == AppStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.statusMessage.isEmpty ? 'Something went wrong' : state.statusMessage),
-              backgroundColor: Colors.red,
-            ),
-          );
+          QSnackBar.show(context, state.statusMessage.isEmpty ? 'Something went wrong' : state.statusMessage);
         }
 
-        /// ✅ OTP sent → Navigate
         if (state.sendOTP && state.status == AppStatus.loaded) {
-          if (state.email == null || state.role == null) return;
+          if (state.email == null) return;
 
           context.push('/verifyOtp', extra: {'email': state.email, 'intent': widget.intent});
         }
@@ -60,45 +73,31 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         enableScroll: true,
         addSafeSpace: true,
         children: [
-          const SizedBox(height: 40),
+          const SizedBox(height: AppSpacing.xl),
 
           Center(
             child: ExtraSmallText(
               text: 'Please enter your email address to continue!',
               style: QStyles.bodySmall,
-              color: Colors.black,
+              color: Qcolors.backgroundDark,
               maxLines: 2,
             ),
           ),
 
-          const SizedBox(height: 40),
+          const SizedBox(height: AppSpacing.xl),
 
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Qcolors.backgroundLight,
               borderRadius: BorderRadius.circular(18),
-              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
+              boxShadow: const [BoxShadow(color: Qcolors.shadowLight, blurRadius: 6, offset: Offset(0, 3))],
             ),
             child: QTextField(controller: emailController, hintText: 'Email', keyboardType: TextInputType.emailAddress),
           ),
 
-          const SizedBox(height: 40),
+          const SizedBox(height: AppSpacing.xl),
 
-          QPrimaryButton(
-            text: 'Next',
-            onTap: () {
-              final email = emailController.text.trim();
-
-              if (email.isEmpty || !email.contains('@')) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please enter a valid email address'), backgroundColor: Colors.red),
-                );
-                return;
-              }
-
-              context.read<AuthBloc>().add(RequestOtpEvent(email: email, intent: widget.intent));
-            },
-          ),
+          QPrimaryButton(text: 'Next', onTap: _submitEmail, borderRadius: 12, height: 50),
         ],
       ),
     );

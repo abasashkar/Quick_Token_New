@@ -9,10 +9,8 @@ import 'package:quick_token_new/feature/auth/ui/verify_otp.dart';
 import 'package:quick_token_new/feature/doctor/ui/complete_profile_page.dart';
 import 'package:quick_token_new/feature/home/ui/doctor_home_screen.dart';
 import 'package:quick_token_new/feature/home/ui/patient_home_screen.dart';
-import 'package:quick_token_new/feature/register/bloc/register_bloc.dart';
 import 'package:quick_token_new/feature/register/register_screen.dart';
 import 'package:quick_token_new/feature/splash/splash_screen.dart';
-import 'package:quick_token_new/repository/auth_repo.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -21,17 +19,8 @@ class AppRouter {
       /// Splash
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
 
-      /// Register (Bloc)
-      GoRoute(
-        path: '/register',
-        builder: (context, state) {
-          return BlocProvider(
-            create: (context) =>
-                RegisterBloc(authRepository: context.read<AuthRepo>(), authRepo: context.read<AuthRepo>()),
-            child: const RegisterScreen(),
-          );
-        },
-      ),
+      /// Register
+      GoRoute(path: '/register', builder: (context, state) => const RegisterScreen()),
 
       /// Email Login
       GoRoute(
@@ -57,42 +46,24 @@ class AppRouter {
       /// Patient Home
       GoRoute(path: '/patientsHomeScreen', builder: (context, state) => const PatientHomeScreen()),
 
-      /// Doctor Home (guarded)
+      /// Doctor Home (GUARDED)
       GoRoute(
         path: '/doctorHomeScreen',
         builder: (context, state) => const DoctorHomeScreen(),
         redirect: (context, state) {
-          final auth = context.read<AuthBloc>().state;
+          final authState = context.read<AuthBloc>().state;
 
-          if (auth.role == UserRole.doctor.name && auth.isProfileCompleted == false) {
+          if (authState.role == UserRole.doctor.name && authState.isProfileCompleted == false) {
             return '/doctorCompleteProfile';
           }
+
           return null;
         },
       ),
 
-      /// Doctor Complete Profile (guarded)
+      /// Doctor Complete Profile
       GoRoute(path: '/doctorCompleteProfile', builder: (context, state) => const DoctorCompleteProfilePage()),
-
-      // /// Create Patient
-      // GoRoute(
-      //   path: '/createPatientScreen',
-      //   builder: (context, state) => const CreatePatientAccount(),
-      // ),
-
-      // /// Doctor Availability
-      // GoRoute(
-      //   path: '/doctorAvailablity',
-      //   builder: (context, state) => const DoctorAvailabilityPage(),
-      // ),
-
-      // /// Availability Success
-      // GoRoute(
-      //   path: '/patientAvailablity',
-      //   builder: (context, state) => const DoctorAvailabilitySuccessPage(),
-      // ),
     ],
-
     errorBuilder: (context, state) => Scaffold(body: Center(child: Text('No route defined for ${state.uri.path}'))),
   );
 }
