@@ -19,20 +19,24 @@ import 'package:quick_token_new/services/local_storage_service.dart';
 
 class AppProviders extends StatelessWidget {
   final Widget child;
+
   const AppProviders({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    //This pace is registring repo or any kinda strorage ashkar
-
+    /// Core services
     final localStorage = LocalStorageServices();
+
+    /// Repositories
     final authRepo = AuthRepo();
     final doctorsRepo = DoctorsRepo(localStorage: localStorage);
     final availabilityRepo = DoctorAvailabilityRepo(localStorage: localStorage);
     final bookAppointmentRepo = BookAppointmentRepo(localStorage: localStorage);
-    final doctorAppointmentRepo = DoctorAppointmentRepo(localStorage: localStorage);
-    final authServices = AuthServices(authRepo: authRepo, localStorage: localStorage);
     final patientAppointmentRepo = PatientAppointmentRepo(localStorage: localStorage);
+    final doctorAppointmentRepo = DoctorAppointmentRepo(localStorage: localStorage);
+
+    /// Services
+    final authServices = AuthServices(authRepo: authRepo, localStorage: localStorage);
 
     return MultiRepositoryProvider(
       providers: [
@@ -41,28 +45,38 @@ class AppProviders extends StatelessWidget {
         RepositoryProvider.value(value: availabilityRepo),
         RepositoryProvider.value(value: bookAppointmentRepo),
         RepositoryProvider.value(value: patientAppointmentRepo),
-
-        /// ✅ FIX 1: PROVIDE THIS
         RepositoryProvider.value(value: doctorAppointmentRepo),
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => PatientUpcominggAppointmentBloc(repo: context.read<PatientAppointmentRepo>()),
-          ),
+          /// Auth
           BlocProvider(
             create: (_) => AuthBloc(authRepo: authRepo, authServices: authServices),
           ),
+
+          /// Register
           BlocProvider(
             create: (_) => RegisterBloc(authRepository: authRepo, authRepo: authRepo),
           ),
+
+          /// Dashboard
           BlocProvider(create: (context) => DashboardBloc(doctorsRepo: context.read<DoctorsRepo>())),
+
+          /// Doctor Profile
           BlocProvider(create: (context) => DoctorProfileBloc(doctorsRepo: context.read<DoctorsRepo>())),
+
+          /// Availability
           BlocProvider(create: (context) => AvailablityBloc(availabilityRepo: context.read<DoctorAvailabilityRepo>())),
 
+          /// Book Appointment
           BlocProvider(create: (context) => BookAppointmentBloc(repo: context.read<BookAppointmentRepo>())),
 
-          /// ✅ FIX 2: NO child here
+          /// Patient Upcoming Appointments
+          BlocProvider(
+            create: (context) => PatientUpcominggAppointmentBloc(repo: context.read<PatientAppointmentRepo>()),
+          ),
+
+          /// Doctor Pending Appointments
           BlocProvider(create: (context) => DoctorPendingAppointmentBloc(repo: context.read<DoctorAppointmentRepo>())),
         ],
         child: child,

@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quick_token_new/core/constants/app_spacing.dart';
+import 'package:quick_token_new/core/design/components/base_page.dart';
+import 'package:quick_token_new/core/design/components/button.dart';
+import 'package:quick_token_new/core/design/components/extra_small_text.dart';
+import 'package:quick_token_new/core/design/components/snackbar.dart';
+import 'package:quick_token_new/core/design/shared/colors.dart';
+import 'package:quick_token_new/core/design/shared/styles.dart';
 import 'package:quick_token_new/core/enums/app_status.dart';
 import 'package:quick_token_new/core/enums/user_role.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_bloc.dart';
 import 'package:quick_token_new/feature/auth/bloc/auth_state.dart';
-import 'package:quick_token_new/core/design/components/extra_small_text.dart';
+import 'package:quick_token_new/feature/auth/ui/components/otpinput_field.dart';
+import 'package:quick_token_new/feature/auth/ui/components/resend_otp_button.dart';
+
+/// Route constants
+class Routes {
+  static const patientsHome = '/patientsHomeScreen';
+  static const doctorHome = '/doctorHomeScreen';
+  static const doctorCompleteProfile = '/doctorCompleteProfile';
+}
 
 class VerifyOtpScreen extends StatefulWidget {
   final String email;
@@ -18,161 +33,119 @@ class VerifyOtpScreen extends StatefulWidget {
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
-  final TextEditingController otpController = TextEditingController();
+  final _otpController = TextEditingController();
 
   @override
   void dispose() {
-    otpController.dispose();
+    _otpController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state.status == AppStatus.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.statusMessage.isEmpty ? 'Something went wrong' : state.statusMessage),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-
-        if (state.isAuthenticated && state.status == AppStatus.loaded) {
-          final role = state.role?.toLowerCase().trim();
-
-          if (role == UserRole.patient.name) {
-            context.go('/patientsHomeScreen');
-          } else if (role == UserRole.doctor.name) {
-            final isProfileCompleted = state.isProfileCompleted; // from backend/state
-            if (isProfileCompleted) {
-              context.go('/doctorHomeScreen');
-            } else {
-              context.go('/doctorCompleteProfile');
-            }
-          } else {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Unknown role: $role'), backgroundColor: Colors.red));
-          }
-        }
-      },
+      listener: _authListener,
       builder: (context, state) {
-        final role = context.read<AuthBloc>().state.role;
+        return QBasePage(
+          label: 'Verify OTP',
+          enableScroll: true,
+          children: [
+            const SizedBox(height: AppSpacing.xl),
 
-        return Scaffold(
-          backgroundColor: const Color(0xFFF2F4F7),
-          appBar: AppBar(
-            title: const Text('Verify OTP'),
-            backgroundColor: const Color(0xFF4F8BFF),
-            centerTitle: true,
-            elevation: 0,
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 45),
-            child: Column(
-              children: [
-                const Icon(Icons.verified_user_rounded, size: 90, color: Color(0xFF4F8BFF)),
-
-                const SizedBox(height: 22),
-
-                const ExtraSmallText(text: 'OTP sent to', color: Colors.black, size: 16),
-
-                const SizedBox(height: 4),
-
-                ExtraSmallText(text: widget.email, size: 15, color: Colors.black),
-
-                const SizedBox(height: 6),
-
-                ExtraSmallText(text: 'Role: ${role ?? 'unknown'}', size: 13, color: Colors.black),
-
-                const SizedBox(height: 42),
-
-                SizedBox(
-                  width: 220,
-                  height: 56,
-                  child: TextField(
-                    controller: otpController,
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    maxLength: 6,
-                    style: const TextStyle(fontSize: 20, letterSpacing: 4, fontWeight: FontWeight.w600),
-                    decoration: InputDecoration(
-                      hintText: 'Enter OTP',
-                      hintStyle: TextStyle(color: Colors.black),
-                      counterText: '',
-                      filled: true,
-                      fillColor: const Color(0xFF4F8BFF),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 34),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: state.status == AppStatus.loading
-                        ? null
-                        : () {
-                            final otp = otpController.text.trim();
-                            if (otp.length != 6) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Please enter valid 6-digit OTP'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                              return;
-                            }
-
-                            final authState = context.read<AuthBloc>().state;
-
-                            if (authState.role == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Role missing. Please request OTP again.'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                              return;
-                            }
-
-                            context.read<AuthBloc>().add(
-                              VerifyOtpEvent(email: widget.email, otp: otp, role: authState.role!),
-                            );
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4F8BFF),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                    ),
-                    child: state.status == AppStatus.loading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            'Verify OTP',
-                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.white),
-                          ),
-                  ),
-                ),
-
-                const SizedBox(height: 14),
-
-                TextButton(
-                  onPressed: state.status == AppStatus.loading
-                      ? null
-                      : () {
-                          context.read<AuthBloc>().add(RequestOtpEvent(email: widget.email, intent: widget.intent));
-                        },
-                  child: const Text('Resend OTP', style: TextStyle(fontSize: 14, color: Color(0xFF4F8BFF))),
-                ),
-              ],
+            /// Lock Icon
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Qcolors.secondary, shape: BoxShape.circle),
+              child: const Icon(Icons.lock_outline_rounded, size: 36, color: Qcolors.primary),
             ),
-          ),
+
+            const SizedBox(height: AppSpacing.lg),
+
+            /// Heading
+            const ExtraSmallText(text: 'Enter Verification Code', style: QStyles.h2, color: Qcolors.primaryText),
+
+            const SizedBox(height: AppSpacing.sm),
+
+            /// Subtitle
+            ExtraSmallText(
+              text: 'We sent a 6-digit code to your email',
+              style: QStyles.title,
+              color: Qcolors.secondaryText,
+            ),
+
+            const SizedBox(height: 2),
+            ExtraSmallText(text: widget.email, style: QStyles.label, color: Qcolors.primaryText),
+
+            const SizedBox(height: AppSpacing.lg),
+
+            /// OTP Input
+            OtpInputField(controller: _otpController),
+
+            const SizedBox(height: AppSpacing.lg),
+
+            /// Verify OTP Button
+            QPrimaryButton(
+              text: 'Verify OTP',
+              isLoading: state.status == AppStatus.loading,
+              onTap: () => _verifyOtp(context, state),
+              borderRadius: 12,
+              height: 50,
+            ),
+
+            const SizedBox(height: AppSpacing.md),
+
+            /// Resend OTP
+            ResendOtpButton(isLoading: state.status == AppStatus.loading, onPressed: () => _resendOtp(context)),
+          ],
         );
       },
     );
+  }
+
+  /* ---------------- Logic ---------------- */
+  void _authListener(BuildContext context, AuthState state) {
+    if (state.status == AppStatus.error && state.statusMessage.isNotEmpty) {
+      QSnackBar.show(context, state.statusMessage);
+    }
+
+    if (state.isAuthenticated && state.status == AppStatus.loaded) {
+      final role = state.role;
+      if (role == null) {
+        QSnackBar.show(context, 'User role not found');
+        return;
+      }
+
+      if (role == UserRole.patient.name) {
+        context.go(Routes.patientsHome);
+      } else if (role == UserRole.doctor.name) {
+        context.go(state.isProfileCompleted ? Routes.doctorHome : Routes.doctorCompleteProfile);
+      }
+    }
+  }
+
+  void _verifyOtp(BuildContext context, AuthState state) {
+    final otp = _otpController.text.trim();
+
+    if (otp.isEmpty) {
+      QSnackBar.show(context, 'OTP cannot be empty');
+      return;
+    }
+
+    if (otp.length != 6) {
+      QSnackBar.show(context, 'Enter a valid 6-digit OTP');
+      return;
+    }
+
+    final role = state.role;
+    if (role == null) {
+      QSnackBar.show(context, 'User role not found');
+      return;
+    }
+
+    context.read<AuthBloc>().add(VerifyOtpEvent(email: widget.email, otp: otp, role: role));
+  }
+
+  void _resendOtp(BuildContext context) {
+    context.read<AuthBloc>().add(RequestOtpEvent(email: widget.email, intent: widget.intent));
   }
 }

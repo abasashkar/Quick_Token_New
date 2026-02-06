@@ -8,7 +8,14 @@ class QPrimaryButton extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isLoading;
 
-  const QPrimaryButton({super.key, required this.text, required this.onTap, this.isLoading = false});
+  const QPrimaryButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+    this.isLoading = false,
+    required int borderRadius,
+    required int height,
+  });
 
   @override
   Widget build(BuildContext context) {
